@@ -17,7 +17,6 @@ filename = ("index" if _urlpath == "" else _urlpath);
 
 pageh = pagehandler(filename).call();
 
-
 maincontent = mtmlparser();
 
 maincontent.readcompiled(filename+".cpp");

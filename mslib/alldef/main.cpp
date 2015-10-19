@@ -1,8 +1,8 @@
-define main(acss:["css/materialize.min.css", "css/lib.css", 'css/materialize.min.css', 'css/custom-stylesheet.css', 'css/jquery.bxslider.css', 'https://fonts.googleapis.com/icon?family=Material+Icons', 'css/lib.css', 'css/main.css', 'css/style.css'], ajs:['mslib/js/jquery-2.1.1.min.js','mslib/js/materialize.min.js','mslib/js/jquery.bxslider.min.js','mslib/js/jquery.easing.1.3.js','mslib/js/jquery.raty.js','mslib/js/lib.js','mslib/js/mohit.js','mslib/js/mohitlib.js','mslib/js/main.js'], title: "Class Pundit", css:[], js:[], bodystyle:{}) {
+define main(acss:["css/materialize.min.css", "css/lib.css", 'css/materialize.min.css', 'css/custom-stylesheet.css', 'css/jquery.bxslider.css', 'https://fonts.googleapis.com/icon?family=Material+Icons', 'css/lib.css', 'css/main.css', 'css/style.css'], ajs:['mslib/js/jquery-2.1.1.min.js','mslib/js/materialize.min.js','mslib/js/jquery.bxslider.min.js','mslib/js/jquery.easing.1.3.js','mslib/js/jquery.raty.js','mslib/js/lib.js','mslib/js/mohit.js','mslib/js/mohitlib.js','mslib/js/main.js'], title: "Class Pundit", css:[], js:[], bodystyle:{}, htmlstyle:{}) {
 	css = acss + css;
 	js = ajs + js;
 	p("<!DOCTYPE html>");
-	html(){
+	html(style:htmlstyle){
 		head(){
 			base(attr:{href:HOST});
 			title(){ p(title); }
@@ -22,7 +22,7 @@ define main(acss:["css/materialize.min.css", "css/lib.css", 'css/materialize.min
 
 define disptabs(tabname: [], tablink: []) {
 	for(i, j, tabname) {
-		li() {
+		li(class: liclass) {
 			a(attr: { href: tablink[j] } ) {
 				p(i);
 			}
@@ -101,5 +101,20 @@ define bigf(font: "65px") {
 
 define height() {
 	div(style:{height: val+"px"});
+}
+
+define resimg(aclass:"") {
+	img(class: "responsive-img "+aclass, attr:{src: src}, style:{"opacity": opacity});
+}
+
+define circleimg() {
+	resimg(aclass:"circle", src:src, opacity:opacity);
+}
+
+define divpedding(text:"", padding:"5px") {
+	div(style:{padding: padding}, class: class){
+		p(text);
+		innerHTML();
+	}
 }
 

@@ -38,6 +38,7 @@ function runonload(){
 		interval:3500
 	});
 	$(".collapsible_sub").collapsible();
+    $('select').material_select();
 }
 
 var page = {

@@ -6,7 +6,9 @@ main(js:["js/index.js", "https://maps.googleapis.com/maps/api/js?signed_in=true&
 			div(class: "pagecenter container") {
 				bigf(name: "Super Hit Meal From Super Hit Chefs", color: "white");
 				height(val:40);
-				bigsearch(ph:"Enter Your Location", id:"locsearch", autofocus:"");
+				form(attr:{"action": BASE+"menu" }){
+					bigsearch(ph:"Enter Your Location", id:"locsearch", autofocus:"");
+				}
 			}
 		}
 	}
