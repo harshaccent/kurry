@@ -2,7 +2,8 @@
 class pagehandler:
 	def __init__(self, name):
 		self.name = name;
-		elc("python client.py 10.208.20.186 ./compile");
+		if(False and _server == "gcl"):
+			elc("python client.py 10.208.20.186 ./compile");
 		self.methodmap = {"index": self.index};
 
 	def call(self):
