@@ -7,7 +7,7 @@ main(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 				div(class: "nav-wrapper container") {
 					ul(class: "" ) {
 						li() {
-							a(class: "dropdown-button", attr:{"data-activates": "dropdown2"}) {
+							a(class: "dropdown-button", attr:{"data-activates": "dropdown2", "aria-expanded": "false", "aria-haspopup": "true"}) {
 								p("&nbsp;"*20+"Today, 28th Oct"+"&nbsp;"*0);
 								icon(name: "arrow_drop_down", aclass:"right");
 							}
@@ -76,13 +76,12 @@ main(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 								dispfood() ;
 							}
 						}
-						for(i, 0) {
-							p(12+"<br>");
-						}
 					}
 					div(attr:{id: "dinner"}) {
-						for(i, 50) {
-							p(12+"<br>");
+						div(class: "row", attr:{align: "center"}) {
+							for(i, 2) {
+								dispfood() ;
+							}
 						}
 					}
 				}

@@ -7,13 +7,12 @@ define bigsearch() {
 			input(attr:{placeholder: ph, id: id, autofocus: autofocus}, class:"bigsearch definput", style:{"border-radius": "0px"});
 		}
 		div(class: "col m2 s12 l1 ", style:{"padding": "0px", "margin": "0px"}) {
-			button(class: "bigsearchbutton waves-effect waves-light btn", style:{"border-radius": "0px"}, attr:{type:"button"}) {
+			button(class: "bigsearchbutton waves-effect waves-light btn", style:{"border-radius": "0px"}, attr:{type:"submit"}) {
 				p("Go");
 				icon(name: "send", aclass: "right");
 			}
 		}
 	}
-
 }
 
 

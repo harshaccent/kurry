@@ -65,6 +65,12 @@ define header2(tabname:[], tablink:[]) {
 				ul(class: "right hide-on-med-and-down" ) {
 					disptabs(tabname: tabname, tablink: tablink);
 				}
+				ul(attr:{id: "nav-mobile"}, "class": "side-nav") {
+					disptabs(tabname: tabname, tablink: tablink);
+				}
+				a(attr:{"data-activates": "nav-mobile"}, "class": "button-collapse") {
+					icon(name: "menu");
+				}
 			}
 		}
 	}
