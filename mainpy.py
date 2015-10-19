@@ -24,7 +24,5 @@ maincontent.readcompiled(filename+".cpp");
 
 mprint( maincontent.disp( mifu(pageh, {"HOST": HOST, "CDN": CDN, "BASE":BASE}, True) ));
 
-mprint(_urlpath);
-
 print json.dumps({"printout": _printout, "_SESSION": _session });
 

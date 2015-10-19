@@ -169,7 +169,7 @@ class mtmlparser:
 			elif(tagname == "innerHTML" and  gamma.has_key("innerHTML")):
 				return (self.newlj( gamma["innerHTML"] ), gamma, funcs);
 			else:
-				onewaytags = ["input", "link", "img"];
+				onewaytags = ["input", "link", "img", "base"];
 				inattr = expend(t[2], gamma, funcs);
 				mergeifunset(inattr, {"attr": {}, "style": {}, "onclick": []});
 				mergeifunset(inattr["attr"], {"style":{}});

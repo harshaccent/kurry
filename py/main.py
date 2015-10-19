@@ -5,7 +5,7 @@ class pagehandler:
 		self.methodmap = {"index": self.index};
 
 	def call(self):
-		return self.methodmap[self.name]();
+		return (self.methodmap[self.name]() if self.methodmap.has_key(self.name) else {});
 
 	def index(self):
 		allcatg = {"Kids":{"Dance":["Dance1", "Dance2"], "Photography":["Photo1", "Photo2"]}, "Adults":{"Dance":["Dance1", "Dance2"], "Photography":["Photo1", "Photo2"]}, "Pets":{"Dance":["Dance1", "Dance2"], "Photography":["Photo1", "Photo2"]} };
