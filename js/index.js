@@ -22,3 +22,6 @@ $(document).ready(function(){
 	if(jsdata["_server"] != "gcl" )
 		getLocation();
 });
+
+
+$("#loginmodal").openModal();

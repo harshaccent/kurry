@@ -34,5 +34,6 @@ function runonload(){
 	});
 	$(".collapsible_sub").collapsible();
     $('select').material_select();
+	$(".modal-trigger").leanModal();
 }
 

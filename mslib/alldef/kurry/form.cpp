@@ -2,6 +2,7 @@ define main1(css:[], js:[], bodystyle:{}, htmlstyle:{}) {
 	js = ["js/main.js"] + js;
 	main(title: "KurryBox", css: css, js:js, bodystyle:bodystyle, htmlstyle: htmlstyle) {
 		innerHTML();
+		loginmodal();
 	}
 }
 
@@ -20,6 +21,10 @@ define bigsearch() {
 			}
 		}
 	}
+}
+
+define header4() {
+	header2(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us"]);
 }
 
 
@@ -141,6 +146,66 @@ define dispfood() {
 				}
 
 
+			}
+
+		}
+	}
+}
+
+
+
+define loginmodal() {
+	div(attr:{id: "loginmodal"}, class: "modal") {
+		div(class: "modal-content container-fluid") {
+			div(class: "row") {
+				ul(class: "tabs") {
+					disptabs(liclass: "tab col l6", tablink:["#logintab", "#signuptab"], tabname:["Login", "Signup"]);
+				}
+			}
+			div(attr:{id: "logintab"}) {
+				div(class: "row") {
+					input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"loginphone");
+					div(class: "col l4 m6") {
+						button(class: "btn waves-effect waves-light") {
+							p("Send OTP");
+						}
+					}
+				}
+				div(class: "row"){
+					input1(label: "Password or OTP", icon: "vpn_key", aclass: "col s12 l12 m12", id: "loginpass");
+				}
+				div(class: "row") {
+					div(class: "col") {
+						button(class: "btn waves-effect waves-light") {
+							p("Login");
+						}
+					}
+				}
+			}
+
+			div(attr:{id: "signuptab"}) {
+				div(class: "row") {
+					input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"signupphone");
+					div(class: "col l4 m6") {
+						button(class: "btn waves-effect waves-light") {
+							p("Send OTP");
+						}
+					}
+				}
+				div(class: "row"){
+					input1(label: "Choose Password", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signuppass", type:"password");
+					input1(label: "OTP", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signupotp");
+				}
+				div(class: "row"){
+					input1(label: "Name", icon: "account_circle", aclass: "col s12 l12 m12", id: "signupname");
+				}
+				div(class: "row") {
+					div(class: "col") {
+						button(class: "btn waves-effect waves-light") {
+							p("Signup");
+						}
+					}
+				}
 			}
 
 		}

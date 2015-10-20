@@ -67,6 +67,9 @@ define header2(tabname:[], tablink:[]) {
 				}
 				ul(class: "right hide-on-med-and-down" ) {
 					disptabs(tabname: tabname, tablink: tablink);
+					li() {
+						a1(href:"#loginmodal", class: "modal-trigger", name: "Login");
+					}
 				}
 				ul(attr:{id: "nav-mobile"}, "class": "side-nav") {
 					disptabs(tabname: tabname, tablink: tablink);
@@ -137,7 +140,7 @@ define textdiv(name:"") {
 
 define a1() {
 	attr["href"] = href;
-	a(attr: attr, style: style) {
+	a(attr: attr, style: style, class: class) {
 		p(name);
 	}
 }
@@ -148,3 +151,14 @@ define starrating(val: 5) {
 	}
 }
 
+define input1(aclass: "col s6",  type: "text") {
+	div(class: "input-field "+aclass) {
+		if(icon) {
+			icon(name: icon, aclass: "prefix");
+		}
+		input(attr:{id: id, type:type}, class: iclass);
+		label(attr:{"for": id}) {
+			p(label);
+		}
+	}
+}

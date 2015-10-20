@@ -1,6 +1,6 @@
 main1(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 	div() {
-		header2(tablink:[HOST, "", "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us", "Login"]);
+		header4();
 		div(class: "container-fluid") {
 			div(class: "row") {
 				div(class: "col l10 offset-l1 s10 m10 offset-s1 offset-m1") {

@@ -180,7 +180,7 @@ class mtmlparser:
 				if(funcs.has_key(tagname)):
 					t1 = funcs[tagname];
 					gamma1 = copy.deepcopy(gamma);
-					mergeifunset(gamma1, overwrite( expend(t1[2], gamma, funcs), inattr));
+					mifu(gamma1, overwrite( expend(t1[2], gamma, funcs), inattr), True);
 					gamma1["innerHTML"] = innerHTML;
 					return (self.newlj(expend(t1[3], gamma1, funcs, depth)[0]), gamma, funcs);
 				else:

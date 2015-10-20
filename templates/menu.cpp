@@ -1,7 +1,6 @@
 main1(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 	div() {
-		header2(tablink:[HOST, "", "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us", "Login"]);
-
+		header4();
 		div() {
 			nav(class:"white", attr:{role: "container"}, style:{"border-bottom":"solid #ccc 1px"}) {
 				div(class: "nav-wrapper container") {
