@@ -1,3 +1,5 @@
+var HOST = jsdata["HOST"];
+
 var button={
 	attrs:function(obj){
 		var alla=obj.attributes;
@@ -434,8 +436,6 @@ var textarea={
 	}
 };
 
-
-
 var validation={
 	"isnull":function (st){
 		for(var i=0;i<st.length;i++){
@@ -445,10 +445,6 @@ var validation={
 		return true;
 	}
 };
-
-
-
-
 
 var others={
 	keys:function(arr){
@@ -475,18 +471,18 @@ var others={
 		outp+="";
 		return outp;
 	},
-	setifunset:function(data,key,val){
+	setifunset:function(data,key,val){//don't use it
 		if(typeof(data[key])=='undefined')
 			data[key]=val;
 	},
-	mergeifunset:function(dict1,dict2){
+	mergeifunset:function(dict1,dict2){//don't use it
 		for(i in dict2){
 			if(typeof(dict1[i]=='undefined'))
 				dict1[i]=dict2[i];
 		}
 		return dict1;
 	},
-	mergeforce:function (dict1,dict2){
+	mergeforce:function (dict1,dict2){//don't use it
 		for(i in dict2){
 			dict1[i]=dict2[i];
 		}
@@ -494,7 +490,7 @@ var others={
 	},
 };
 
-function timenow(){
+function timenow(){ //New version: time(), don't use it.
 	return Math.floor(new Date().getTime()/1000);
 }
 
@@ -514,7 +510,7 @@ var inpmultiple={
 };
 
 
-function selectAll(obj) {
+function selectAll(obj) { //good one.
 	var cur;
 	for(cur=$(obj); cur.find("input[type=checkbox]").length<=1; cur=cur.parent() );
 	var cblist = cur.find("input[type=checkbox]");
@@ -563,7 +559,7 @@ function remove(list1,e,fsatis){
 }
 
 
-function doforall(list1,f){
+function doforall(list1,f){// dont' use it. Newer is function: map
 	for(var i=0;i<list1.length;i++){
 		f(list1[i]);
 	}
@@ -576,9 +572,6 @@ function time(ms){
 	else
 		return tms;
 }
-
-
-
 
 function setifunset(data,key,val) {
 	if( !haskey(data, key) )
@@ -622,20 +615,15 @@ String.prototype.replaceall = function (repdict){
 	return inp;
 };
 
-
 function htmlspecialchars(str) {
 	return str.replaceall({"&":"&amp;", '"':"&quot;", "'":"&#039;", "<":"&lt;", ">":"&gt;"});
 }
-
-
 
 function smilymsg(inp){
 	inp=htmlspecialchars(inp);
 	inp=inp.replaceall({"\n":"<br>","\t":"&nbsp;&nbsp;&nbsp;","  ":"&nbsp;&nbsp;"});
 	return inp;
 }
-
-
 
 var success={
 	id:0,
@@ -736,8 +724,6 @@ function mylib(){
 	}
 }
 
-
-
 function hasgoodchar(inp){
 	var uselesschar=" \t\n";
 	for(var i=0;i<inp.length;i++){
@@ -747,15 +733,11 @@ function hasgoodchar(inp){
 	return false;
 }
 
-
 function haskey(arr, key){
-	return (typeof(arr[key])!='undefined');
+	return (key in arr);
 }
 
-
-
-
-function attr(obj) {
+function attr(obj) { //return list of all attributes of a DOM object
 	var alla=obj.attributes;
 	var attrso={};
 	for(var i=0;i<alla.length;i++)
@@ -821,10 +803,63 @@ function spacesplit(st) {
 	return map(id, st.split(" "), function(x){ return x!="" });
 }
 
-
-
 var funcs={
 	error: [{timeout: 4000}, function() {
 		Materialize.toast(msg, timeout, 'rounded');
 	}]
 };
+
+function parsejson(d) {
+	try{
+		return JSON.parse(d);
+	}catch(e){
+		return null;
+	}
+}
+
+funcs["req"]= [{errorhandle:id, callback: id}, function () {//params, callback, errorhandle
+	$.post(HOST+"action.php", params, function(d, s) { if(s === 'success') {
+		var outp = parsejson(d);
+		(outp === null ?  errorhandle(d) : callback(outp));
+	}});
+}];
+
+
+
+
+
+
+
+		// var allattrs=this.attrs(obj);
+		// if(!button.hasattr(allattrs,"data-params"))
+		// 	var params=this.tosendattrs(obj,allattrs);
+		// else{
+		// 	eval("var params="+allattrs["data-params"]);
+		// }
+		// params['action']=allattrs["data-action"];
+		// obj.disabled=true;
+		// var prvvalue=obj.innerHTML;
+		// obj.innerHTML=(!button.hasattr(allattrs,"data-waittext"))?' ... ':(allattrs["data-waittext"]==''?prvvalue:allattrs["data-waittext"]);
+		// $.post(HOST+"actionv2.php",params,function(d,s){if(s=='success'){
+		// 	obj.disabled=false;
+		// 	var respo=button.parse(d);
+		// 	obj.innerHTML=prvvalue;
+		// 	if(respo){
+		// 		if(respo.ec<0){
+		// 			if(button.hasattr(allattrs,"data-error")){
+		// 				var ec=respo.ec;
+		// 				eval(allattrs["data-error"]);
+		// 			}
+		// 			else
+		// 				mohit.alert(ecn[respo.ec]);
+		// 		}
+		// 		else{
+		// 			obj.innerHTML=(typeof(allattrs["data-restext"])=='undefined')?prvvalue:allattrs["data-restext"];
+		// 			if(button.hasattr(allattrs,"data-res")){
+		// 				var data=respo.data;
+		// 				eval(allattrs["data-res"]);
+		// 			}
+		// 		}
+		// 	}
+			
+		// }});

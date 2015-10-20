@@ -133,7 +133,7 @@ define dispfood() {
 
 				div(class: "row") {
 					div(class: "col l4 ") {
-						button(class: "btn waves-effect waves-light btn", onclick: ["addfav"], attr:{"id": "mohit"}) {
+						button(class: "btn waves-effect waves-light btn", data:{onclick: "addfav"}, attr:{"id": "mohit"}) {
 							p("Favourite");
 						}
 					}

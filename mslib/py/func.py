@@ -3,6 +3,9 @@ execfile(_mslib+"py/sql.py");
 
 fold = fold_l;
 
+def l2dict(l):
+	return fold(lambda x, y: sifu(x, y[0], y[1]), l, {});
+
 def mprint(*x):
 	global _printout;
 	_printout += (", ".join(str(i) for i in x));

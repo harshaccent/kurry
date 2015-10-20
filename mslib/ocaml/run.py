@@ -171,11 +171,14 @@ class mtmlparser:
 			else:
 				onewaytags = ["input", "link", "img", "base"];
 				inattr = expend(t[2], gamma, funcs);
-				mergeifunset(inattr, {"attr": {}, "style": {}, "onclick": []});
-				mergeifunset(inattr["attr"], {"style":{}});
-				mergeifunset(inattr["attr"], {"class": geta("class", inattr)}, True, True);
+				mergeifunset(inattr, {"attr": {}, "style": {}, "data": {}, "datas":{}});
+				mergeifunset(inattr["attr"], {"class": geta("class", inattr), "id": geta("id", inattr) }, True, True);
 				mergeifunset(inattr["style"], {"color": geta("color", inattr)}, True, True);
-				mergeifunset(inattr["attr"]["style"], inattr["style"], True, True );
+				inattr["attr"]["style"] = inattr["style"];
+
+				mifu(inattr["attr"], l2dict(("data-"+i, inattr["data"][i]) for i in inattr["data"]));
+				mifu(inattr["attr"], l2dict(("data-send"+i, inattr["datas"]) for i in inattr["datas"]));
+
 				innerHTML = expend(t[3], gamma, funcs, depth+1)[0];
 				if(funcs.has_key(tagname)):
 					t1 = funcs[tagname];
@@ -186,9 +189,8 @@ class mtmlparser:
 				else:
 					styles = inattr["attr"]["style"];
 					attrs = inattr["attr"];
-					onclick = inattr["onclick"];
 					linstyle = ";".join("{0}:{1}".format(x, styles[x]) for x in styles if styles[x]!=None);
-					linattr = "".join( list(" {0}='{1}' ".format(x, attrs[x]) for x in  attrs if (x!="style" and attrs[x]!=None )) + ([" style='"+linstyle+"' "] if linstyle!='' else []) + ([" data-onclick='"+ " ".join(onclick) +"' "] if onclick!=[] else []) )
+					linattr = "".join( list(" {0}='{1}' ".format(x, attrs[x]) for x in  attrs if (x!="style" and attrs[x]!=None )) + ([" style='"+linstyle+"' "] if linstyle!='' else []) )
 					return (self.newlj([pretext+"<"+tagname+linattr+">"]+innerHTML+([pretext+"</"+tagname+">"] if (tagname not in onewaytags) else [] ) ), gamma, funcs);
 		else:
 			return "";
