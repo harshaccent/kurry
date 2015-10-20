@@ -14,15 +14,13 @@ function getLocation() {
 	}
 }
 
-
-
 function showPosition(position) {
 	$.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude, function(r){
 		$("#locsearch").val( r["results"][0]["formatted_address"] );
 	})
 }
 
-
 $(document).ready(function(){
-	getLocation();
+	if(jsdata["_server"] != "gcl" )
+		getLocation();
 });

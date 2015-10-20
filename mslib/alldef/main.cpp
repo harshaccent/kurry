@@ -12,6 +12,9 @@ define main(acss:["css/materialize.min.css", "css/lib.css", 'css/materialize.min
 		}
 		body(style:bodystyle){
 			innerHTML();
+			script(attr:{type:"text/javascript"}) {
+				p("var jsdata = " + jsdata+";");
+			}
 			for(i, js) {
 				script(attr:{type:"text/javascript", src:i});
 			}

@@ -10,5 +10,5 @@ execfile(ROOT+"py/main.py");
 # print maincontent.disp() ;
 
 
-print pagehandler("index").call();
+#print pagehandler("index").call();
 
