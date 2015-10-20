@@ -1,4 +1,4 @@
-main(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
+main1(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 	div() {
 		header2(tablink:[HOST, "", "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us", "Login"]);
 		div(class: "container-fluid") {

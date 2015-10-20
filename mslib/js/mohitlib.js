@@ -580,15 +580,33 @@ function time(ms){
 
 
 
-setifunset=function(data,key,val){
-	if(typeof(data[key])=='undefined')
-		data[key]=val;
+function setifunset(data,key,val) {
+	if( !haskey(data, key) )
+		data[key] = val;
+	return data;
 }
 
 mergeifunset=function(dict1,dict2){
 	for(i in dict2){
 		setifunset(dict1,i,dict2[i]);
 	}
+	return dict1;
+}
+
+function fold(f, l, def) {
+	for(i in l ) {
+		def = f(def, l[i], i);
+	}
+	return def;
+}
+
+function setforce(data, key, val) {
+	data[key] = val;
+	return data;
+}
+
+function mergeforce(d1, d2) {
+	return fold(function(x, y, k){ return setforce(x, k, y) }, d2, d1);
 }
 
 String.prototype.myreplace=function(findstr,repstr){
@@ -696,15 +714,26 @@ function mylib(){
 			}
 		}
 	};
+	function objclickfun(obj, alla) { //Assume onclick is set in alla
+		var addeda = setifunset(alla, "obj", obj)
+		mapp(function(x){ return runf(x, addeda); }, spacesplit(alla["onclick"]));
+	}
+
+	$("*").on('click', function() {
+		var alla = dattr(this);
+		if(haskey(alla, "onclick")) {
+			objclickfun( this, alla );
+		}
+	});
 	if(false) {
 		$("textarea.autoinc").on("keyup keydown",function(){
 			textareainc(this);
 		});
 		valid.resetinp();
+		$(".selectall").on("click", function(){
+			selectAll(this);
+		});
 	}
-	$(".selectall").on("click", function(){
-		selectAll(this);
-	});
 }
 
 
@@ -722,3 +751,80 @@ function hasgoodchar(inp){
 function haskey(arr, key){
 	return (typeof(arr[key])!='undefined');
 }
+
+
+
+
+function attr(obj) {
+	var alla=obj.attributes;
+	var attrso={};
+	for(var i=0;i<alla.length;i++)
+		attrso[alla[i].name]=alla[i].value;
+	return attrso;
+}
+
+function id(x) {
+	return x;
+}
+
+function mapp(f, l, filt, keyf) {
+	if(typeof(keyf) == 'undefined') 
+		keyf = id;
+	var outp = {};
+	for(var i in l) {
+		if(typeof(filt) =='undefined' || filt(l[i], i) )
+			outp[keyf(i, l[i])] = f(l[i], i);
+	}
+	return outp;
+}
+
+function map(f, l, filt) {
+	return d2list(mapp(f, l, filt));
+}
+
+function d2list(a) {
+	var outp = [];
+	for(i in a) {
+		outp.push(a[i]);
+	}
+	return outp;
+}
+
+function dattr(obj) {
+	return mapp(id, attr(obj), function(x, y) { return (y.substr(0, 5) == "data-"); }, function(x){ return x.substr(5); });
+}
+
+function runf(fname, args) { //Assume list of funcs is defined.
+	if(haskey(funcs, fname)) {
+		if(typeof(funcs[fname]) === "function") {
+			var defargs = {};
+			var func = funcs[fname];
+		} else {
+			var defargs = funcs[fname][0];
+			var func = funcs[fname][1];
+		}
+		mergeifunset( args, defargs );
+		for(var i in args) {
+			eval("var "+i+" = args[i];");
+		}
+		eval("var "+fname+" = "+func.toString());
+		return eval(fname+"();");
+	}
+}
+
+function runo(fname, obj) {
+	return runf(fname, dattr(obj));
+}
+
+
+function spacesplit(st) {
+	return map(id, st.split(" "), function(x){ return x!="" });
+}
+
+
+
+var funcs={
+	error: [{timeout: 4000}, function() {
+		Materialize.toast(msg, timeout, 'rounded');
+	}]
+};

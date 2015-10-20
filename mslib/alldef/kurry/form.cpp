@@ -1,3 +1,10 @@
+define main1(css:[], js:[], bodystyle:{}, htmlstyle:{}) {
+	js = ["js/main.js"] + js;
+	main(title: "KurryBox", css: css, js:js, bodystyle:bodystyle, htmlstyle: htmlstyle) {
+		innerHTML();
+	}
+}
+
 define bigsearch() {
 	div(class: "row", style: {"background-color":""}) {
 		div(class: "col l1 m1") {
@@ -91,7 +98,8 @@ define dispfood() {
 								a1(name:"Chef Mohit Saini", href: BASE+"profile");
 							}
 							div() {
-								p("5 Start Rating.");
+								starrating(val:3);
+//								p("5 Start Rating.");
 							}
 						}
 						// div(class: "col l5") {
@@ -120,7 +128,7 @@ define dispfood() {
 
 				div(class: "row") {
 					div(class: "col l4 ") {
-						button(class: "btn waves-effect waves-light btn") {
+						button(class: "btn waves-effect waves-light btn", onclick: ["addfav"], attr:{"id": "mohit"}) {
 							p("Favourite");
 						}
 					}

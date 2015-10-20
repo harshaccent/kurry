@@ -81,7 +81,7 @@ define header2(tabname:[], tablink:[]) {
 
 
 define icon(aclass: "") {
-	i(class: "material-icons "+aclass){
+	i(class: "material-icons "+aclass, style: style){
 		p(name);
 	}
 }
@@ -141,3 +141,10 @@ define a1() {
 		p(name);
 	}
 }
+
+define starrating(val: 5) {
+	for(i, val) {
+		img(attr:{src: "photo/rating4.png"}, style:{"margin": "-1px", width: "22px"});
+	}
+}
+

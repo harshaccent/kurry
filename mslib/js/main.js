@@ -22,11 +22,6 @@ function hs_toggle(ids, timetaken) {
 }
 
 
-var funcs={
-};
-
-
-
 function runonload(){
 	$('.button-collapse').sideNav();
 	$('.parallax').parallax();
@@ -40,9 +35,4 @@ function runonload(){
 	$(".collapsible_sub").collapsible();
     $('select').material_select();
 }
-
-var page = {
-	contactus:function() {
-	}
-};
 
