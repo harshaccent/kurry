@@ -211,3 +211,10 @@ div.error{
 	cursor: pointer;
 }
 
+.msdivider {
+	background-color: #cccccc;
+	width:100%;
+	height:2px;
+}
+
+

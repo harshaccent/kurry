@@ -88,7 +88,7 @@ define dispfood() {
 						}
 						div(class: "col l10"){
 							div(style:{"font-weight": "500"}) {
-								p("Chef Mohit Saini");
+								a1(name:"Chef Mohit Saini", href: BASE+"profile");
 							}
 							div() {
 								p("5 Start Rating.");
@@ -121,7 +121,7 @@ define dispfood() {
 				div(class: "row") {
 					div(class: "col l4 ") {
 						button(class: "btn waves-effect waves-light btn") {
-							p("Faveroute");
+							p("Favourite");
 						}
 					}
 					div(class: "col l4 offset-l3") {

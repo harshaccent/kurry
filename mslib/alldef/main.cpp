@@ -124,3 +124,17 @@ define divpedding(text:"", padding:"5px") {
 	}
 }
 
+
+define textdiv(name:"") {
+	div(style:{"font-size": font, "font-weight": fontw}, color:color, class: class){
+		innerHTML();
+		p(name);
+	}
+}
+
+define a1() {
+	attr["href"] = href;
+	a(attr: attr, style: style) {
+		p(name);
+	}
+}
