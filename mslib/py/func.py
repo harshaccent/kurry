@@ -1,10 +1,29 @@
+import json, datetime, pytz, time, re, copy, inspect, itertools, MySQLdb, sys, os, collections, random
+from time import mktime
+
+execfile(_mslib+"py/config.py");
 execfile(_mslib+"py/use.py");
 execfile(_mslib+"py/sql.py");
 
 fold = fold_l;
 
+def runf(f, args):
+	numfargs = len(inspect.getargspec(f).args)
+	largs = list(args);
+	sifu(largs, numfargs, None);
+	return f(*tuple(largs[:numfargs]));
+
 def l2dict(l):
-	return fold(lambda x, y: sifu(x, y[0], y[1]), l, {});
+	return fold(lambda x, y: sifu(x, y[0], y[1]), l, cod());
+
+def idf(x):
+	return x;
+
+def mapp(f, l, filt=None, keyf=None): #preserve the order for simple list.( Chill)
+	return l2dict((runf(rifn(keyf, idf), (i, l[i])), runf(f, (l[i], i))) for i in gkeys(l) if(runf( rifn(filt, lambda: True), (l[i], i))));
+
+def mappl(f, l, filt=None, keyf=None):
+	return mapp(f, l, filt, keyf).values();
 
 def mprint(*x):
 	global _printout;
@@ -31,8 +50,8 @@ def getitem(arr, key, defaultval = None): #arr can be list or dict | output = ar
 
 g = getitem; # dl = [get, ses, post] 
 
-def has_key(arr, key): #is key set in arr ( List or dict)
-	return doifcan(lambda l,i: (lambda x: True)(l[i]), (arr, key), False);
+def has_key(arr, key): #Check is key set in arr ? ( arr: List | Dict  )
+	return doifcan(lambda l,i: r1(l[i], True), (arr, key), False);
 
 isg = has_key;
 
@@ -43,8 +62,8 @@ for i in ["get", "ses", "post"]:#defining 6 functions. get, ses, post, isget, is
 def sets(val, key = None, var = "sesdata"): #set given key of sesdata, if not given, set whole session.
 	s( var, val) if key == None else seta( globals()[var], key, val )
 
-def s2j(inp): #dl = []
-	return doifcan(json.loads, inp);
+def s2j(inp, defaultval = None): #dl = []
+	return doifcan(json.loads, inp, defaultval);
 
 def f(inp, var = "x"): #dl = [lelm], return function having inp as return value.
 	return eval("lambda " + var + ":"+inp);
@@ -105,6 +124,7 @@ def intsplit(st, llimit = None, ulimit = None):
 	return filter(f('x!=None and ({0} == None or {0}<=x) and ({1} == None or x<={1})'.format(llimit, ulimit)), map(f('doifcan(int, x)'), msplit(st)));
 
 t2f_date = lambda tat=None: time2format("%d-%m-%Y", tat);
+t2f_time = lambda tat=None: time2format("%d-%m-%y %I:%M:%S %p", tat);
 
 def table(tname):
 	return 'select * from '+tname;
@@ -122,7 +142,7 @@ def mjoin(glu, l, defaultval=''):
 	return glu.join(list(str(x) for x in l)) if len(l) > 0 else defaultval;
 
 def index(l):
-	return (l.keys() if type(l) == dict else range(len(l)));
+	return (l.keys() if type(l) != list else range(len(l)));
 
 def iem(con, exp):
 	for i in index(con):
@@ -133,7 +153,6 @@ def iem(con, exp):
 
 def gtable(name, astable = True):
 	return "("+queries[name]+")"+name if astable else queries[name];
-
 
 def isallone(l):
 	return sum(l) == len(list(l));

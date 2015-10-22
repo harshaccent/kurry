@@ -1,5 +1,9 @@
 var HOST = jsdata["HOST"];
 
+function errora(msg) {
+	runf("error", {msg: msg, timeout: 5000});	
+}
+
 var button={
 	attrs:function(obj){
 		var alla=obj.attributes;
@@ -446,6 +450,17 @@ var validation={
 	}
 };
 
+
+
+array_keys = function(arr){
+	outp=[];
+	for(i in arr){
+		outp.push(i);
+	}
+	return outp;
+};
+
+
 var others={
 	keys:function(arr){
 		outp=[];
@@ -579,12 +594,16 @@ function setifunset(data,key,val) {
 	return data;
 }
 
-mergeifunset=function(dict1,dict2){
+var sifu = setifunset;
+
+function mergeifunset(dict1,dict2){
 	for(i in dict2){
 		setifunset(dict1,i,dict2[i]);
 	}
 	return dict1;
 }
+
+var mifu = mergeifunset;
 
 function fold(f, l, def) {
 	for(i in l ) {
@@ -702,17 +721,16 @@ function mylib(){
 			}
 		}
 	};
-	function objclickfun(obj, alla) { //Assume onclick is set in alla
-		var addeda = setifunset(alla, "obj", obj)
-		mapp(function(x){ return runf(x, addeda); }, spacesplit(alla["onclick"]));
-	}
+	map(function(i) {
+		$("*").on(i, function() {
+			var alla = dattr(this);
+			if(haskey(alla, "on"+i)) {
+				var addeda = setifunset(alla, "obj", this);
+				return fold(function(x,y){ return !((y==false) || (x == false)); }, mapp(function(x){ return runf(x, addeda); }, spacesplit(alla["on"+i])), true);
+			}
+		});
+	}, ["click", "submit"]);
 
-	$("*").on('click', function() {
-		var alla = dattr(this);
-		if(haskey(alla, "onclick")) {
-			objclickfun( this, alla );
-		}
-	});
 	if(false) {
 		$("textarea.autoinc").on("keyup keydown",function(){
 			textareainc(this);
@@ -750,21 +768,42 @@ function id(x) {
 }
 
 function mapp(f, l, filt, keyf) {
-	if(typeof(keyf) == 'undefined') 
+	if(keyf == null) 
 		keyf = id;
 	var outp = {};
 	for(var i in l) {
-		if(typeof(filt) =='undefined' || filt(l[i], i) )
+		if(filt == null || filt(l[i], i) )
 			outp[keyf(i, l[i])] = f(l[i], i);
 	}
 	return outp;
 }
 
-function map(f, l, filt) {
-	return d2list(mapp(f, l, filt));
+function map(f, l, filt, keyf) {
+	return d2list(mapp(f, l, filt, keyf));
 }
 
-function d2list(a) {
+function mapo(f, objs, filt) {//for the list of like jquery selector where we just have x.length & x[i] for 0<=i<length
+	var modf = function(f){ return (f==null ? null:function(x){ return f(objs[x], x); }); };
+	return map(modf(f), range(objs.length), modf(filt));
+}
+
+function range3(a, b, c) {
+	var outp = [];
+	for(var i=a; i<b; i+=c) {
+		outp.push(i);
+	}
+	return outp;
+}
+
+function range2(a, b) {
+	return range3(a, b, 1);
+}
+
+function range(a) {
+	return range2(0, a);
+}
+
+function d2list(a) { // just like python dict.values
 	var outp = [];
 	for(i in a) {
 		outp.push(a[i]);
@@ -774,6 +813,10 @@ function d2list(a) {
 
 function dattr(obj) {
 	return mapp(id, attr(obj), function(x, y) { return (y.substr(0, 5) == "data-"); }, function(x){ return x.substr(5); });
+}
+
+function pkey(arr, keys) {
+	return mapp( function(x){ return arr[x]; }, keys, function(x){return haskey(arr, x); }, function(x){return keys[x];});
 }
 
 function runf(fname, args) { //Assume list of funcs is defined.
@@ -809,57 +852,122 @@ var funcs={
 	}]
 };
 
+function rifn(x, y) {
+	return (x == null ? y:x);
+}
+
 function parsejson(d) {
 	try{
 		return JSON.parse(d);
-	}catch(e){
+	} catch(e){
 		return null;
 	}
 }
 
-funcs["req"]= [{errorhandle:id, callback: id}, function () {//params, callback, errorhandle
-	$.post(HOST+"action.php", params, function(d, s) { if(s === 'success') {
-		var outp = parsejson(d);
-		(outp === null ?  errorhandle(d) : callback(outp));
+funcs["req"]= [{callback: id}, function () {//params, callback
+	$.post(HOST+"index.php/ajaxactions", params, function(d, s) { if(s === 'success') {
+		callback(d);
 	}});
 }];
 
+funcs["req1"] = [{callback: id, callanyway: id}, function() { //params
+	return runf("req", {callback: function(d) {
+		var x = parsejson(d);
+		if( x === null )
+			errora("Unexpected Error"+"\n"+d);
+		else {
+			if(x.ec < 0)
+				errora(ec[x.ec]);
+			else
+				callback(x);
+		}
+		callanyway(d);
+	}, params: params});
+}];
+
+funcs["sreq"] = [{waittext: " ... ", restext: null, bobj: null, form: null, params: null, fobj: null, res:null}, function() {// obj
+	fobj = (fobj == null ? obj: eval(fobj));
+	bobj = (bobj == null ? obj: (bobj == "" ? ($(obj).find("button[type=submit]")[0]):eval(bobj)));
+
+	params = ( params ==null ? {}: eval(params) );
+	params = mifu(params, sifu(forminps(fobj), "action", action ))
+	params = mifu(params, dsattr(obj));
+	var prvhtml = bobj.innerHTML;
+	if(waittext != "" ) {
+		bobj.innerHTML = waittext;		
+	}
+	runf("req1", { "params": params, callback: function(data) {
+		if( res!=null ) {
+			eval(res);
+		}
+	}, callanyway: function	(x) {
+		if(restext != "") {
+			bobj.innerHTML = (restext == null ? prvhtml: restext);
+		}
+	}});
+	return false;
+}];
+
+funcs["formsreq"] = [{fobj: null}, function() {//action
+	fobj = (fobj == null ? obj: eval(fobj));
+	runf("req1", {params: sifu(forminps(fobj), "action", action)});
+	return false;
+}];
+
+
+function dsattr(obj) {
+	return mapp(id, dattr(obj), function(y, x){ return x.substr(0,4)=="send"; }, function(x){ return x.substr(4); });
+}
+
+function belogns(l, a) {
+	return (l.indexOf(a) != -1);
+}
+
+function appenduniq(l, a) {
+	if(!belogns(l, a))
+		l.push(a);
+	return l;
+}
+
+function addluniq(l1, l2) {
+	return fold(function(y, x){ return  appenduniq(y, x); }, l2, l1);
+}
+
+function listaminusb(l1, l2) {
+	return fold(function(x,y){ return belogns(l2, y)?x:appenduniq(x, y); }, l1, []);
+}
+
+function nth(l, e) {
+	return (e>=0) ? l[e]: l[l.length+e];
+}
+
+function r1() { //Assuming atleast one argument is passed
+	return nth(arguments, -1);
+}
+
+function forminps(obj) {
+	var allinps = fold(function(x,y){
+					return $.merge(x, mapo(function(x){
+						return sifu(pkey(attr(x), ["id", "name"]), "val", $(x).val()); 
+					}, $(obj).find(y)));
+				},["input", "textarea", "select"], []);
+	return fold(function(x, y){
+			if(haskey(y, "name")){
+				x[y.name] = y.val;
+			} else if(haskey(y, "id")){
+				x[y.id] = y.val;
+			}
+			return x;
+		}, allinps, {});
+}
+
+var finp = forminps;
 
 
 
+var ms = {
+	reload: function() {
+		window.location.href = window.location.href;
+	}
+};
 
-
-
-		// var allattrs=this.attrs(obj);
-		// if(!button.hasattr(allattrs,"data-params"))
-		// 	var params=this.tosendattrs(obj,allattrs);
-		// else{
-		// 	eval("var params="+allattrs["data-params"]);
-		// }
-		// params['action']=allattrs["data-action"];
-		// obj.disabled=true;
-		// var prvvalue=obj.innerHTML;
-		// obj.innerHTML=(!button.hasattr(allattrs,"data-waittext"))?' ... ':(allattrs["data-waittext"]==''?prvvalue:allattrs["data-waittext"]);
-		// $.post(HOST+"actionv2.php",params,function(d,s){if(s=='success'){
-		// 	obj.disabled=false;
-		// 	var respo=button.parse(d);
-		// 	obj.innerHTML=prvvalue;
-		// 	if(respo){
-		// 		if(respo.ec<0){
-		// 			if(button.hasattr(allattrs,"data-error")){
-		// 				var ec=respo.ec;
-		// 				eval(allattrs["data-error"]);
-		// 			}
-		// 			else
-		// 				mohit.alert(ecn[respo.ec]);
-		// 		}
-		// 		else{
-		// 			obj.innerHTML=(typeof(allattrs["data-restext"])=='undefined')?prvvalue:allattrs["data-restext"];
-		// 			if(button.hasattr(allattrs,"data-res")){
-		// 				var data=respo.data;
-		// 				eval(allattrs["data-res"]);
-		// 			}
-		// 		}
-		// 	}
-			
-		// }});

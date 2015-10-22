@@ -1,0 +1,1 @@
+['select * from users where phone = {phone} limit 1', {'phone': '7503759053'}, {}]

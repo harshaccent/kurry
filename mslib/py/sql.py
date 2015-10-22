@@ -2,9 +2,49 @@ class sqllib:
 	db = None;
 	cur = None;
 	#i_ : internal local methods.
+
+	def tabtype(self, inpl):
+		def interp(x):
+			if(doifcan(lambda x: r1(int(x), True), "0"+x[2:], False)):
+				outp="";
+				if(g(x, 0) == 'i'):
+					outp += "int";
+				elif(g(x, 0) == 'r'):
+					outp += "real";
+				elif(g(x, 0) == 'v'):
+					outp += 'varchar({0})'.format(int("0"+re.sub("[^0-9]", "", x)));
+				if(g(x, 1) == 'u'):
+					outp+=" unique";
+				return outp;
+			else:
+				return x;
+		return list(interp(x.strip()) for x in inpl.split(","));
+
+	# def tabtype1(self, inpl):
+	# 	def interp(x):
+	# 		if(x[0] == "_"):
+	# 			return x[1:];
+	# 		else:
+	# 			#intinx = int("0"+re.sub("[^0-9]", "", x));
+	# 			#[{'i': 'int', 'v': 'varchar({0})'.format(intinx), 'r': 'real'}, {'u': 'unique','n': 'not null', 'a': "AUTO_INCREMENT"}]
+		# 	if(doifcan(lambda x: r1(int(x), True), "0"+x[2:], False)):
+		# 		outp="";
+		# 		if(g(x, 0) == 'i'):
+		# 			outp += "int";
+		# 		elif(g(x, 0) == 'r'):
+		# 			outp += "real";
+		# 		elif(g(x, 0) == 'v'):
+		# 			outp += 'varchar({0})'.format());
+		# 		if(g(x, 1) == 'u'):
+		# 			outp+=" unique";
+		# 		return outp;
+		# 	else:
+		# 		return x;
+		# return list(interp(x.strip()) for x in inpl.split(","));
+
 	def init_db(self):
 		if(self.db == None and self.cur == None):
-			self.db = MySQLdb.connect(host="poorvi.cse.iitd.ac.in", user="mohit", passwd="mohitsaini", db="mohit");
+			self.db = MySQLdb.connect(host=db_data["host"], user=db_data["user"], passwd=db_data["pass"], db=db_data["db"]);
 			self.cur = self.db.cursor(MySQLdb.cursors.DictCursor);
 
 	def close_db(self):
@@ -13,13 +53,23 @@ class sqllib:
 	def rquery(self, query, dkeys={}, keys={}):
 		return fold(lambda q,tr: q.replace("{"+tr+"}", "%("+tr+")s" if isg(dkeys, tr) else g(keys, tr, '{'+tr+"}")), (x[1:-1] for x in re.compile("{[^}]+}").findall(query)), query);
 
+	def virtual_sql(self, query, darr={}, arr={}, typ=''):
+		write_file(".queryinput.txt", str([query, darr, arr]));
+		elc_virtual("python query.py "+typ);
+		return eval(read_file(".queryoutput.txt"))
+
 	def q(self, query, darr={}, arr={}):
+		if(_agent == "poorvi" and _server == "gcl" ):
+			return self.virtual_sql(query, darr, arr, 'q');
 		self.init_db();
 		self.cur.execute(self.rquery(query, darr, arr), darr)
 		self.db.commit();
-		return (self.cur.lastrowid + self.cur.rowcount)
+		return (self.cur.lastrowid)
+		# return (self.cur.lastrowid + self.cur.rowcount)
 
 	def g(self, query, darr={}, arr={}):
+		if(_agent == "poorvi" and _server == "gcl" ):
+			return self.virtual_sql(query, darr, arr, 'g');
 		self.init_db();
 		self.cur.execute(self.rquery(query, darr, arr), darr);
 		return list(self.cur)
@@ -46,7 +96,7 @@ class sqllib:
 		return self.i_1row(self.g(query, darr), limit);
 
 	def uval(self, table, toset, conds={}, limit = -1):
-		[(s_conds, darr), (s_set, darr1)] = map(f('self.i_conds(*x)'), [(conds, ' AND '), (toset, ',')]);
+		[(s_conds, darr), (s_set, darr1)] = map(lambda x:self.i_conds(*x), [(conds, ' AND '), (toset, ',')]);
 		return self.i_1row(self.q("update {table} set {s_set} where {s_conds} {limit_s}".format( **rmifu(locals(),{"limit_s": self.i_limits(limit)})), mifu(darr, darr1)), limit);
 
 	def dval(self, table, conds={}, limit = -1):

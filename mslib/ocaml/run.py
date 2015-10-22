@@ -93,6 +93,8 @@ class mtmlparser:
 			a = expend(t[1], gamma, funcs);
 			if(t[2] == 'len'):
 				return len(a);
+			if(t[2] == 'keys'):
+				return a.keys();
 			else:
 				return a;
 		elif(t[0] in ["Add", "Mul", "Sub", "Div", "Mod", "Or", "And", "Get", "Isequal", "Le", "Ge", "Ls", "Gt", "Notequal"] ):

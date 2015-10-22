@@ -19,10 +19,17 @@ function curpathinfo() {
 		return "";
 }
 
+$_GET[""] = "mohit";
+$_POST[""] = "mohit";
+$_SESSION[""] = "mohit";
+
+$pydata = array("get"=> $_GET, "post"=> $_POST, "session"=> $_SESSION, "url"=> curpathinfo());
 
 
-$pyoutp = shell_exec("python ".$pyfile." '".tojson($_SESSION)."' '".tojson($_GET)."' '".tojson($_POST)."' 'c".curpathinfo()."' 2>&1" );
+$cmd = "python ".$pyfile." '".tojson($pydata)."' 2>&1";
 
+
+$pyoutp = shell_exec($cmd);
 
 $pyoutp1 = json_decode( $pyoutp, true );
 if($pyoutp1 == null)

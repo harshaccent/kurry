@@ -1,10 +1,21 @@
-define main1(css:[], js:[], bodystyle:{}, htmlstyle:{}) {
+define main1(css:[], js:[], bodystyle:{}, htmlstyle:{}, title: "KurryBox") {
 	js = ["js/main.js"] + js;
-	main(title: "KurryBox", css: css, js:js, bodystyle:bodystyle, htmlstyle: htmlstyle) {
+	main(title: title, css: css, js:js, bodystyle:bodystyle, htmlstyle: htmlstyle) {
+		innerHTML();
+//		loginmodal();
+	}
+}
+
+
+define main2(css:[], js:[], bodystyle:{}, htmlstyle:{}, title: "KurryBox") {
+	js = ["js/main.js"] + js;
+	main(title: title, css: css, js:js, bodystyle:bodystyle, htmlstyle: htmlstyle) {
 		innerHTML();
 		loginmodal();
 	}
 }
+
+
 
 define bigsearch() {
 	div(class: "row", style: {"background-color":""}) {
@@ -24,7 +35,11 @@ define bigsearch() {
 }
 
 define header4() {
-	header2(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us"]);
+	if(islogin == "") {
+		header2(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us"]);
+	} elif (islogin == "u") {
+		header2_user(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us"]);
+	}
 }
 
 
@@ -152,6 +167,13 @@ define dispfood() {
 	}
 }
 
+define l_otp_button() {
+	button(class: "btn waves-effect waves-light", attr:{type: "button"}, data:{onclick: "sreq", action: "sendotp", fobj: "$(obj).parent().parent()[0]", restext: "Re-send"}) {
+		p("Send OTP");
+	}
+}
+
+
 
 
 define loginmodal() {
@@ -163,46 +185,46 @@ define loginmodal() {
 				}
 			}
 			div(attr:{id: "logintab"}) {
-				div(class: "row") {
-					input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"loginphone");
-					div(class: "col l4 m6") {
-						button(class: "btn waves-effect waves-light") {
-							p("Send OTP");
+				form(data:{onsubmit:"sreq", bobj: "", action:"login", res: "ms.reload();"}) {
+					div(class: "row") {
+						input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"loginphone");
+						div(class: "col l4 m6") {
+							l_otp_button();
 						}
 					}
-				}
-				div(class: "row"){
-					input1(label: "Password or OTP", icon: "vpn_key", aclass: "col s12 l12 m12", id: "loginpass");
-				}
-				div(class: "row") {
-					div(class: "col") {
-						button(class: "btn waves-effect waves-light") {
-							p("Login");
-						}
+					div(class: "row"){
+						input1(label: "Password or OTP", icon: "vpn_key", aclass: "col s12 l12 m12", id: "loginpass");
 					}
+					div(class: "row") {
+						div(class: "col") {
+							button(class: "btn waves-effect waves-light", attr:{type: "submit"}) {
+								p("Login");
+							}
+						}
+					}					
 				}
 			}
 
 			div(attr:{id: "signuptab"}) {
-				div(class: "row") {
-					input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"signupphone");
-					div(class: "col l4 m6") {
-						button(class: "btn waves-effect waves-light") {
-							p("Send OTP");
+				form(data:{onsubmit:"sreq", bobj: "", action:"signup", res: "ms.reload();" }) {
+					div(class: "row") {
+						input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"signupphone");
+						div(class: "col l4 m6") {
+							l_otp_button();
 						}
 					}
-				}
-				div(class: "row"){
-					input1(label: "Choose Password", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signuppass", type:"password");
-					input1(label: "OTP", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signupotp");
-				}
-				div(class: "row"){
-					input1(label: "Name", icon: "account_circle", aclass: "col s12 l12 m12", id: "signupname");
-				}
-				div(class: "row") {
-					div(class: "col") {
-						button(class: "btn waves-effect waves-light") {
-							p("Signup");
+					div(class: "row"){
+						input1(label: "Choose Password", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signuppass", type:"password");
+						input1(label: "OTP", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signupotp");
+					}
+					div(class: "row"){
+						input1(label: "Name", icon: "account_circle", aclass: "col s12 l12 m12", id: "signupname");
+					}
+					div(class: "row") {
+						div(class: "col") {
+							button(class: "btn waves-effect waves-light", attr:{type: "submit"}) {
+								p("Signup");
+							}
 						}
 					}
 				}

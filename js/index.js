@@ -24,4 +24,4 @@ $(document).ready(function(){
 });
 
 
-$("#loginmodal").openModal();
+//$("#loginmodal").openModal();

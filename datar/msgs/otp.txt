@@ -1,0 +1,3 @@
+Hey,
+You OTP is {otp} for kurrybox.
+Please don't share it.

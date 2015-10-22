@@ -1,4 +1,4 @@
-main1(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
+main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 	div() {
 		header4();
 		div() {

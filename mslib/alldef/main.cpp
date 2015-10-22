@@ -15,6 +15,9 @@ define main(acss:["css/materialize.min.css", "css/lib.css", 'css/materialize.min
 			script(attr:{type:"text/javascript"}) {
 				p("var jsdata = " + jsdata+";");
 			}
+			script(attr:{type:"text/javascript"}) {
+				p("var ec  = jsdata['_ec'] ;");
+			}
 			for(i, js) {
 				script(attr:{type:"text/javascript", src:i});
 			}
@@ -40,16 +43,6 @@ define header1(tabname:[], tablink:[]) {
 				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
 					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
 				}
-				form(class: "right") {
-					div(class: "input-field lighten-1") {
-						input(attr:{type:"search", placeholder:"Search"}, color: "black");
-						label(attr:{"for":"search"}, class: "") {
-							i(class: "mdi-action-search");
-						}
-						i(class: "mdi-navigation-close");
-					}
-				}
-
 				ul(class: "right hide-on-med-and-down") {
 					disptabs(tabname: tabname, tablink: tablink);
 				}
@@ -83,6 +76,47 @@ define header2(tabname:[], tablink:[]) {
 }
 
 
+define header2_user(tabname:[], tablink:[]) {
+	div(class: "navbar-fixed ") {
+
+		ul(id: "dropdown1", class: "dropdown-content") {
+			li() {
+				a1(href: BASE+"account", name: "Account");
+			}
+			li() {
+				a1(href: BASE+"orders", name: "Orders");
+			}
+			li() {
+				a1(href: HOST+"?logout", name: "Logout");
+			}
+		}
+
+		nav(class:"white", attr:{role: "container"}) {
+			div(class: "nav-wrapper container") {
+				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
+					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
+				}
+				ul(class: "right hide-on-med-and-down" ) {
+					disptabs(tabname: tabname, tablink: tablink);
+					li() {
+						a1(class: "dropdown-button", name: "&nbsp;"*5+"Profile"+"&nbsp;"*10, data:{activates:"dropdown1"});
+						//icon(name: "arrow_drop_down", aclass: "right");
+					}
+				}
+				ul(attr:{id: "nav-mobile"}, "class": "side-nav") {
+					disptabs(tabname: tabname, tablink: tablink);
+				}
+				a(attr:{"data-activates": "nav-mobile"}, "class": "button-collapse") {
+					icon(name: "menu");
+				}
+			}
+		}
+	}
+}
+
+
+
+
 define icon(aclass: "") {
 	i(class: "material-icons "+aclass, style: style){
 		p(name);
@@ -96,7 +130,7 @@ define icon1() {
 
 define checkbox1(checked: None, label:"Check", aclass:"") {
 	span() {
-		input(attr:{type: "checkbox", id: id, checked: checked}, class: "filled-in "+aclass, onclick: onclick);
+		input(attr:{type: "checkbox", id: id, checked: checked}, class: "filled-in "+aclass, data: data);
 		label(attr:{"for": id}) {
 			p(label);
 		}
