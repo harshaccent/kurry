@@ -1,1 +1,1 @@
-['select * from users where phone = {phone} limit 1', {'phone': '7503759053'}, {}]
+['select users.name, users.profilepic, dishes.* from dishes left join users on users.id = dishes.cid AND cid={cid}', {'cid': 14}, {}]

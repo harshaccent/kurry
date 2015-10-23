@@ -39,6 +39,10 @@ define header4() {
 		header2(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us"]);
 	} elif (islogin == "u") {
 		header2_user(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us"]);
+	} elif (islogin == "a") {
+		header2_admin(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog"]);
+	} elif (islogin == "c") {
+		header2_chef(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog"]);
 	}
 }
 
@@ -92,30 +96,31 @@ define dispfood() {
 	div(class: "col s12 l4 m6 ", style:{}) {
 		div(class: " card-panel", style:{"margin-bottom":"40px", "padding":"0px"}) {
 			div() {
-				resimg(src: "photo/food4.jpg");
+//				resimg(src: "photo/food4.jpg");
+				resimg(src: dishinfo["pic"]);
 			}
 			div(style: {"padding-bottom": "10px"}) {
 				div(style:{padding: "10px"}) {
 					div(class: "row") {
 						div(class: "col l8", attr:{align: "left"}) {
 							div() {
-								p("Papad Ki Sabji With Halwa And palak panir");
+								p(dishinfo["title"]);
 							}
 						}
 						div(class: "col l4") {
 							icon1(img: "photo/inr1.png");
 							span(style:{"font-size": "25px", "font-weight": "600"}){
-								p(100);
+								p(dishinfo["price"]);
 							}
 						}
 					}
 					div(class: "row valign-wrapper", attr:{align: "left"}) {
 						div(class: "col l2") {
-							circleimg(src:"photo/chef.jpg");
+							circleimg(src: "photo/chef.jpg");
 						}
 						div(class: "col l10"){
 							div(style:{"font-weight": "500"}) {
-								a1(name:"Chef Mohit Saini", href: BASE+"profile");
+								a1(name:"Chef "+dishinfo["name"], href: BASE+"profile");
 							}
 							div() {
 								starrating(val:3);
@@ -147,22 +152,31 @@ define dispfood() {
 				// }
 
 				div(class: "row") {
-					div(class: "col l4 ") {
-						button(class: "btn waves-effect waves-light btn", data:{onclick: "addfav"}, attr:{"id": "mohit"}) {
-							p("Favourite");
+					if(viewtype == "a" ) {
+						div(class: "col l4 ") {
+							button(class: "btn waves-effect waves-light btn") {
+								p("Delete");
+							}
+						}
+						div(class: "col l4 offset-l3") {
+							button(class: "btn waves-effect waves-light btn") {
+								p("Edit");
+							}
+						}
+					} elif( viewtype == "guest" ) {
+						div(class: "col l4 ") {
+							button(class: "btn waves-effect waves-light btn", data:{onclick: "addfav"}, attr:{"id": "mohit"}) {
+								p("Favourite");
+							}
+						}
+						div(class: "col l4 offset-l3") {
+							button(class: "btn waves-effect waves-light btn") {
+								p("Add + ");
+							}
 						}
 					}
-					div(class: "col l4 offset-l3") {
-						button(class: "btn waves-effect waves-light btn") {
-							p("Add + ");
-						}
-					}
-//						input(attr:{type:"number", min: 0, max: 5, "value": 0});
 				}
-
-
 			}
-
 		}
 	}
 }
@@ -233,3 +247,226 @@ define loginmodal() {
 		}
 	}
 }
+
+
+define table1(rows:[], thead:[]) {
+	table(class: class) {
+		thead() {
+			for(i, thead) {
+				th() {
+					p(i);
+				}
+			}
+		}
+		tbody() {
+			for(i, ii, rows) {
+				tr() {
+					for(j, jj, i) {
+						td() {
+							p(j);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+define accont_admin() {
+	div(attr:{align: "center"}) {
+		height(val: 20);
+		textdiv(name: "Hey Admin,\n you can login/create account of a chef using OTP as 'Admin_Secure432' ", font: "20px");
+		height(val: 50);
+	}
+	form() {
+
+	}
+	table1(rows: usertable["rows"], thead: usertable["thead"], class: "bordered striped centered highlight");
+}
+
+
+define profile_chef_top1() {
+	div(class: "row valign-wrapper") {
+		div(class: "col l3", attr:{align: "center"}) {
+			div() {
+				circleimg(src: "photo/chef2.jpg");
+			}
+			div() {
+				textdiv(name: "Chef Mohit Saini", font: "25px", fontw: "500");
+				div(class: "row") {
+					div(class: "col l6") {
+						textdiv(name:38456, fontw:600);
+						textdiv(name: "Dished Delivered");
+					}
+					div(class: "col l6") {
+						textdiv(name: 56, fontw:600);
+						textdiv(name: "People reviewed");
+					}
+				}
+			}
+		}
+		div(class: "col l8 offset-l1") {
+			textdiv(font:"25px", name:"About Mohit Saini", fontw:600);
+			textdiv(font:"16px", name:"Chef Radhika Khanna is a hotel management graduate from The Institute of Tourism and Hotel Management, Salzburg. She has conceptualized restaurants like SukhoThai, Curry on the Roof & Divine. Her experience, in addition to her vast knowledge and interest in food & culture from various parts of the world, has prepared her to create Lotus Blossom, a specialty catering service providing Thai food for parties and events. Radhika wishes to revolutionize Thai food, and change the way it is perceived by foodies in the country! Chef Radhika Khanna is a hotel management graduate from The Institute of Tourism and Hotel Management, Salzburg. She has conceptualized restaurants like SukhoThai, Curry on the Roof & Divine. Her experience, in addition to her vast knowledge and interest in food & culture from various parts of the world, has prepared her to create Lotus Blossom, a specialty catering service providing Thai food for parties and events. Radhika wishes to revolutionize Thai food, and change the way it is perceived by foodies in the country!");
+		}
+
+	}
+}
+
+define profile_chef_top2() {
+	div(class: "row valign-wrapper") {
+		div(class: "col l3", attr:{align: "center"}) {
+			div() {
+				circleimg(src: "photo/chef2.jpg");
+			}
+			a1(name: "Upload Profile Pic", href:"");
+			div() {
+				textdiv(name: "Chef "+uinfo["name"], font: "25px", fontw: "500");
+				div(class: "row") {
+					div(class: "col l6") {
+						textdiv(name:38456, fontw:600);
+						textdiv(name: "Dished Delivered");
+					}
+					div(class: "col l6") {
+						textdiv(name: 56, fontw:600);
+						textdiv(name: "People reviewed");
+					}
+				}
+			}
+		}
+		div(class: "col l8 offset-l1") {
+			textdiv(font:"25px", name:"About Mohit Saini", fontw:600);
+			a1(name: "Edit");
+			textdiv(font:"16px", name:"Chef Radhika Khanna is a hotel management graduate from The Institute of Tourism and Hotel Management, Salzburg. She has conceptualized restaurants like SukhoThai, Curry on the Roof & Divine. Her experience, in addition to her vast knowledge and interest in food & culture from various parts of the world, has prepared her to create Lotus Blossom, a specialty catering service providing Thai food for parties and events. Radhika wishes to revolutionize Thai food, and change the way it is perceived by foodies in the country! Chef Radhika Khanna is a hotel management graduate from The Institute of Tourism and Hotel Management, Salzburg. She has conceptualized restaurants like SukhoThai, Curry on the Roof & Divine. Her experience, in addition to her vast knowledge and interest in food & culture from various parts of the world, has prepared her to create Lotus Blossom, a specialty catering service providing Thai food for parties and events. Radhika wishes to revolutionize Thai food, and change the way it is perceived by foodies in the country!");
+		}
+
+	}
+}
+
+
+
+define profile_chef() {
+	div(class: "container-fluid") {
+		div(class: "row") {
+			div(class: "col l10 offset-l1 s10 m10 offset-s1 offset-m1") {
+				profile_chef_top1();
+				div(class: "msdivider");
+				div(attr: {align: "center"}, style:{margin:"20px"}) {
+					textdiv(name: "Dishes Serving today", font: "25px");
+				}
+				div(class: "row", attr:{align: "center"}) {
+					for(i, 10) {
+						//dispfood() ;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+define profile_chef_self() {
+	div(class: "container-fluid") {
+		div(class: "row") {
+			div(class: "col l10 offset-l1 s10 m10 offset-s1 offset-m1") {
+				profile_chef_top2();
+				div(class: "msdivider");
+
+				div(class: "container-fluid") {
+					div(class: "row") {
+					}
+				}
+				div(class: "container-fluid") {
+					div(class: "row") {
+						div() {
+							ul(class: "tabs") {
+								disptabs(liclass: "tab col s2", tabname: ["All Dishes"]+ day5times["textl"], tablink: ["#alldishes"]+ day5times["tabkeys1"], active: day5times["tabkeys1"][0]);
+							}
+						}
+						div(class: "col l10 offset-l1 s10 m10 offset-s1 offset-m1") {
+							div(attr:{id: "alldishes"}) {
+								button1(name: "Add a New Dish", data: {onclick: "slideform"});
+								form(style: {display: "none"}, attr:{enctype: "multipart/form-data", method: "post"}) {
+									div(class: "row") {
+										input(attr:{type:"hidden", name: "cid", value: uid });
+										input2(label: "Title of Dish", aclass: "col s12 l6 m6", id:"dishtitle");
+										input2(label: "Price of Dish", aclass: "col s12 l6 m6", id:"dishprice");
+										// input2(label: "Amount Limit", aclass: "col s12 l3 m6", id:"dishlimit");
+									}
+									div(class: "row"){
+										textarea(class: "materialize-textarea", attr:{name: "descp", placeholder: "Dish Description"});
+									}
+									div(class: "row") {
+										div(class: "file-field input-field") {
+											div(class: "btn") {
+												span() {
+													p("Upload Image");
+												}
+												input(attr:{type:"file", name: "dishpic"});
+											}
+											div(class: "file-path-wrapper") {
+												input(class: "file-path-validate", attr:{type: "text"});
+											}
+										}
+									}
+									div(class: "row") {
+										div(class: "col") {
+											button(class: "btn waves-effect waves-light", attr:{type: "submit", name:"adddish"}) {
+												p("Add");
+											}
+										}
+									}					
+								}
+
+								div(class: "row", attr:{align: "center"}) {
+									for(i, dishdata) {
+										dispfood(dishinfo: i) ;
+									}
+								}
+							}
+							for(i, ii, day5times["tabkeys"]) {
+								div(attr:{id: i}) {
+									div(class: "row", attr:{align: "center"}) {
+										table(class: "bordered") {
+											thead() {
+												for(j, ["Title", "Price", "Add For Lunch", "Add for Dinner"]) {
+													th() {
+														p(j);
+													}
+												}
+											}
+											for(j, dishdata) {
+												tr() {
+													th() {
+														p((j["title"]+"").gchars);
+													}
+													th() {
+														p(j["price"]);
+													}
+												}
+											}
+										}
+										for(j, 1+ii) {
+											//dispfood() ;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				div(attr: {align: "center"}, style:{margin:"20px"}) {
+					textdiv(name: "Dishes Serving today", font: "25px");
+				}
+				div(class: "row", attr:{align: "center"}) {
+					for(i, 0) {
+						//dispfood() ;
+					}
+				}
+			}
+		}
+	}
+}
+

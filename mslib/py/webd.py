@@ -48,3 +48,27 @@ def logout():
 def loginid():
 	if(islogin()):
 		return _session["login"]["id"];
+
+def redirect(url):
+	global _phpheader;
+	_phpheader += "Location: " + url;
+
+def getnewfilename(ext='mohit', extra=''):
+	nname = _addinfo["ip"]+"_"+str(tnow())+"_"+str(loginid())+"_"+str(random.randint(1, 100000))+extra+"."+ext
+	return "data/files/"+nname;
+
+def getext(name):
+	ext = name.split(".")[-1];
+	return (ext if ext != name else 'mohit');
+
+def resizeimg(name, nname, width, height):
+	_toresize[name] =[nname, width, height];
+
+def uploadimg(tmpname, name, size=None, extra=''):
+	nname = getnewfilename(getext(name), extra);
+	if(size == None):
+		write_file(nname, read_file(tmpname));
+		os.chmod(nname, 0777);
+	else:
+		resizeimg(tmpname, nname, size[0], size[1]);
+	return nname;

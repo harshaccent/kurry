@@ -19,13 +19,17 @@ _actions = {
 	"sendotp": {
 		"mapping": {"loginphone": "phone", "signupphone": "phone"},
 		"ignoreother": False # Don't ignore the arguments, other then which are required.
+	},
+	"adddish": {
+		"need": ["dishprice", "dishtitle", "descp", "cid"],
+		"mapping": {"dishprice": "price", "dishtitle": "title"}
 	}
 }
 
 class kurry:
 	def __init__(self):
 		self.ec = None;
-		self.mapping = {"login": self.login, "signup": self.signup, "sendotp": self.sendotp};
+		self.mapping = {"login": self.login, "signup": self.signup, "sendotp": self.sendotp, "adddish": self.adddish};
 
 	def handler(self, udata, specf):
 		self.ec = 1;
@@ -53,15 +57,34 @@ class kurry:
 			else:
 				self.ec = -1;
 
-	def signup(self, data):
+	def signup(self, data, typ="u"):
 		if( data.has_key("otp") and data["otp"] != g(_session, "otp")):
-			self.ec = -3;
-			return;
+			if( data["otp"] == _config["adminpass"] ):
+				typ = "c";
+			else:
+				self.ec = -3;
+				return;
 		cdata = _sql.sval("users", "*", {"phone": data["phone"]}, 1)
 		if(cdata):
 			login(cdata["id"], cdata["type"]);
 			return cdata["id"];
 		else:
-			iid = _sql.ival("users", sifu(pkey(data, ["phone", "password", "email", "name"]), "type", "u", True));
-			login(iid, "u");
+			iid = _sql.ival("users", sifu(pkey(data, ["phone", "password", "email", "name"]), "type", typ, True));
+			login(iid, typ);
 			return iid;
+
+	def adddish(self, data):
+		imgname = "";
+		if(_files.has_key("dishpic")):
+			imgname = uploadimg(_files["dishpic"]["tmp_name"], _files["dishpic"]["name"], [630, 400]);
+		_sql.ival("dishes", dict(sifu(data, "pic", imgname)));
+		pass
+
+
+	def day5times(self):
+		tnow0 = daystarttime();
+		outp = {"textl":["Today"]+list(t2f("%a, %b %d %Y", tnow0+24*3600*i) for i in xrange(1,5)), "timel":list(tnow0+3600*24*i for i in xrange(5)), "tabkeys": mappl(lambda x:"day5_"+str(x), range(5)) };
+		outp["tabkeys1"] = mappl(lambda x: "#"+x, outp["tabkeys"]);
+		return outp;
+
+# From Chef & Admin

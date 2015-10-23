@@ -93,8 +93,10 @@ class mtmlparser:
 			a = expend(t[1], gamma, funcs);
 			if(t[2] == 'len'):
 				return len(a);
-			if(t[2] == 'keys'):
+			elif(t[2] == 'keys'):
 				return a.keys();
+			elif(t[2] == 'gchars'):
+				return convchars(a);
 			else:
 				return a;
 		elif(t[0] in ["Add", "Mul", "Sub", "Div", "Mod", "Or", "And", "Get", "Isequal", "Le", "Ge", "Ls", "Gt", "Notequal"] ):
@@ -193,7 +195,9 @@ class mtmlparser:
 					attrs = inattr["attr"];
 					linstyle = ";".join("{0}:{1}".format(x, styles[x]) for x in styles if styles[x]!=None);
 					linattr = "".join( list(" {0}='{1}' ".format(x, attrs[x]) for x in  attrs if (x!="style" and attrs[x]!=None )) + ([" style='"+linstyle+"' "] if linstyle!='' else []) )
-					return (self.newlj([pretext+"<"+tagname+linattr+">"]+innerHTML+([pretext+"</"+tagname+">"] if (tagname not in onewaytags) else [] ) ), gamma, funcs);
+					fp1 = [pretext+"<"+tagname+linattr+">"];
+					fp2 = ([pretext+"</"+tagname+">"] if (tagname not in onewaytags) else [] );
+					return (self.newlj(fp1+innerHTML+fp2 ), gamma, funcs);
 		else:
 			return "";
 	def disp(self, gamma = {}):

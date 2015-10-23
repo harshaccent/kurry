@@ -29,7 +29,8 @@ define main(acss:["css/materialize.min.css", "css/lib.css", 'css/materialize.min
 define disptabs(tabname: [], tablink: []) {
 	for(i, j, tabname) {
 		li(class: liclass) {
-			a(attr: { href: tablink[j] } ) {
+			isactive = ((active == tablink[j]) ? "active" : " ");
+			a(attr: { href: tablink[j] }, class: isactive ) {
 				p(i);
 			}
 		}
@@ -91,6 +92,80 @@ define header2_user(tabname:[], tablink:[]) {
 			}
 		}
 
+		nav(class:"white", attr:{role: "container"}) {
+			div(class: "nav-wrapper container") {
+				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
+					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
+				}
+				ul(class: "right hide-on-med-and-down" ) {
+					disptabs(tabname: tabname, tablink: tablink);
+					li() {
+						a1(class: "dropdown-button", name: "&nbsp;"*5+"Profile"+"&nbsp;"*10, data:{activates:"dropdown1"});
+						//icon(name: "arrow_drop_down", aclass: "right");
+					}
+				}
+				ul(attr:{id: "nav-mobile"}, "class": "side-nav") {
+					disptabs(tabname: tabname, tablink: tablink);
+				}
+				a(attr:{"data-activates": "nav-mobile"}, "class": "button-collapse") {
+					icon(name: "menu");
+				}
+			}
+		}
+	}
+}
+
+define header2_chef(tabname:[], tablink:[]) {
+	div(class: "navbar-fixed ") {
+		ul(id: "dropdown1", class: "dropdown-content") {
+			li() {
+				a1(href: BASE+"profile", name: "Profile");
+			}
+			li() {
+				a1(href: BASE+"orders", name: "Orders");
+			}
+			li() {
+				a1(href: HOST+"?logout", name: "Logout");
+			}
+		}
+
+		nav(class:"white", attr:{role: "container"}) {
+			div(class: "nav-wrapper container") {
+				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
+					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
+				}
+				ul(class: "right hide-on-med-and-down" ) {
+					disptabs(tabname: tabname, tablink: tablink);
+					li() {
+						a1(class: "dropdown-button", name: "&nbsp;"*5+"Profile"+"&nbsp;"*10, data:{activates:"dropdown1"});
+						//icon(name: "arrow_drop_down", aclass: "right");
+					}
+				}
+				ul(attr:{id: "nav-mobile"}, "class": "side-nav") {
+					disptabs(tabname: tabname, tablink: tablink);
+				}
+				a(attr:{"data-activates": "nav-mobile"}, "class": "button-collapse") {
+					icon(name: "menu");
+				}
+			}
+		}
+	}
+}
+
+
+define header2_admin(tabname:[], tablink:[]) {
+	div(class: "navbar-fixed ") {
+		ul(id: "dropdown1", class: "dropdown-content") {
+			li() {
+				a1(href: BASE+"account", name: "Account");
+			}
+			li() {
+				a1(href: BASE+"orders", name: "Orders");
+			}
+			li() {
+				a1(href: HOST+"?logout", name: "Logout");
+			}
+		}
 		nav(class:"white", attr:{role: "container"}) {
 			div(class: "nav-wrapper container") {
 				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
@@ -194,5 +269,21 @@ define input1(aclass: "col s6",  type: "text") {
 		label(attr:{"for": id}) {
 			p(label);
 		}
+	}
+}
+
+define input2(aclass: "col s6",  type: "text") {
+	div(class: "input-field "+aclass) {
+		input(attr:{id: id, type:type, name:id}, class: iclass);
+		label(attr:{"for": id}) {
+			p(label);
+		}
+	}
+}
+
+
+define button1(aclass: "" ) {
+	button(class: "btn waves-effect waves-light btn "+aclass, data: data, attr: attr) {
+		p(name);
 	}
 }
