@@ -8,10 +8,15 @@ def maildummy(email, sub, msg):
 	writefd(open(mailfile, "a"), "To: {0}\nSubject: {1}\nAt: {2}\n{3}\n{4}\n{5}\n{5}\n\n\n".format(email, sub, t2f_time(), '-'*20, msg, '-'*20));
 
 def msgreal(phone, msg):
+	return msgreal1(phone, msg);
 	key="ad3eaba4216fed6f5197c8beedd0d358";
 	u="harshaccent";
 	p="85632"
 	url="http://mysms.msgclub.net/rest/services/sendSMS/sendGroupSms?"+ urllib.urlencode({"AUTH_KEY": key, "message": msg, "senderId": "SMSTST", "routeId": "1", "mobileNos": phone, "smsContentType": "english"});
+	return s2j(mcurl(url));
+
+def msgreal1(phone, msg):
+	url="http://216.245.209.132/rest/services/sendSMS/sendGroupSms?AUTH_KEY=14e4de84f23c84d81f24b8fb69d1e0&senderId=GETIIT&routeId=1&smsContentType=english&"+urllib.urlencode({"message": msg, "mobileNos": phone});
 	return s2j(mcurl(url));
 
 def mailreal(email, sub, msg):

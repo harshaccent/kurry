@@ -29,7 +29,8 @@ execfile(ROOT+"py/main.py");
 
 
 
-print pagehandler("index").db_init();
+#print pagehandler("index").db_init();
+
 _sql.close_db();
 
 #a = _sql.sval("users")

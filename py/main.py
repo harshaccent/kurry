@@ -6,6 +6,8 @@ _config["users"] = {"a": "Admin", "c": "Chef", "u": "User"};
 
 _config["adminpass"] = "Admin_Secure432";
 
+_config["realmsg"] = (_server == "aws");
+
 class pagehandler:
 	def __init__(self, name):
 		self.name = name;
@@ -39,9 +41,10 @@ class pagehandler:
 			return {"ec": -4};
 
 	def db_init(self):
-		if(True):
+		if(False):
 			for i in ["users", "chef", "dishes", "dispdish"]:
-				print _sql.q("drop table if exists "+i);
+				# print _sql.q("drop table if exists "+i);
+				print _sql.q("drop table "+i);
 		if(True):
 			print _sql.q("create table if not exists users (id int NOT NULL AUTO_INCREMENT, phone varchar(100), password varchar(100), email varchar(100),  name varchar(100), address varchar(500), type varchar(3), create_time int, update_time int, last_login int, last_ip varchar(20), conf varchar(1), profilepic varchar(100), profilepic_small varchar(200), PRIMARY KEY ( id) ) ");
 			print _sql.q("create table if not exists chef (chefid int, aboutus varchar(100))");
