@@ -4,7 +4,6 @@ _agent = "gcl";
 execfile("includes/setting.py");
 execfile(_mslib+"py/func.py");
 execfile("mslib/ocaml/run.py");
-execfile(ROOT+"py/main.py");
 
 try:
 	inpdata = udicttostr(json.loads(sys.argv[1]));
@@ -18,6 +17,7 @@ except:
 
 
 execfile(_mslib+"py/webd.py");
+execfile(ROOT+"py/main.py");
 
 
 
@@ -26,6 +26,7 @@ execfile(_mslib+"py/webd.py");
 # maincontent.readonefile("templates/test.cpp");
 
 # print maincontent.disp() ;
+
 
 
 print pagehandler("index").db_init();

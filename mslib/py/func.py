@@ -151,11 +151,11 @@ def iem(con, exp):
 	else:
 		return exp[len(con)];
 
-def gtable(name, astable = True):
-	return "("+queries[name]+")"+name if astable else queries[name];
-
 def isallone(l):
 	return sum(l) == len(list(l));
+
+def intf(x):
+	return doifcan(lambda x:int(x), x, 0);
 
 
 

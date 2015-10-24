@@ -21,6 +21,25 @@ function hs_toggle(ids, timetaken) {
 	});
 }
 
+function uploadfile(obj, name) {
+	var formjobj=$(obj).parent();
+	if(!(formjobj.find("input[name="+name+"]").length>0)){
+		var elm=document.createElement("input");
+		elm.setAttribute("type","file");
+		elm.setAttribute("name",name);
+		elm.setAttribute("style","display:none;");
+		elm.onchange=function (){
+			formjobj.submit();
+		}
+		formjobj[0].appendChild(elm);
+	}
+	else{
+		var elm=formjobj.find("input[name="+name+"]")[0];
+	}
+	elm.click();
+}
+
+
 
 function runonload(){
 	$('.button-collapse').sideNav();

@@ -8,3 +8,9 @@ mergeforce(funcs, {
 		$(obj).parent().find("form").slideToggle();
 	}
 });
+
+
+ms.showtextarea = function(obj) {
+	$(obj).parent().find("div.edittext").slideDown();
+}
+

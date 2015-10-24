@@ -26,6 +26,7 @@ let tostr name explist f = myconcat ["("; String.concat ", " ((myconcat ["'"; na
               | Mod (y1,y2) -> tostr "Mod" [y1; y2] f;
               | And (y1,y2) -> tostr "And" [y1; y2] f;
               | Or (y1,y2) -> tostr "Or" [y1; y2] f;
+              | Ife(y1, y2, y3) -> tostr "Ife" [y1;y2;y3] f;
               | Attr (y1,y2) -> tostr "Attr" [f y1; myconcat ["'";y2;"'"]] id;
               | Isequal(y1,y2) -> tostr "Isequal" [y1; y2] f;
               | Le(y1,y2) -> tostr "Le" [y1; y2] f;

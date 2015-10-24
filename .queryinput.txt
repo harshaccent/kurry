@@ -1,1 +1,1 @@
-['select users.name, users.profilepic, dishes.* from dishes left join users on users.id = dishes.cid AND cid={cid}', {'cid': 14}, {}]
+['select dispdish4.plimit, dishes1.* from (select * from dispdish where datetime={datetime} AND plimit > 0 AND lord ={lord} )dispdish4 left join (select users.name, users.profilepic, dishes.* from dishes left join users on users.id = dishes.cid)dishes1 on dishes1.id = dispdish4.dishid ', {'lord': 'd', 'datetime': 1445884200}, {}]

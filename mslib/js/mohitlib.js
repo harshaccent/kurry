@@ -923,6 +923,10 @@ function belogns(l, a) {
 	return (l.indexOf(a) != -1);
 }
 
+function append(l, a) {
+	return r1(l.push(a), l);
+}
+
 function appenduniq(l, a) {
 	if(!belogns(l, a))
 		l.push(a);

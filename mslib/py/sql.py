@@ -51,10 +51,12 @@ class sqllib:
 		map(f('x.close() if x!=None else None'), [self.cur, self.db]);
 
 	def rquery(self, query, dkeys={}, keys={}):
-		return fold(lambda q,tr: q.replace("{"+tr+"}", "%("+tr+")s" if isg(dkeys, tr) else g(keys, tr, '{'+tr+"}")), (x[1:-1] for x in re.compile("{[^}]+}").findall(query)), query);
+		return query.format(**mifu(keys, mapp(lambda x,y: "%("+y+")s", dkeys), True));
+		#return fold(lambda q,tr: q.replace("{"+tr+"}", "%("+tr+")s" if isg(dkeys, tr) else g(keys, tr, '{'+tr+"}")), (x[1:-1] for x in re.compile("{[^}]+}").findall(query)), query);
 
 	def virtual_sql(self, query, darr={}, arr={}, typ=''):
 		write_file(".queryinput.txt", str([query, darr, arr]));
+		write_file(".queryoutput.txt", "");
 		elc_virtual("python query.py "+typ);
 		return eval(read_file(".queryoutput.txt"))
 
@@ -108,6 +110,7 @@ class sqllib:
 
 	def autoscroll(self, query, darr={}, key = None, sort='', isloadold = True, minl = None, maxl = None, arr={}):
 		(minl, maxl) = tuple(mmap(lambda x, y: rifu(x, [minl, maxl][y])  ,list(pkeys(arr, ["minl", "maxl"]))))
+
 
 	# 	setifnn($minl, $param["minl"]);
 	# 	setifnn($maxl, $param["maxl"]);

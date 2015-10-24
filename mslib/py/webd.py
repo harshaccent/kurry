@@ -8,16 +8,22 @@ def maildummy(email, sub, msg):
 	writefd(open(mailfile, "a"), "To: {0}\nSubject: {1}\nAt: {2}\n{3}\n{4}\n{5}\n{5}\n\n\n".format(email, sub, t2f_time(), '-'*20, msg, '-'*20));
 
 def msgreal(phone, msg):
-	pass
+	key="ad3eaba4216fed6f5197c8beedd0d358";
+	u="harshaccent";
+	p="85632"
+	url="http://mysms.msgclub.net/rest/services/sendSMS/sendGroupSms?"+ urllib.urlencode({"AUTH_KEY": key, "message": msg, "senderId": "SMSTST", "routeId": "1", "mobileNos": phone, "smsContentType": "english"});
+	return s2j(mcurl(url));
 
 def mailreal(email, sub, msg):
 	pass
 	
 def sendmsg(phone, msg):
-	 msgreal(phone, msg) if _config["realmsg"] else msgdummy(phone, msg);
+	msgdummy(phone, msg);
+	msgreal(phone, msg) if _config["realmsg"] else None;
 
 def sendmail(email, sub, msg):
-	 mailreal(email, sub, msg) if _config["realmail"] else maildummy(email, sub, msg);
+	maildummy(email, sub, msg);
+	mailreal(email, sub, msg) if _config["realmail"] else None;
 
 def filemsg(phone, fn, data={}):
 	sendmsg(phone, read_file(fn).format(**data));
@@ -72,3 +78,21 @@ def uploadimg(tmpname, name, size=None, extra=''):
 	else:
 		resizeimg(tmpname, nname, size[0], size[1]);
 	return nname;
+
+def gtable(name, astable = True):
+	return "("+_config["sql"][name]+")"+name if astable else _config["sql"][name];
+
+
+def sqlr2table(r):
+	if(len(r) == 0):
+		return {"thead": [], "rows": []};
+	else:
+		thead = r[0].keys();
+		rows = mappl(lambda x: x.values() ,r);
+		return {"thead": thead, "rows": rows};
+
+def mcurl(url):
+	if(_agent == "poorvi" and _server == "gcl" ):
+		return elc_virtual('curl -s "'+url+'" ');
+	else:
+		return curl(url);

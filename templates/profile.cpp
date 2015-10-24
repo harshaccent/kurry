@@ -1,9 +1,7 @@
-main1(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
+main1(js:["js/profile.js"], htmlstyle:{"overflow-y": "scroll"}) {
 	div() {
 		header4();
-		if( (viewtype == "self") || (viewtype == "a")) {
-			profile_chef_self();
-		} else {
+		if(uid > 0) {
 			profile_chef();
 		}
 	}

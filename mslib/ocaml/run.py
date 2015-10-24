@@ -99,6 +99,11 @@ class mtmlparser:
 				return convchars(a);
 			else:
 				return a;
+		elif(t[0] == "Ife"):
+			if(expend(t[1], gamma, funcs)):
+				return expend(t[2], gamma, funcs);
+			else:
+				return expend(t[3], gamma, funcs);
 		elif(t[0] in ["Add", "Mul", "Sub", "Div", "Mod", "Or", "And", "Get", "Isequal", "Le", "Ge", "Ls", "Gt", "Notequal"] ):
 			a1,a2 = expend(t[1], gamma, funcs), expend(t[2], gamma, funcs)
 			if(t[0] == "Add"):
@@ -181,7 +186,7 @@ class mtmlparser:
 				inattr["attr"]["style"] = inattr["style"];
 
 				mifu(inattr["attr"], l2dict(("data-"+i, inattr["data"][i]) for i in inattr["data"]));
-				mifu(inattr["attr"], l2dict(("data-send"+i, inattr["datas"]) for i in inattr["datas"]));
+				mifu(inattr["attr"], l2dict(("data-send"+i, inattr["datas"][i]) for i in inattr["datas"]));
 
 				innerHTML = expend(t[3], gamma, funcs, depth+1)[0];
 				if(funcs.has_key(tagname)):

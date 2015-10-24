@@ -12,7 +12,7 @@ main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 							}
 						}
 						li() {
-							a(class: "dropdown-button", attr:{"data-activates": "dropdown1"}) {
+							a(class: "dropdown-button", attr:{"data-activates": "dropdown3"}) {
 								p("&nbsp;"*18+"All"+"&nbsp;"*0);
 								icon(name: "arrow_drop_down", aclass:"right");
 							}
@@ -20,7 +20,7 @@ main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 					}
 				}
 			}
-			ul(attr:{id: "dropdown1"}, class: "dropdown-content") {
+			ul(attr:{id: "dropdown3"}, class: "dropdown-content") {
 				foodtype = ["All", "Veg", "Non-Veg"];
 				for(i, ii, foodtype) {
 					li() {
@@ -32,33 +32,16 @@ main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 			}
 			ul(attr:{id: "dropdown2"}, class: "dropdown-content") {
 				nextdays = ["Today, 26 Oct", "27 Oct", "28 Oct"];
-				for(i, ii, nextdays) {
+				for(i, ii, day5times["timel"] ) {
 					li() {
-						a(attr:{href: ""}) {
-							p(i);
+						a(attr:{href: BASE+"menu?datetime="+i}) {
+							p( day5times["textl"][ii] );
 						}
 					}
 				}
 			}
 		}
 
-
-		// div(class: "nav-wrapper container") {
-		// 	div(class: "row") {
-		// 		ul() {
-		// 			li() {
-		// 				a(class: "dropdown-button", attr:{"data-activates": "dropdown2"}) {
-		// 					p("&nbsp;"*10+"Today, 28th Oct"+"&nbsp;"*10);
-		// 				}
-		// 			}
-		// 			li() {
-		// 				a(class: "dropdown-button", attr:{"data-activates": "dropdown1"}) {
-		// 					p("&nbsp;"*5+"All"+"&nbsp;"*20);
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
 		div(class: "container-fluid") {
 			div(class: "row") {
 				ul(class: "tabs") {
@@ -71,15 +54,15 @@ main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 				div(class: "col l10 offset-l1 s10 m10 offset-s1 offset-m1") {
 					div(attr:{id: "lunch"}) {
 						div(class: "row", attr:{align: "center"}) {
-							for(i, 10) {
-								dispfood() ;
+							for(i, lunch) {
+								dispfood(dishinfo: i);
 							}
 						}
 					}
 					div(attr:{id: "dinner"}) {
 						div(class: "row", attr:{align: "center"}) {
-							for(i, 2) {
-								dispfood() ;
+							for(i, dinner) {
+								dispfood(dishinfo: i);
 							}
 						}
 					}

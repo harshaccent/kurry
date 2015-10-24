@@ -265,7 +265,7 @@ define input1(aclass: "col s6",  type: "text") {
 		if(icon) {
 			icon(name: icon, aclass: "prefix");
 		}
-		input(attr:{id: id, type:type}, class: iclass);
+		input(attr:{id: id, type:type, value: value}, class: iclass, data: data);
 		label(attr:{"for": id}) {
 			p(label);
 		}
@@ -287,3 +287,5 @@ define button1(aclass: "" ) {
 		p(name);
 	}
 }
+
+

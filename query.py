@@ -3,6 +3,12 @@ _agent = "gcl";
 execfile("includes/setting.py");
 execfile(_mslib+"py/func.py");
 execfile("mslib/ocaml/run.py");
+
+
+
+execfile(_mslib+"py/webd.py");
+
+
 execfile(ROOT+"py/main.py");
 
 # maincontent = mtmlparser();
