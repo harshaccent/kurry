@@ -106,7 +106,7 @@ class pagehandler:
 			for i in ["users", "chef", "dishes", "dispdish"]:
 				# print _sql.q("drop table if exists "+i);
 				print _sql.q("drop table "+i);
-		if(False):
+		if(True):
 			print _sql.q("create table if not exists users (id int NOT NULL AUTO_INCREMENT, phone varchar(100), password varchar(100), email varchar(100),  name varchar(100), address varchar(500), type varchar(3), create_time int, update_time int, last_login int, last_ip varchar(20), conf varchar(1), profilepic varchar(100), profilepic_small varchar(200), PRIMARY KEY ( id) ) ");
 
 			print _sql.q("create table if not exists chef (chefid int, lat real, lng real, gender varchar(1), age int, languages varchar(30),cookpeople int, isnonveg varchar(1), isdegree varchar(1), aboutus varchar(100))");
