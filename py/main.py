@@ -71,7 +71,7 @@ class pagehandler:
 		def convrow(row, rind):
 			row["datetimetext"] = t2f(_config["datef"], row['datetime']);
 			row["tlist"] = range(1, row["plimit"]+1);
-			row["distance"] = round(row["distance"], 1);
+			row["distance"] = round(float(row["distance"]), 1);
 			numbering = lambda xx: mappl(lambda x, y: (str(y+1)+". "+x) if len(xx) > 1 else x, xx);
 			row["error"] = "<br>".join(numbering(mappl(idf, ["You are late", "Too Far("+str(row["distance"])+"Km)"], lambda y, x: [(row["datetime"]+ _config["ordertimelimit"][row["lord"]] < tnow()), (row["distance"] > _config["config"]["deliverydistance"])][x])));
 			return row;
