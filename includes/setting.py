@@ -12,7 +12,7 @@ elif(_server == 'csc'):
 elif(_server == "aws"):
 	HOST = 'http://54.149.49.212/kurry/';
 	ROOT = '/var/www/html/kurry/';
-	db_data = {'host': 'localhost', 'user': 'root', 'pass': 'mohit', 'db': ''};
+	db_data = {'host': 'localhost', 'user': 'root', 'pass': 'mohit', 'db': 'kurry'};
 
 CDN = HOST+'photo/'
 BASE = HOST+'index.php/'
