@@ -5,6 +5,9 @@ $( document ).ready(function(){
 	$('.dropdown-menu').click(function(e) {
 		e.stopPropagation();
 	});
+	$(".dropdown-content").on("click", function(e){
+		e.stopPropagation();
+	});
 	runonload();
 	mylib();
 });

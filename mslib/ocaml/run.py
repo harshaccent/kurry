@@ -121,7 +121,7 @@ class mtmlparser:
 			elif(t[0] == "Or"):
 				return int(a1 or a2);
 			elif(t[0] == "Get"):
-				return a1[a2];
+				return g(a1, a2);
 			elif(t[0] == "Isequal"):
 				return int(a1 == a2);
 			elif(t[0]=="Le"):
@@ -181,7 +181,7 @@ class mtmlparser:
 				onewaytags = ["input", "link", "img", "base"];
 				inattr = expend(t[2], gamma, funcs);
 				mergeifunset(inattr, {"attr": {}, "style": {}, "data": {}, "datas":{}});
-				mergeifunset(inattr["attr"], {"class": geta("class", inattr), "id": geta("id", inattr) }, True, True);
+				mergeifunset(inattr["attr"], {"class": geta("class", inattr), "id": geta("id", inattr), "name": geta("name", inattr) }, True, True);
 				mergeifunset(inattr["style"], {"color": geta("color", inattr)}, True, True);
 				inattr["attr"]["style"] = inattr["style"];
 

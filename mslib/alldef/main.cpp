@@ -41,7 +41,7 @@ define header1(tabname:[], tablink:[]) {
 	div(class: "navbar-fixed ") {
 		nav(class:"white", attr:{role: "container"}) {
 			div(class: "nav-wrapper container") {
-				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
+				a(attr:{id: "logo-container", href: HOST}, class: "brand-logo") {
 					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
 				}
 				ul(class: "right hide-on-med-and-down") {
@@ -56,7 +56,7 @@ define header2(tabname:[], tablink:[]) {
 	div(class: "navbar-fixed ") {
 		nav(class:"white", attr:{role: "container"}) {
 			div(class: "nav-wrapper container") {
-				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
+				a(attr:{id: "logo-container", href: HOST}, class: "brand-logo") {
 					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
 				}
 				ul(class: "right hide-on-med-and-down" ) {
@@ -94,7 +94,7 @@ define header2_user(tabname:[], tablink:[]) {
 
 		nav(class:"white", attr:{role: "container"}) {
 			div(class: "nav-wrapper container") {
-				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
+				a(attr:{id: "logo-container", href: HOST}, class: "brand-logo") {
 					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
 				}
 				ul(class: "right hide-on-med-and-down" ) {
@@ -131,7 +131,7 @@ define header2_chef(tabname:[], tablink:[]) {
 
 		nav(class:"white", attr:{role: "container"}) {
 			div(class: "nav-wrapper container") {
-				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
+				a(attr:{id: "logo-container", href: HOST}, class: "brand-logo") {
 					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
 				}
 				ul(class: "right hide-on-med-and-down" ) {
@@ -168,7 +168,7 @@ define header2_admin(tabname:[], tablink:[]) {
 		}
 		nav(class:"white", attr:{role: "container"}) {
 			div(class: "nav-wrapper container") {
-				a(attr:{id: "logo-container", href: BASE}, class: "brand-logo") {
+				a(attr:{id: "logo-container", href: HOST}, class: "brand-logo") {
 					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
 				}
 				ul(class: "right hide-on-med-and-down" ) {
@@ -241,10 +241,14 @@ define divpedding(text:"", padding:"5px") {
 
 
 define textdiv(name:"") {
-	div(style:{"font-size": font, "font-weight": fontw}, color:color, class: class){
+	div(style:{"font-size": font, "font-weight": fontw}, color:color, class: class, id: id){
 		innerHTML();
 		p(name);
 	}
+}
+
+define textdiv1(font: "20px") {
+	textdiv(font: font, fontw: fontw, color: color, class: class, name: name);
 }
 
 define a1() {
@@ -272,6 +276,8 @@ define input1(aclass: "col s6",  type: "text") {
 	}
 }
 
+
+
 define input2(aclass: "col s6",  type: "text") {
 	div(class: "input-field "+aclass) {
 		input(attr:{id: id, type:type, name:id}, class: iclass);
@@ -281,6 +287,14 @@ define input2(aclass: "col s6",  type: "text") {
 	}
 }
 
+define textarea1(aclass: "col l12 m12 s12") {
+	div(class: "input-field "+aclass) {
+		textarea(attr:{id: id, name:id}, class: "materialize-textarea");
+		label(attr:{"for": id}) {
+			p(label);
+		}
+	}
+}
 
 define button1(aclass: "" ) {
 	button(class: "btn waves-effect waves-light btn "+aclass, data: data, attr: attr) {

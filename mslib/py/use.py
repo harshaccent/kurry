@@ -2,7 +2,12 @@
 # -*- coding: utf-8 -*- 
 
 cod = collections.OrderedDict;
-_localtz = pytz.timezone("Asia/Calcutta");
+
+
+if("pytz" in _includes):
+	_localtz = pytz.timezone("Asia/Calcutta");
+else:
+	_localtz = None;
 
 def fold_l(f, l, a):
 	for i in l:
@@ -75,7 +80,7 @@ def elc(c):
 	return readfd(os.popen(c));
 
 def elc_virtual(cmd):
-	return elc("python client.py 10.208.20.186 '"+ cmd +"'");
+	return elc("python client.py 10.208.20.207 '"+ cmd +"'");
 
 def curl(url):
 	return elc("curl -s '"+url+"'");

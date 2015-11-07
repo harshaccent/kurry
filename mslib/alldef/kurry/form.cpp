@@ -9,7 +9,7 @@ define main1(css:[], js:[], bodystyle:{}, htmlstyle:{}, title: "KurryBox") {
 
 define main2(css:[], js:[], bodystyle:{}, htmlstyle:{}, title: "KurryBox") {
 	js = ["js/main.js"] + js;
-	main(title: title, css: css, js:js, bodystyle:bodystyle, htmlstyle: htmlstyle) {
+	main(title: title, css: css, js:js, bodystyle:bodystyle, htmlstyle: htmlstyle, acss: ["css/materialize.min.css", "css/lib.css", 'css/materialize.min.css', 'css/custom-stylesheet.css', 'css/jquery.bxslider.css', 'mslib/css/gfont.css', 'css/lib.css', 'css/main.css', 'css/style.css']) {
 		innerHTML();
 		loginmodal();
 	}
@@ -35,10 +35,10 @@ define bigsearch() {
 }
 
 define header4() {
-	if(islogin == "") {
-		header2(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us"]);
+	if(islogin == None) {
+		header2(tablink:[HOST, "", "", BASE+"chefjoin"], tabname:["Home", "Our Story", "Blog", "Be a Chef"]);
 	} elif (islogin == "u") {
-		header2_user(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog", "Be a Chef", "Contact Us"]);
+		header2_user(tablink:[HOST, "", "", BASE+"cart"], tabname:["Home", "Our Story", "Blog", "Cart"]);
 	} elif (islogin == "a") {
 		header2_admin(tablink:[HOST, "", "", "", "", ""], tabname:["Home", "Our Story", "Blog"]);
 	} elif (islogin == "c") {
@@ -125,33 +125,10 @@ define dispfood() {
 							}
 							div() {
 								starrating(val:3);
-//								p("5 Start Rating.");
 							}
 						}
-						// div(class: "col l5") {
-						// 	select(class: "browser-default"){
-						// 		option(){
-						// 			p(1);
-						// 		};
-						// 		option(){
-						// 			p(2);
-						// 		};
-						// 		option(){
-						// 			p(3);
-						// 		};
-						// 	}
-						// }
 					}
 				}
-				// div(class: "row", style:{"padding": "12px", "padding-bottom": "0px"}) {
-				// 	div(class: "col l6 grey lighten-1 left", style: {margin: "-1px"}) {
-				// 		divpedding(text:"Faveroute", class: "cursp");
-				// 	}
-				// 	div(class: "col l6 grey lighten-1 right", style: {margin: "-1px"}) {
-				// 		divpedding(text: "View", class: "cursp");
-				// 	}
-				// }
-
 				div(class: "row") {
 					if(islogin == "a" ) {
 						div(class: "col l4 ") {
@@ -173,7 +150,7 @@ define dispfood() {
 							}
 						}
 						div(class: "col l4 offset-l3") {
-							button(class: "btn waves-effect waves-light btn") {
+							button(class: "btn waves-effect waves-light btn", data:{onclick: "sreq", action: "addincart", restext: "Added!"}, datas: {datetime: dishinfo["datetime"], lord: dishinfo["lord"], dishid: dishinfo["id"]}) {
 								p("Add + ");
 							}
 						}
@@ -377,7 +354,7 @@ define profile_chef() {
 						div(class: "row") {
 							div() {
 								ul(class: "tabs") {
-									disptabs(liclass: "tab col s2", tabname: ["All Dishes"]+ day5times["textl"], tablink: ["#alldishes"]+ day5times["tabkeys1"], active: day5times["tabkeys1"][0]);
+									disptabs(liclass: "tab col s2", tabname: ["All Dishes"]+ day5times["textl"], tablink: ["#alldishes"]+ day5times["tabkeys1"]);
 								}
 							}
 							div(class: "") {
@@ -475,6 +452,92 @@ define profile_chef() {
 					}
 				}
 			}
+		}
+	}
+}
+
+
+define select1(tlist:[], class: "browser-default", aclass: "") {//class, tlist, vlist, toptext, selected
+	select(class: class+" "+aclass, name: name, attr:attr) {
+		if(toptext != None) {
+			option(attr:{value: ""}) {
+				p(toptext);
+			}
+		}
+		for(i, ii, tlist) {
+			attrs = {};
+			if (vlist != None) {
+				attrs["value"] = vlist[ii];
+			} else {
+				attrs["value"] = (ii+1);
+			}
+			if( selected == ii ) {
+				attrs["selected"] = "";
+			}
+			option(attr:attrs) {
+				p(i);
+			}
+		}
+	}
+}
+
+define select2(tlist:[], dclass: "col l3 s12 m6", class: "browser-default") {
+	div(class: dclass) {
+		select1(class: class, tlist: tlist, vlist: vlist, toptext: toptext, selected: selected);
+	}
+}
+
+define mselect(tlist:[]) {
+	for(i, ii, tlist) {
+		attrs = {};
+		if (vlist != None) {
+			attrs["value"] = vlist[ii];
+		} else {
+			attrs["value"] = (ii+1);
+		}
+		if( selected == ii ) {
+			attrs["selected"] = "";
+		}
+		checkbox1(label: i, id: id+"_"+ii);
+	}
+}
+
+
+define mselect1(tlist:[]) {
+	div(id: id, class: "dropdown-content p5", tlist:[]) {
+		mselect(vlist:vlist, tlist: tlist, id: id);
+	}
+	a(class: "dropdown-button", data:{activates: id}) {
+		p(label);
+	}
+}
+
+define mselect2(class: "col l3 s12 m6") {
+	div(class: class) {
+		div(class: "mselect complexinput", data:{complexinput: "ci_checkbox"}, attr: {name: id}) {
+			mselect1(id: id, tlist: tlist, label: label, selectall: selectall);
+		}
+	}
+}
+
+
+define switch1(on: "Yes", off: "No") {
+	div(class: "switch") {
+		label() {
+			p(off);
+			input(attr:{type: "checkbox", name: name});
+			span(class: "lever");
+			p(on);
+		}
+	}
+}
+
+
+define switch2(class: "col l3 s12 m6") {
+	div(class: class) {
+		div(class: "m5") {
+			p(label);
+			switch1(name: name);
 		}
 	}
 }

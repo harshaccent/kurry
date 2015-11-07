@@ -45,7 +45,7 @@ def login(id, typ):
 	_session["login"] = {"id": id, "type": typ};
 
 def islogin():#Also return login type
-	return _session["login"]["type"] if (g(g(_session, "login"), "id") > 0) else '';
+	return _session["login"]["type"] if (g(g(_session, "login"), "id") > 0) else None;
 
 def isloginas(t):
 	if type(t) != list:
@@ -78,8 +78,11 @@ def resizeimg(name, nname, width, height):
 def uploadimg(tmpname, name, size=None, extra=''):
 	nname = getnewfilename(getext(name), extra);
 	if(size == None):
-		write_file(nname, read_file(tmpname));
-		os.chmod(nname, 0777);
+		if( _server == "csc"):
+			resizeimg(tmpname, nname, -1, -1);
+		else:
+			write_file(nname, read_file(tmpname));
+			os.chmod(nname, 0777);
 	else:
 		resizeimg(tmpname, nname, size[0], size[1]);
 	return nname;
@@ -87,6 +90,8 @@ def uploadimg(tmpname, name, size=None, extra=''):
 def gtable(name, astable = True):
 	return "("+_config["sql"][name]+")"+name if astable else _config["sql"][name];
 
+def sqlhelp(name, args={}):
+	return _config["sql_help"][name](**args);
 
 def sqlr2table(r):
 	if(len(r) == 0):
@@ -101,3 +106,8 @@ def mcurl(url):
 		return elc_virtual('curl -s "'+url+'" ');
 	else:
 		return curl(url);
+
+
+def isuserexist(u, umatch = 'phone'):
+	return _sql.sval("users", "*", {umatch: u} , 1);
+

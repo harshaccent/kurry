@@ -534,6 +534,22 @@ function selectAll(obj) { //good one.
 	}
 }
 
+function lookontop_elm(obj, elm) {
+	return lookontop(obj, function (x){
+		return (x.prop("tagName") == elm);
+	});
+}
+
+function lookontop_form(obj) {
+	return lookontop_elm(obj, "form");
+}
+
+
+function lookontop(obj, conditonf) { //Keep looking for a selector on parent, it's parents.. so on.
+	var cur;
+	for(cur = $(obj); cur.length > 0 && !conditonf(cur); cur = cur.parent());
+	return (cur.length > 0 ? cur[0]: null);
+}
 
 
 String.prototype.bound = function (n) {
@@ -841,6 +857,9 @@ function runo(fname, obj) {
 	return runf(fname, dattr(obj));
 }
 
+function runo1(fname, obj) {
+	return runf(fname, sifu(dattr(obj), "obj", obj));
+}
 
 function spacesplit(st) {
 	return map(id, st.split(" "), function(x){ return x!="" });
@@ -885,7 +904,7 @@ funcs["req1"] = [{callback: id, callanyway: id}, function() { //params
 	}, params: params});
 }];
 
-funcs["sreq"] = [{waittext: " ... ", restext: null, bobj: null, form: null, params: null, fobj: null, res:null}, function() {// obj
+funcs["sreq"] = [{waittext: " ... ", restext: null, bobj: null, form: null, params: null, fobj: null, res:null, callanyway: id}, function() {// obj, action
 	fobj = (fobj == null ? obj: eval(fobj));
 	bobj = (bobj == null ? obj: (bobj == "" ? ($(obj).find("button[type=submit]")[0]):eval(bobj)));
 
@@ -894,16 +913,19 @@ funcs["sreq"] = [{waittext: " ... ", restext: null, bobj: null, form: null, para
 	params = mifu(params, dsattr(obj));
 	var prvhtml = bobj.innerHTML;
 	if(waittext != "" ) {
-		bobj.innerHTML = waittext;		
+		bobj.innerHTML = waittext;
 	}
+	var bobj_innerHTML = prvhtml;
 	runf("req1", { "params": params, callback: function(data) {
+		bobj_innerHTML = (restext == null ? prvhtml: restext);
 		if( res!=null ) {
 			eval(res);
 		}
 	}, callanyway: function	(x) {
 		if(restext != "") {
-			bobj.innerHTML = (restext == null ? prvhtml: restext);
+			bobj.innerHTML = bobj_innerHTML;
 		}
+		callanyway(x);
 	}});
 	return false;
 }];
@@ -950,11 +972,19 @@ function r1() { //Assuming atleast one argument is passed
 }
 
 function forminps(obj) {
+	var getval = function (x) {
+		if (x.type == "checkbox")
+			return 0+x.checked;
+		else if ($(x).hasClass("complexinput"))
+			return runo1(dattr(x).complexinput, x);
+		else
+			return $(x).val();
+	};
 	var allinps = fold(function(x,y){
 					return $.merge(x, mapo(function(x){
-						return sifu(pkey(attr(x), ["id", "name"]), "val", $(x).val()); 
+						return sifu(pkey(attr(x), ["id", "name"]), "val", getval(x)); 
 					}, $(obj).find(y)));
-				},["input", "textarea", "select"], []);
+				},["input", "textarea", "select", ".complexinput"], []);
 	return fold(function(x, y){
 			if(haskey(y, "name")){
 				x[y.name] = y.val;
@@ -974,4 +1004,46 @@ var ms = {
 		window.location.href = window.location.href;
 	}
 };
+
+funcs.ci_checkbox = function() {
+	return mapo(function(x,y){
+		return y+1;
+	}, $(obj).find("input[type=checkbox]"), function (x,y) {
+		return x.checked;
+	}).join("-");
+}
+
+function get_hidden_inp(name, val) {
+	var elm = document.createElement("input");
+	elm.type = "hidden";
+	elm.value = val;
+	elm.name = name;
+	return elm;
+}
+
+function add_hidden_inps(fobj, inps) {
+	mapp(function(x,y){
+		var selector = $(fobj).find("input[type=hidden][name="+y+"]");
+		if (selector.length == 0) {
+			$(fobj).prepend($(get_hidden_inp(y, x)));
+		} else {
+			selector.val(x);
+		}
+	}, inps);
+}
+
+
+function msg(x) {
+	return runf("error", {msg: x});
+}
+
+function hval(x) {
+	return $(x).html().trim();
+}
+
+function hvali(x) {
+	return hval("#"+x);
+}
+
+var int = parseInt;
 

@@ -1,6 +1,11 @@
-#1. Add star rating.
+1. Add star rating.
 3. Favorite list adding when clicked on button with animation
 4. Link to all food, veg, non-veg : Date => today, tomorrow, ..
 5. Store the location in session.
 6. correctly calculated itoms
+7. Chef join us form
+
+
+info: 
+old form: http://tandurusti.in/kurrybox/
 

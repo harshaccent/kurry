@@ -1,7 +1,8 @@
 class sqllib:
+	#i_* : internal local methods.
 	db = None;
 	cur = None;
-	#i_ : internal local methods.
+	uniqc = {};
 
 	def tabtype(self, inpl):
 		def interp(x):
@@ -60,8 +61,11 @@ class sqllib:
 		elc_virtual("python query.py "+typ);
 		return eval(read_file(".queryoutput.txt"))
 
+	def i_isvirtual(self):
+		return ((_agent == "poorvi" and _server == "gcl") or ("MySQLdb" not in _includes));
+
 	def q(self, query, darr={}, arr={}):
-		if(_agent == "poorvi" and _server == "gcl" ):
+		if(self.i_isvirtual()):
 			return self.virtual_sql(query, darr, arr, 'q');
 		self.init_db();
 		self.cur.execute(self.rquery(query, darr, arr), darr)
@@ -70,7 +74,7 @@ class sqllib:
 		# return (self.cur.lastrowid + self.cur.rowcount)
 
 	def g(self, query, darr={}, arr={}):
-		if(_agent == "poorvi" and _server == "gcl" ):
+		if(self.i_isvirtual()):
 			return self.virtual_sql(query, darr, arr, 'g');
 		self.init_db();
 		self.cur.execute(self.rquery(query, darr, arr), darr);
@@ -106,6 +110,11 @@ class sqllib:
 		return self.i_1row(self.q("delete from {table} where {s_conds} {limit_s}".format( **rmifu(locals(), {"limit_s": self.i_limits(limit)}) ), darr), limit);
 
 	def ival(self, table, toins={}):
+		if(has_key(self.uniqc, table)):
+			ucols = self.uniqc[table];
+			exisrow = self.sval(table, '*', dict(pkey1(toins, ucols)), 1);
+			if(exisrow):
+				return exisrow;
 		return self.q("insert into {0} ({1}) values ({2})".format( *([table]+map(lambda l:','.join(l), (lambda l:[l, list("{"+x+"}" for x in l)])(toins.keys())) )), toins);
 
 	def autoscroll(self, query, darr={}, key = None, sort='', isloadold = True, minl = None, maxl = None, arr={}):

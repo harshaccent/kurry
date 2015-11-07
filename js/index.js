@@ -1,8 +1,22 @@
 var place;
+
 function initMap() {
-	var autocomplete = new google.maps.places.Autocomplete( $("#locsearch")[0] );
+	var autocinput = $("#locsearch")[0];
+	var autocomplete = new google.maps.places.Autocomplete(autocinput);
+
+	google.maps.event.addDomListener(autocinput, 'keydown', function(e) {
+		if (e.keyCode == 13) {
+			e.preventDefault();
+		}
+	});
+
 	autocomplete.addListener('place_changed', function() {
 		place = autocomplete.getPlace();
+		loc = place.geometry.location;
+		add_hidden_inps (lookontop(autocinput, function (x) {
+			return x[0].tagName == "FORM";
+		}), {lat:loc.lat(), lng: loc.lng(), address: autocinput.value});
+		return false;
 	});
 }
 

@@ -1,5 +1,15 @@
-import json, datetime, pytz, time, re, copy, inspect, itertools, MySQLdb, sys, os, collections, random, urllib
-from time import mktime
+for i in ['json', 'datetime', 'pytz', 'time', 're', 'copy', 'inspect', 'itertools', 'MySQLdb', 'sys', 'os', 'collections', 'random', 'urllib']:
+	try:
+		exec("import "+i);
+		_includes.append(i);
+	except:
+		pass
+
+try:
+	from time import mktime
+	_includes.append("time");
+except:
+	pass
 
 execfile(_mslib+"py/config.py");
 execfile(_mslib+"py/use.py");
@@ -107,6 +117,9 @@ def seta(arr, key, val):#Set Array Keys. dl=[sets]
 
 def r1(*args):
 	return args[-1];
+
+def r2(*args):
+	return args[-2];
 
 def rifu(arr, key, val, isforce = False):
 	return sifu(copy.deepcopy(arr), key, val, isforce);
