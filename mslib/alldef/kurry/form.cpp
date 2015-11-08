@@ -132,7 +132,7 @@ define dispfood() {
 				div(class: "row") {
 					if(islogin == "a" ) {
 						div(class: "col l4 ") {
-							button(class: "btn waves-effect waves-light btn") {
+							button(class: "btn waves-effect waves-light btn", datas:{datetime: dishinfo["datetime"], lord: dishinfo["lord"], dishid: dishinfo["id"]}, data:{onclick: "sreq", action: "deletedisp", restext: "Deleted !"}) {
 								p("Delete");
 							}
 						}
@@ -179,7 +179,8 @@ define loginmodal() {
 				}
 			}
 			div(attr:{id: "logintab"}) {
-				form(data:{onsubmit:"sreq", bobj: "", action:"login", res: "ms.reload();"}) {
+				form(data:{onsubmit:"sreq", bobj: "", action:"login", res: "ms.reload();", errorh: "error_login"}) {
+					errorbox();
 					div(class: "row") {
 						input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"loginphone");
 						div(class: "col l4 m6") {
@@ -187,7 +188,7 @@ define loginmodal() {
 						}
 					}
 					div(class: "row"){
-						input1(label: "Password or OTP", icon: "vpn_key", aclass: "col s12 l12 m12", id: "loginpass");
+						input1(label: "Password or OTP", icon: "vpn_key", aclass: "col s12 l12 m12", id: "loginpass", type: "password");
 					}
 					div(class: "row") {
 						div(class: "col") {
@@ -200,7 +201,8 @@ define loginmodal() {
 			}
 
 			div(attr:{id: "signuptab"}) {
-				form(data:{onsubmit:"sreq", bobj: "", action:"signup", res: "ms.reload();" }) {
+				form(data:{onsubmit:"sreq", bobj: "", action:"signup", res: "ms.reload();", errorh: "error_login"}) {
+					errorbox();
 					div(class: "row") {
 						input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"signupphone");
 						div(class: "col l4 m6") {
@@ -209,7 +211,7 @@ define loginmodal() {
 					}
 					div(class: "row"){
 						input1(label: "Choose Password", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signuppass", type:"password");
-						input1(label: "OTP", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signupotp");
+						input1(label: "OTP", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signupotp", type: "password");
 					}
 					div(class: "row"){
 						input1(label: "Name", icon: "account_circle", aclass: "col s12 l12 m12", id: "signupname");
@@ -259,24 +261,22 @@ define profilea1() {
 define account_admin() {
 	div(attr:{align: "center"}) {
 		height(val: 20);
-		textdiv(name: "Hey Admin,\n you can login/create account of a chef using OTP as 'Admin_Secure432' ", font: "20px");
+		textdiv(name: "Hey Admin,\n you are welcome", font: "20px");
 		height(val: 50);
-	}
-	form() {
-
 	}
 	table(class: "bordered striped centered highlight") {
 		thead() {
-			for(i, usertable["thead"]) {
+			for(i, ["UserID", "Name", "Email", "Phone", "User Type"]) {
 				th() {
 					p(i);
 				}
 			}
 		}
 		tbody() {
-			for(i, ii, usertable["rows"]) {
+			for(i, ii, users) {
 				tr() {
-					for(j, jj, i) {
+					for(jjj, jj, ["id", "name", "email", "phone", "typetext"]) {
+						j = i[jjj];
 						td() {
 							if((jj == 1) && (i[-1] == "Chef" )) {
 								profilea1(name:j, uid: i[0]);
@@ -284,6 +284,9 @@ define account_admin() {
 								p(j);
 							}
 						}
+					}
+					td() {
+						button1(name: (i["conf"] ? "UnBlock": "Block"), datas:{uid: i['id'], isblock: (i["conf"] != None)}, data:{onclick: "sreq", action: "blockunblock", restext: "Done!"});
 					}
 				}
 			}
@@ -406,7 +409,7 @@ define profile_chef() {
 										div(class: "row") {
 											table(class: "bordered") {
 												thead() {
-													for(j, ["Title", "Price", "Add For Lunch", "Add for Dinner"]) {
+													for(j, ["Title", "Price", "Booked For Lunch", "Booked for Dinner"]) {
 														th() {
 															p(j);
 														}
@@ -421,10 +424,10 @@ define profile_chef() {
 															p(j["price"]);
 														}
 														th() {
-															input1(label: "Plate Limit", id: "lunch_"+jj+"_"+ii, data:{dishid: j["id"], day:ii}, iclass: "numplatelimit", value: j["llimit"+ii]);
+															input1(label: "Plate Limit ("+j["ollimit"+ii]+" Booked)", id: "lunch_"+jj+"_"+ii, data:{dishid: j["id"], day:ii}, iclass: "numplatelimit", value: j["llimit"+ii]);
 														}
 														th() {
-															input1(label: "Plate Limit", id: "dinner_"+jj+"_"+ii, data:{dishid: j["id"], day: ii}, iclass: "numplatelimit", value: j["dlimit"+ii]);
+															input1(label: "Plate Limit ("+j["odlimit"+ii]+" Booked)", id: "dinner_"+jj+"_"+ii, data:{dishid: j["id"], day: ii}, iclass: "numplatelimit", value: j["dlimit"+ii]);
 														}
 													}
 												}
@@ -538,6 +541,173 @@ define switch2(class: "col l3 s12 m6") {
 		div(class: "m5") {
 			p(label);
 			switch1(name: name);
+		}
+	}
+}
+
+
+
+define orderl_admin(){
+	table(class: "bordered") {
+		thead() {
+			for(i, ["Odered At", "Delivery Date", "Chef", "User", "Dish", "Price", "Chef Address", "User Address", "Status"]) {
+				th() {
+					p(i);
+				}
+			}
+		}
+		tbody() {
+			for(i, ii, orderl) {
+				tr(class: "cartitems", datas:{ datetime: i["datetime"], cid: i["cid"], lord: i["lord"], dishid: i["dishid"]}) {
+					td() {
+						p(i["timetext"]);
+					}
+					td() {
+						p(i["datetimetext"]);
+					}
+					td() {
+						profilea1(name: i["cname"], uid: i["cid"]);
+					}
+					td() {
+						profilea1(name: i["uname"], uid: i["uid"]);
+					}
+					td() {
+						p(i["title"]);
+					}
+					td() {
+						icon1(img: "photo/inr2.png");
+						span(class: "itemprice") {
+							p(i["price"]+'*'+i["numplate"]+"="+(i["price"]*i["numplate"]));
+						}
+					}
+					td() {
+						p("("+i["clat"]+", "+i["clng"]+")<br>"+i["caddress"]);
+					}
+					td() {
+						p("("+i["lat"]+", "+i["lng"]+")<br>"+i["uaddress"]);
+					}
+					td() {
+						p(i["status"]);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+define orderl_user(){
+	table(class: "bordered") {
+		thead() {
+			for(i, ["Odered At", "Delivery Date", "Chef", "Dish", "Price", "User Address", "Status"]) {
+				th() {
+					p(i);
+				}
+			}
+		}
+		tbody() {
+			for(i, ii, orderl) {
+				tr(class: "cartitems", datas:{ datetime: i["datetime"], cid: i["cid"], lord: i["lord"], dishid: i["dishid"]}) {
+					td() {
+						p(i["timetext"]);
+					}
+					td() {
+						p(i["datetimetext"]);
+					}
+					td() {
+						profilea1(name: i["cname"], uid: i["cid"]);
+					}
+					td() {
+						p(i["title"]);
+					}
+					td() {
+						icon1(img: "photo/inr2.png");
+						span(class: "itemprice") {
+							p(i["price"]+'*'+i["numplate"]+"="+(i["price"]*i["numplate"]));
+						}
+					}
+					td() {
+						p("("+i["lat"]+", "+i["lng"]+")<br>"+i["uaddress"]);
+					}
+					td() {
+						p(i["status"]);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+define orderl_chef(){
+	table(class: "bordered") {
+		thead() {
+			for(i, ["Odered At", "Delivery Date", "User", "Dish", "Price", "User Address", "Status"]) {
+				th() {
+					p(i);
+				}
+			}
+		}
+		tbody() {
+			for(i, ii, orderl) {
+				tr(class: "cartitems", datas:{ datetime: i["datetime"], cid: i["cid"], lord: i["lord"], dishid: i["dishid"]}) {
+					td() {
+						p(i["timetext"]);
+					}
+					td() {
+						p(i["datetimetext"]);
+					}
+					td() {
+						profilea1(name: i["cname"], uid: i["cid"]);
+					}
+					td() {
+						profilea1(name: i["uname"], uid: i["uid"]);
+					}
+					td() {
+						p(i["title"]);
+					}
+					td() {
+						icon1(img: "photo/inr2.png");
+						span(class: "itemprice") {
+							p(i["price"]+'*'+i["numplate"]+"="+(i["price"]*i["numplate"]));
+						}
+					}
+					td() {
+						p("("+i["clat"]+", "+i["clng"]+")<br>"+i["caddress"]);
+					}
+					td() {
+						p("("+i["lat"]+", "+i["lng"]+")<br>"+i["uaddress"]);
+					}
+					td() {
+						p(i["status"]);
+					}
+				}
+			}
+		}
+	}
+}
+
+
+define orderl(utype: islogin) {
+	if(utype == 'u') {
+		orderl_user(orderl: orderl);
+	}
+	if(utype == 'c') {
+		orderl_chef(orderl: orderl);
+	}
+	if(utype == 'a') {
+		orderl_admin(orderl: orderl);
+	}
+}
+
+
+
+define errorbox() {
+	div(class: "row hiddenerror") {
+		div(class: "col s12 l12") {
+			div(class: "card-panel red white-text center errortext") {
+				p("");
+			}
 		}
 	}
 }

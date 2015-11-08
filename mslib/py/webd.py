@@ -31,11 +31,17 @@ def sendmail(email, sub, msg):
 	mailreal(email, sub, msg) if _config["realmail"] else None;
 
 def filemsg(phone, fn, data={}):
-	sendmsg(phone, read_file(fn).format(**data));
+	return sendmsg(phone, read_file(fn).format(**data));
 
 def filemail(email, fn, data={}):
 	msg = read_file(fn).format(**data);
-	sendmail(email, msg.split("\n")[0], msg.split("\n", 1)[1]);
+	return sendmail(email, msg.split("\n")[0], msg.split("\n", 1)[1]);
+
+def filemail1(email, fn, data={}):
+	return filemail(email, "datar/mails/"+fn+".txt", data);
+
+def adminmail(fn, data={}):
+	filemail1(_config["adminmail"], fn, data);
 
 def init_mailmsgsystem():
 	elc("mkdir -p data; > data/msgf; > data/mailf; chmod 777 data -R ");

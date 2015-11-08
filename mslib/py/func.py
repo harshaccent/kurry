@@ -170,6 +170,10 @@ def isallone(l):
 def intf(x):
 	return doifcan(lambda x:int(x), x, 0);
 
+def ife(a,b,c=None):
+	return (b if a else c);
+
+
 
 
 #sql = sqllib();

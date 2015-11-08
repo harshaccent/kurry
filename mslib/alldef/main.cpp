@@ -269,6 +269,7 @@ define input1(aclass: "col s6",  type: "text") {
 		if(icon) {
 			icon(name: icon, aclass: "prefix");
 		}
+		data["name"] = label;
 		input(attr:{id: id, type:type, value: value}, class: iclass, data: data);
 		label(attr:{"for": id}) {
 			p(label);
@@ -297,7 +298,7 @@ define textarea1(aclass: "col l12 m12 s12") {
 }
 
 define button1(aclass: "" ) {
-	button(class: "btn waves-effect waves-light btn "+aclass, data: data, attr: attr) {
+	button(class: "btn waves-effect waves-light btn "+aclass, data: data, attr: attr, datas: datas) {
 		p(name);
 	}
 }

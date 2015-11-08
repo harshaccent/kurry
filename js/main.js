@@ -6,6 +6,11 @@ mergeforce(funcs, {
 	},
 	slideform: function () {
 		$(obj).parent().find("form").slideToggle();
+	},
+	error_login: function() {//obj, msg
+		var errore = $(obj).find(".hiddenerror");
+		errore.fadeIn(1000);
+		errore.find(".errortext").html(msg);
 	}
 });
 

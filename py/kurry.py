@@ -8,7 +8,9 @@ _ec = {
 	-7: "Incorrect password",
 	-8: "Phone number already used",
 	-9: "You are not right person to perform this action",
-	-10: "It is already added"
+	-10: "It is already added",
+	-11: "You are Blocked!",
+	-12: "Invalid phone number"
 };
 
 
@@ -26,19 +28,22 @@ _config["sql"]["dishes1"] = "select users1.name, users1.profilepic, users1.lat, 
 
 _config["sql"]["dishes2"] = "select * from "+gtable("dishes1")+" where cid={cid}";
 
-_config["sql"]["dispdish1"] = "select cast(sum((lord='l')*plimit) as unsigned)as llimit, cast(sum((lord = 'd')*plimit) as unsigned) as dlimit, cid, datetime, dishid from dispdish group by cid, datetime, dishid";
 
-_config["sql"]["dispdish2"] = "select "+ ', '.join(mappl(lambda i:", ".join(mappl(lambda x:" cast(sum((datetime={x"+i+"})*"+x+"limit) as unsigned) as "+x+"limit"+i+"", ["l", "d"])) , mappl(lambda x:str(x), range(5)))) +", dispdish1.cid, dispdish1.dishid from "+gtable("dispdish1")+" where datetime>={x0} AND datetime<={x4} group by cid, dishid ";
+_config["sql"]["dispdish0"] = "select cast(IFNULL(sum(orders.numplate),0) as unsigned)as numplatebooked, dispdish.* from dispdish left join orders on (dispdish.datetime = orders.datetime AND dispdish.dishid = orders.dishid AND dispdish.lord = orders.lord) group by dispdish.datetime,dispdish.dishid,dispdish.lord"
 
-_config["sql"]["dispdish3"] = "select dishes1.*, "+(", ".join(mixl(mappl(lambda i:mappl(lambda x:"dispdish2."+x+"limit"+str(i), ["l", "d"]), range(5)))))+" from "+gtable("dishes1")+" left join "+gtable("dispdish2")+" on dishes1.cid = dispdish2.cid AND dishes1.id = dispdish2.dishid";
+_config["sql"]["dispdish1"] = "select cast(sum((lord='l')*plimit) as unsigned)as llimit, cast(sum((lord='l')*numplatebooked) as unsigned) as ollimit, cast(sum((lord='d')*numplatebooked) as unsigned) as odlimit, cast(sum((lord = 'd')*plimit) as unsigned) as dlimit, cid, datetime, dishid from "+gtable("dispdish0")+" group by cid, datetime, dishid";
+
+_config["sql"]["dispdish2"] = "select "+ ', '.join(mappl(lambda i:", ".join(mappl(lambda x:" cast(sum((datetime={x"+i+"})*"+x+"limit) as unsigned) as "+x+"limit"+i+"", ["l", "d", "ol", "od"])) , mappl(lambda x:str(x), range(5)))) +", dispdish1.cid, dispdish1.dishid from "+gtable("dispdish1")+" where datetime>={x0} AND datetime<={x4} group by cid, dishid ";
+
+_config["sql"]["dispdish3"] = "select dishes1.*, "+(", ".join(mixl(mappl(lambda i:mappl(lambda x:"dispdish2."+x+"limit"+str(i), ["l", "d", "ol", "od"]), range(5)))))+" from "+gtable("dishes1")+" left join "+gtable("dispdish2")+" on dishes1.cid = dispdish2.cid AND dishes1.id = dispdish2.dishid";
 
 _config["sql"]["dispdish4"] = "select * from dispdish where datetime={datetime} AND plimit > 0 AND lord ={lord} ";
 
 _config["sql"]["dispdish5"] = "select dispdish4.plimit, dispdish4.datetime, dispdish4.lord, dishes1.* from "+gtable("dispdish4")+" left join "+gtable("dishes1")+" on dishes1.id = dispdish4.dishid ";
 
-_config["sql"]["cart1"] = "select dispdish.plimit, "+sqlhelp("latlng", {"lat1": "chef.lat", "lng1": "chef.lng"})+" as distance, dishes1.cid, dishes1.name, dishes1.title, dishes1.price, cart.* from cart left join "+gtable("dishes1")+" on dishes1.id = cart.dishid left join dispdish on (dispdish.datetime = cart.datetime AND dispdish.dishid = cart.dishid AND dispdish.lord = cart.lord) left join chef on chef.chefid = dishes1.cid where uid={uid}";
+_config["sql"]["cart1"] = "select dispdish0.plimit, dispdish0.numplatebooked, "+sqlhelp("latlng", {"lat1": "chef.lat", "lng1": "chef.lng"})+" as distance, dishes1.cid, dishes1.name, dishes1.title, dishes1.price, cart.* from cart left join "+gtable("dishes1")+" on dishes1.id = cart.dishid left join "+gtable("dispdish0")+" on (dispdish0.datetime = cart.datetime AND dispdish0.dishid = cart.dishid AND dispdish0.lord = cart.lord) left join chef on chef.chefid = dishes1.cid where uid={uid}";
 
-_config["sql"]["orders1"] = "select users.name as uname, dishes1.name as cname, orders.address as uaddress, dishes1.address as caddress, dishes1.price, dishes1.title, dishes1.lat as clat, dishes1.lng as clng, orders.* from orders left join users on users.id = orders.uid left join "+gtable("dishes1")+" on (dishes1.id=orders.dishid ) order by time desc";
+_config["sql"]["orders1"] = "select users.name as uname, dishes1.name as cname, orders.address as uaddress, dishes1.address as caddress, IFNULL(dishes1.price, 0) as price, dishes1.title, dishes1.lat as clat, dishes1.lng as clng, orders.* from orders left join users on users.id = orders.uid left join "+gtable("dishes1")+" on (dishes1.id=orders.dishid ) order by time desc";
 
 
 
@@ -89,6 +94,15 @@ _actions = {
 		"whocan": ["u"],
 		"eadd": ["time", "uid"],
 		"mapping": {"eaddress": "address"}
+	},
+	"deletedisp": {
+		"need": ["dishid"],
+		"whocan": ["a"],
+		"ignoreother": False
+	},
+	"blockunblock": {
+		"need": ["uid", "isblock"],
+		"whocan": "a",
 	}
 }
 
@@ -112,9 +126,25 @@ class kurry:
 			computed = self.mapping[udata["action"]](udata_f);
 		return {"ec": self.ec, "data": computed };
 
+	def blockunblock(self, data):
+		_sql.uval("users", {"conf": ife(data["isblock"] == "1", None, 'b')}, {"id": data['uid']});
+
+
+	def deletedisp(self, data):
+		if(has_key(data, "datetime")):
+			_sql.dval("dispdish", dict(pkey1(data, ["dishid", "lord", "datetime"])), 1);
+		else:
+			_sql.dval("dispdish", {"dishid": data["dishid"]});
+			_sql.dval("dishes", {"id": data["dishid"]});
+
 	def order(self, data):
 		mappl(lambda x: _sql.ival("orders", mifu(x, pkey1(data, ["uid", "time", "address"]))), data["olist"]);
 		#_sql.dval("cart", {"uid": loginid()});
+		cids = list(set(mappl(lambda x: x["cid"], data["olist"])))+[loginid()];
+		cinfos = mapp(lambda x:_sql.sval("users", "name, email, type", {"id": x}, 1), cids, None, lambda x: cids[x]);
+		mailinfo = {"uname": rifn(cinfos[loginid()]["name"], "Somebody") };
+		mapp(lambda c,i: filemail1(c["email"], "order", mifu({"cname": c["name"]}, mailinfo)), cinfos, lambda x: x["type"] == "c");
+		adminmail("order_admin", mailinfo);
 
 	def addincart(self, data):
 		if(type(_sql.ival("cart", dict(data))) != int):
@@ -129,6 +159,7 @@ class kurry:
 		else:
 			iid = _sql.ival("users", dict(mifu(pkey1(data, ["phone", "email", "name"]), {"address": data["address"]+" "+data["gaddress"], "type": "c", "profilepic": "photo/chef2.jpg"} )));
 			_sql.ival("chef", dict(mifu(pkey1(data, ["gender", "age", "languages", "cookpeople", "isnonveg", "isdegree", "lat", "lng"]), {"aboutus": "", "chefid": iid})));
+			adminmail("chefjoinus", {"cname": data["name"]});
 			return iid;
 
 	def saveaboutinfo(self, data):
@@ -152,7 +183,11 @@ class kurry:
 			return self.signup(data);
 		else:
 			qr = _sql.sval("users", "*", pkey(data, ["phone"]), 1); #Query Result
-			if(g(qr, "password") == data["password"] and qr["conf"] != "b" ):
+			if(qr == None):
+				self.ec = -12;
+			elif(qr["conf"] == "b"):
+				self.ec = -11;
+			elif(g(qr, "password") == data["password"]):
 				login(qr["id"], qr["type"]);
 				return qr["id"];
 			else:
@@ -164,8 +199,11 @@ class kurry:
 			return;
 		cdata = _sql.sval("users", "*", {"phone": data["phone"]}, 1)
 		if(cdata):
-			login(cdata["id"], cdata["type"]);
-			return cdata["id"];
+			if(cdata["conf"] == "b"):
+				self.ec = -11;
+			else:
+				login(cdata["id"], cdata["type"]);
+				return cdata["id"];
 		else:
 			idata = sifu(pkey(data, ["phone", "password", "email", "name"]), "type", typ, True);
 			iid = _sql.ival("users", idata);
@@ -205,3 +243,22 @@ def getloc():
 	initloc();
 	stored = _session["loc"]
 	return mappl(lambda x,y: g(_get, x, stored[y]), ["lat", "lng", "address"]);
+
+
+def getorderl(utype, uid=0):
+	if(utype == "c"):
+		orderl = _sql.g("select * from "+gtable("orders1")+" where cid={cid}", {"cid": uid});
+	elif(utype == "u"):
+		orderl = _sql.g("select * from "+gtable("orders1")+" where uid={uid}", {"uid": uid});
+	elif(utype == "a"):
+		orderl = _sql.g("select * from "+gtable("orders1"));
+	else:
+		orderl = [];
+	return orderl;
+
+
+def order_convrow(row, rind):
+	row["datetimetext"] = t2f( r2(_config["datef"]+"<br>"+_config["timef"], _config["timedatef"]), row['datetime'] + _config["dslots"][row["lord"]][row["dslots"]-1])+" ("+{"l": "Lunch", "d": "Dinner"}[row["lord"]]+")";
+	row["timetext"] = t2f(_config["timedatef"], row["time"]);
+	return row;
+

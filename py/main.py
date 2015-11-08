@@ -5,8 +5,10 @@ _kurry = kurry();
 _config["users"] = {"a": "Admin", "c": "Chef", "u": "User"};
 
 _config["adminpass"] = "Admin_Secure432";
+_config["adminmail"] = "mohitsaini1196@gmail.com";
 
 _config["realmsg"] = (_server == "aws");
+_config["realmail"] = False;
 
 _config["config"] = {
 	"chefagelist": ["Below 25 Years", "24-45 Years", "45-60 Years", "60 Years"],
@@ -48,32 +50,19 @@ class pagehandler:
 		return mifu(mifu(runmethod, {"jsdata": json.dumps(self.jsdata), "config": _config["config"]}), logininfo);
 
 	def orders(self):
-		def convrow(row, rind):
-			row["datetimetext"] = t2f( r2(_config["datef"]+"<br>"+_config["timef"], _config["timedatef"]), row['datetime'] + _config["dslots"][row["lord"]][row["dslots"]-1])+" ("+{"l": "Lunch", "d": "Dinner"}[row["lord"]]+")";
-			row["timetext"] = t2f(_config["timedatef"], row["time"]);
-			return row;
-		if(isloginas('c')):
-			orderl = _sql.g("select * from "+gtable("orders1")+" where cid={cid}", {"cid": loginid()});
-		elif(isloginas("u")):
-			orderl = _sql.g("select * from "+gtable("orders1")+" where uid={uid}", {"uid": loginid()});
-		elif(isloginas("a")):
-			orderl = _sql.g("select * from "+gtable("orders1"));
-		else:
-			orderl = [];
-
-
 		return {
-			"orderl": mappl(convrow, orderl)
+			"orderl": mappl(order_convrow, getorderl(islogin(), loginid()))
 		};
 
 
 	def cart(self):
 		def convrow(row, rind):
 			row["datetimetext"] = t2f(_config["datef"], row['datetime']);
-			row["tlist"] = range(1, row["plimit"]+1);
+			plate_remaining = intf(row["plimit"])-intf(row["numplatebooked"])
+			row["tlist"] = range(1, plate_remaining+1);
 			row["distance"] = round(float("0"+str(rifn(row["distance"],0))), 1);
 			numbering = lambda xx: mappl(lambda x, y: (str(y+1)+". "+x) if len(xx) > 1 else x, xx);
-			row["error"] = "<br>".join(numbering(mappl(idf, ["You are late", "Too Far("+str(row["distance"])+"Km)"], lambda y, x: [(row["datetime"]+ _config["ordertimelimit"][row["lord"]] < tnow()), (row["distance"] > _config["config"]["deliverydistance"])][x])));
+			row["error"] = "<br>".join(numbering(mappl(idf, ["All plate Sold!", "You are late", "Too Far("+str(row["distance"])+"Km)"], lambda y, x: [plate_remaining <= 0, (row["datetime"]+ _config["ordertimelimit"][row["lord"]] < tnow()), (row["distance"] > _config["config"]["deliverydistance"])][x])));
 			return row;
 		dstime = daystarttime();
 		return {
@@ -136,8 +125,11 @@ class pagehandler:
 	def account(self):
 		if(islogin() == "a"):
 			allu = _sql.sval("users");
-			users = list(pkey1(mapp(lambda x,y: _config["users"][x] if  y=="type" else x , i), ["id", "name", "phone", "email", "type"]).values()  for i in allu);
-			return {"users": {"rows": users, "thead": ["UserID", "Name", "Phone", "Email", "User Type"] } };
+			users = list(dict(mifu(pkey1(i, ["id", "name", "phone", "email", "type", "conf", "profilepic", "address"]), {"typetext": _config["users"][i["type"]]})) for i in allu);
+			return {
+				"users": users
+			};
+			#return {"users": {"rows": users, "thead": ["UserID", "Name", "Phone", "Email", "User Type"] } };
 		else:
 			redirect(HOST);
 

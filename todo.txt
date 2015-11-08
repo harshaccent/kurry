@@ -1,0 +1,70 @@
+
+Current Status:
+
+Done: #########
+Pending: @@@@
+
+
+
+############There will be three type of users on portal: Chef, Admin, Customer.
+Chef user:
+#### Join us form, Admin will accept request, 
+#####Notifying to Admin on join us form
+	############ Admin can create account of a chef.
+	############ visit chef and take pics of dishes & Upload it on chef's profile, Chef cannot do it.
+
+
+############Only Admin can upload the pics, Set Prices, Description,
+############Chef can also set max-order for Dishes.
+############Once it is done, Chef can Tick the dishes, as menu of today of one of next 5 days (in slot of lunch, dinner).
+
+@@@@@ He can't undo that. 
+############But admin can do that. he can request admin to do that.
+
+###### He will notify by mail or sms, whenever someone confirm the order. 
+####### { Or only admin will notify when order booked, then after a certain time ( ex: 10AM } , order booking is off, admin can notify the chef }
+
+Chef profile: 
+############> Public information:
+   ############> Profile pic, name, locality, # of Dish served, About chef, Dishes serving today.
+ Chef himself: 
+     ############> All the personal account setting, with edit option ( ###except password change )
+     ############> option to select dished for next days.
+#### Admin: Can Block, Delete Dishes
+@@@@@Edit Dishes
+#########Admin & (Chef himself): Can see the list of all orders, 
+
+
+Customer user:
+####### login, signup by OTP.
+######## Guest login by OTP.
+
+###########  Can see list of all food menus{Each: Pics, Description, Chef name, Profile }, categories by lunch, dinner.
+#####He can click to view more details, he can also add in cart, { till max order set or that dish }, 
+@@@@ View more Details
+
+######## He can set his address(s), Can see order list, Can see cart { list of all chosen dishes} , select the delivery time slot, 
+@@@@@@@@@@order all by paying from Net-banking or paytm
+
+Profile: 
+###### (Admin and customer him self) : Can seen by admin, Having all information about his orders, Addresses, Name.
+
+Admin user:
+######### Can Add Chef account, can mange his dishes.
+###### Can see list of all orders in a day, 
+######## List of all users, List of all chef.
+######## Can open profile of any of them & do the things listed above in respective profile.
+
+Designing:
+####### It will be good, but not very good. 
+	{ I guess It is Vert Good }
+
+
+Additional Features:
+
+@@@@ Return Money
+@@@@ Token System.
+
+
+@@@@ Some minor problems in everything { Designing / Development } .
+

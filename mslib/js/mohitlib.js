@@ -889,14 +889,14 @@ funcs["req"]= [{callback: id}, function () {//params, callback
 	}});
 }];
 
-funcs["req1"] = [{callback: id, callanyway: id}, function() { //params
+funcs["req1"] = [{callback: id, callanyway: id, errorh: errora}, function() { //params
 	return runf("req", {callback: function(d) {
 		var x = parsejson(d);
 		if( x === null )
-			errora("Unexpected Error"+"\n"+d);
+			errorh("Unexpected Error"+"\n"+d);
 		else {
 			if(x.ec < 0)
-				errora(ec[x.ec]);
+				errorh(ec[x.ec]);
 			else
 				callback(x);
 		}
@@ -904,9 +904,13 @@ funcs["req1"] = [{callback: id, callanyway: id}, function() { //params
 	}, params: params});
 }];
 
-funcs["sreq"] = [{waittext: " ... ", restext: null, bobj: null, form: null, params: null, fobj: null, res:null, callanyway: id}, function() {// obj, action
+funcs["sreq"] = [{waittext: " ... ", restext: null, bobj: null, form: null, params: null, fobj: null, res:null, callanyway: id, errorh: null}, function() {// obj, action
 	fobj = (fobj == null ? obj: eval(fobj));
 	bobj = (bobj == null ? obj: (bobj == "" ? ($(obj).find("button[type=submit]")[0]):eval(bobj)));
+	var errorhf = (errorh == null ? errora: function(x) {
+		runf(errorh, mifu(dattr(obj), {obj:obj, msg: x}));
+	});
+
 
 	params = ( params ==null ? {}: eval(params) );
 	params = mifu(params, sifu(forminps(fobj), "action", action ))
@@ -926,7 +930,7 @@ funcs["sreq"] = [{waittext: " ... ", restext: null, bobj: null, form: null, para
 			bobj.innerHTML = bobj_innerHTML;
 		}
 		callanyway(x);
-	}});
+	}, errorh: errorhf});
 	return false;
 }];
 
@@ -994,6 +998,41 @@ function forminps(obj) {
 			return x;
 		}, allinps, {});
 }
+
+
+function forminps1(obj) {
+	var getval = function (x) {
+		if (x.type == "checkbox")
+			return 0+x.checked;
+		else if ($(x).hasClass("complexinput"))
+			return runo1(dattr(x).complexinput, x);
+		else
+			return $(x).val();
+	};
+	var allinps = fold(function(x,y){
+					return $.merge(x, mapo(function(x){
+						return mifu(pkey(attr(x), ["id", "name", "data-dc", "data-name"]), {val: getval(x)}); 
+					}, $(obj).find(y)));
+				},["input", "textarea", "select", ".complexinput"], []);
+	return fold(function(x, y){
+			var feildname = null;
+			if(haskey(y, "name")){
+				feildname = y.name;
+			} else if(haskey(y, "id")){
+				feildname = y.id;
+			}
+			if(feildname != null) {
+				x['val'][feildname] = y.val;
+				if(haskey(y, "data-dc")) {
+
+				}
+			}
+			return x;
+		}, allinps, {'val':{}, 'error': {}});
+}
+
+
+
 
 var finp = forminps;
 
