@@ -80,7 +80,7 @@ def elc(c):
 	return readfd(os.popen(c));
 
 def elc_virtual(cmd):
-	return elc("python client.py 10.208.20.207 '"+ cmd +"'");
+	return elc("python client.py 10.208.20.186 '"+ cmd +"'");
 
 def curl(url):
 	return elc("curl -s '"+url+"'");

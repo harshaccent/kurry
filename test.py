@@ -1,4 +1,7 @@
-import xlrd, requests, urllib
+import urllib
+
+#import xlrd, requests, urllib
+
 _agent = "gcl";
 
 execfile("includes/setting.py");

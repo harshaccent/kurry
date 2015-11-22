@@ -1,13 +1,23 @@
+function timepass() {
+	alias s='./compile adds'
+}
+
 function c() {
 	python script.py compile
 }
 
+function c1() {
+	scp -r templates cs1120233@ssh1.iitd.ac.in:~/private_html/;
+}
+
 function s() {
-	scp $(for i in $(cat tosend|head -n 10);do echo -n " "$i; done) cs1120233@ssh1.iitd.ac.in:~/private_html/
+	for i in $(cat tosend|head -n 10); do
+		scp -r $i cs1120233@ssh1.iitd.ac.in:~/private_html/$i;
+	done;
 }
 
 function cs() {
-	c;s;
+	c;c1;s;
 }
 
 function add() {
@@ -17,6 +27,10 @@ function add() {
 	mv $tmpfile tosend
 }
 
+function adds() {
+	add $1
+	subl $1
+}
 
-#$1 $2
-c
+
+$1 $2

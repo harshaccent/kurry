@@ -1,6 +1,7 @@
 import sys, os
 
 execfile("includes/setting.py");
+_mslib="/home/btech/cs1120233/private_html/kurry/mslib/";
 execfile(_mslib+"py/func.py");
 
 def setp():

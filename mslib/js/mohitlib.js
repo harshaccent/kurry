@@ -541,7 +541,7 @@ function lookontop_elm(obj, elm) {
 }
 
 function lookontop_form(obj) {
-	return lookontop_elm(obj, "form");
+	return lookontop_elm(obj, "FORM");
 }
 
 
@@ -1011,7 +1011,7 @@ function forminps1(obj) {
 	};
 	var allinps = fold(function(x,y){
 					return $.merge(x, mapo(function(x){
-						return mifu(pkey(attr(x), ["id", "name", "data-dc", "data-name"]), {val: getval(x)}); 
+						return mifu(pkey(attr(x), ["id", "name", "data-dc", "data-name"]), {val: getval(x), obj: x}); 
 					}, $(obj).find(y)));
 				},["input", "textarea", "select", ".complexinput"], []);
 	return fold(function(x, y){
@@ -1024,7 +1024,9 @@ function forminps1(obj) {
 			if(feildname != null) {
 				x['val'][feildname] = y.val;
 				if(haskey(y, "data-dc")) {
-
+					if(!checkValidInput[y["data-dc"]](y.obj)) {
+						// var errorname = haskey(y, "data-name") ? 
+					}
 				}
 			}
 			return x;
@@ -1085,4 +1087,26 @@ function hvali(x) {
 }
 
 var int = parseInt;
+
+function doifcan(f, args, defaultval) {
+	try {
+		return f.apply(f, args);
+	}
+	catch(e) {
+		return defaultval;
+	}
+}
+
+function isdef(x) {
+	return (typeof(x) != "undefined");
+}
+
+function rifu(x, y) {
+	return (isdef(x) ? x:y);
+}
+
+
+function g(l, i, defaultval) {
+//	return rifu(l[i], rifu(isdef(l.length)) ? rifu(l[i+l.length]:defaultval, defaultval);
+}
 

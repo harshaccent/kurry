@@ -1,7 +1,12 @@
 var place;
 
+var autocinput = $("#locsearch")[0];
+
+function add_hidden_latlng(lla) {
+	add_hidden_inps (lookontop_form(autocinput), lla);
+}
+
 function initMap() {
-	var autocinput = $("#locsearch")[0];
 	var autocomplete = new google.maps.places.Autocomplete(autocinput);
 
 	google.maps.event.addDomListener(autocinput, 'keydown', function(e) {
@@ -13,9 +18,7 @@ function initMap() {
 	autocomplete.addListener('place_changed', function() {
 		place = autocomplete.getPlace();
 		loc = place.geometry.location;
-		add_hidden_inps (lookontop(autocinput, function (x) {
-			return x[0].tagName == "FORM";
-		}), {lat:loc.lat(), lng: loc.lng(), address: autocinput.value});
+		add_hidden_latlng({lat:loc.lat(), lng: loc.lng(), address: autocinput.value});
 		return false;
 	});
 }
@@ -27,9 +30,13 @@ function getLocation() {
 }
 
 function showPosition(position) {
-	$.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude, function(r){
-		$("#locsearch").val( r["results"][0]["formatted_address"] );
-	})
+	var lat = position.coords.latitude;
+	var lng = position.coords.longitude;
+	$.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lng, function(r){
+		var addrtext = r["results"][0]["formatted_address"];
+		$("#locsearch").val( addrtext );
+		add_hidden_latlng({lat: lat, lng: lng, address: addrtext});
+	});
 }
 
 $(document).ready(function(){
