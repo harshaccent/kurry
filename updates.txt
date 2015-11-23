@@ -1,4 +1,16 @@
-Updates:
+Symbol:
+Done: #########
+Pending: @@@@
+Replied: >>>>>
+
+
+
+
+
+
+
+
+
 
 ####Basic error checks in the database and put message on Front end to show
 

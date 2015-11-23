@@ -1,10 +1,4 @@
 
-Current Status:
-
-Done: #########
-Pending: @@@@
-
-
 
 ############There will be three type of users on portal: Chef, Admin, Customer.
 Chef user:
