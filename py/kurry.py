@@ -14,40 +14,39 @@ _ec = {
 };
 
 
-_config["sql_help"] = {};
+def init_sql_config():
+	global _config;
+	_config["sql_help"] = {};
 
-_config["sql_help"]["latlng"] = lambda lat1='lat',lng1='lng': "(((acos(sin(({lat}*pi()/180)) * sin(("+lat1+"*pi()/180))+cos(({lat}*pi()/180)) * cos(("+lat1+"*pi()/180)) * cos((({lng}- "+lng1+")* pi()/180))))*180/pi())*60*1.1515*1.609344)"
+	_config["sql_help"]["latlng"] = lambda lat1='lat',lng1='lng': "(((acos(sin(({lat}*pi()/180)) * sin(("+lat1+"*pi()/180))+cos(({lat}*pi()/180)) * cos(("+lat1+"*pi()/180)) * cos((({lng}- "+lng1+")* pi()/180))))*180/pi())*60*1.1515*1.609344)"
 
-_config["sql"] = {};
+	_config["sql"] = {};
 
-_config["sql"]["users1"] = "select chef.aboutus, chef.lat, chef.lng, users.* from users left join chef on chef.chefid = users.id"; #Valid for Chef users list
+	_config["sql"]["users1"] = "select chef.aboutus, chef.lat, chef.lng, users.* from users left join chef on chef.chefid = users.id"; #Valid for Chef users list
 
-#_config["sql"]["dishes1"] = "select users.name, users.profilepic, dishes.* from dishes left join users on users.id = dishes.cid";
-_config["sql"]["dishes1"] = "select users1.name, users1.profilepic, users1.lat, users1.lng, users1.address, dishes.* from dishes left join "+gtable("users1")+" on users1.id = dishes.cid";
-
-
-_config["sql"]["dishes2"] = "select * from "+gtable("dishes1")+" where cid={cid}";
-
-
-_config["sql"]["dispdish0"] = "select cast(IFNULL(sum(orders.numplate),0) as unsigned)as numplatebooked, dispdish.* from dispdish left join orders on (dispdish.datetime = orders.datetime AND dispdish.dishid = orders.dishid AND dispdish.lord = orders.lord) group by dispdish.datetime,dispdish.dishid,dispdish.lord"
-
-_config["sql"]["dispdish1"] = "select cast(sum((lord='l')*plimit) as unsigned)as llimit, cast(sum((lord='l')*numplatebooked) as unsigned) as ollimit, cast(sum((lord='d')*numplatebooked) as unsigned) as odlimit, cast(sum((lord = 'd')*plimit) as unsigned) as dlimit, cid, datetime, dishid from "+gtable("dispdish0")+" group by cid, datetime, dishid";
-
-_config["sql"]["dispdish2"] = "select "+ ', '.join(mappl(lambda i:", ".join(mappl(lambda x:" cast(sum((datetime={x"+i+"})*"+x+"limit) as unsigned) as "+x+"limit"+i+"", ["l", "d", "ol", "od"])) , mappl(lambda x:str(x), range(5)))) +", dispdish1.cid, dispdish1.dishid from "+gtable("dispdish1")+" where datetime>={x0} AND datetime<={x4} group by cid, dishid ";
-
-_config["sql"]["dispdish3"] = "select dishes1.*, "+(", ".join(mixl(mappl(lambda i:mappl(lambda x:"dispdish2."+x+"limit"+str(i), ["l", "d", "ol", "od"]), range(5)))))+" from "+gtable("dishes1")+" left join "+gtable("dispdish2")+" on dishes1.cid = dispdish2.cid AND dishes1.id = dispdish2.dishid";
-
-_config["sql"]["dispdish4"] = "select * from dispdish where datetime={datetime} AND plimit > 0 AND lord ={lord} ";
-
-_config["sql"]["dispdish5"] = "select dispdish4.plimit, dispdish4.datetime, dispdish4.lord, dishes1.* from "+gtable("dispdish4")+" left join "+gtable("dishes1")+" on dishes1.id = dispdish4.dishid ";
-
-_config["sql"]["cart1"] = "select dispdish0.plimit, dispdish0.numplatebooked, "+sqlhelp("latlng", {"lat1": "chef.lat", "lng1": "chef.lng"})+" as distance, dishes1.cid, dishes1.name, dishes1.title, dishes1.price, cart.* from cart left join "+gtable("dishes1")+" on dishes1.id = cart.dishid left join "+gtable("dispdish0")+" on (dispdish0.datetime = cart.datetime AND dispdish0.dishid = cart.dishid AND dispdish0.lord = cart.lord) left join chef on chef.chefid = dishes1.cid where uid={uid}";
-
-_config["sql"]["orders1"] = "select users.name as uname, dishes1.name as cname, orders.address as uaddress, dishes1.address as caddress, IFNULL(dishes1.price, 0) as price, dishes1.title, dishes1.lat as clat, dishes1.lng as clng, orders.* from orders left join users on users.id = orders.uid left join "+gtable("dishes1")+" on (dishes1.id=orders.dishid ) order by time desc";
+	#_config["sql"]["dishes1"] = "select users.name, users.profilepic, dishes.* from dishes left join users on users.id = dishes.cid";
+	_config["sql"]["dishes1"] = "select users1.name, users1.profilepic, users1.lat, users1.lng, users1.address, dishes.* from dishes left join "+gtable("users1")+" on users1.id = dishes.cid";
 
 
+	_config["sql"]["dishes2"] = "select * from "+gtable("dishes1")+" where cid={cid}";
 
-_sql.uniqc["cart"] = ["datetime", "dishid", "lord", "uid"];
+
+	_config["sql"]["dispdish0"] = "select cast(IFNULL(sum(orders.numplate),0) as unsigned)as numplatebooked, dispdish.* from dispdish left join orders on (dispdish.datetime = orders.datetime AND dispdish.dishid = orders.dishid AND dispdish.lord = orders.lord) group by dispdish.datetime,dispdish.dishid,dispdish.lord"
+
+	_config["sql"]["dispdish1"] = "select cast(sum((lord='l')*plimit) as unsigned)as llimit, cast(sum((lord='l')*numplatebooked) as unsigned) as ollimit, cast(sum((lord='d')*numplatebooked) as unsigned) as odlimit, cast(sum((lord = 'd')*plimit) as unsigned) as dlimit, cid, datetime, dishid from "+gtable("dispdish0")+" group by cid, datetime, dishid";
+
+	_config["sql"]["dispdish2"] = "select "+ ', '.join(mappl(lambda i:", ".join(mappl(lambda x:" cast(sum((datetime={x"+i+"})*"+x+"limit) as unsigned) as "+x+"limit"+i+"", ["l", "d", "ol", "od"])) , mappl(lambda x:str(x), range(5)))) +", dispdish1.cid, dispdish1.dishid from "+gtable("dispdish1")+" where datetime>={x0} AND datetime<={x4} group by cid, dishid ";
+
+	_config["sql"]["dispdish3"] = "select dishes1.*, "+(", ".join(mixl(mappl(lambda i:mappl(lambda x:"dispdish2."+x+"limit"+str(i), ["l", "d", "ol", "od"]), range(5)))))+" from "+gtable("dishes1")+" left join "+gtable("dispdish2")+" on dishes1.cid = dispdish2.cid AND dishes1.id = dispdish2.dishid";
+
+	_config["sql"]["dispdish4"] = "select * from "+gtable("dispdish0")+" where datetime={datetime} AND plimit > 0 AND lord ={lord} ";
+
+	_config["sql"]["dispdish5"] = "select dispdish4.plimit, dispdish4.numplatebooked, dispdish4.datetime, dispdish4.lord,"+sqlhelp("latlng")+" as distance, dishes1.* from "+gtable("dispdish4")+" left join "+gtable("dishes1")+" on dishes1.id = dispdish4.dishid where (plimit-numplatebooked > 0 AND true ) having distance <= "+str(_config["config"]["deliverydistance"])+"";
+
+	_config["sql"]["cart1"] = "select dispdish0.plimit, dispdish0.numplatebooked, "+sqlhelp("latlng", {"lat1": "chef.lat", "lng1": "chef.lng"})+" as distance, dishes1.cid, dishes1.name, dishes1.title, dishes1.price, cart.* from cart left join "+gtable("dishes1")+" on dishes1.id = cart.dishid left join "+gtable("dispdish0")+" on (dispdish0.datetime = cart.datetime AND dispdish0.dishid = cart.dishid AND dispdish0.lord = cart.lord) left join chef on chef.chefid = dishes1.cid where uid={uid}";
+
+	_config["sql"]["orders1"] = "select users.name as uname, dishes1.name as cname, orders.address as uaddress, dishes1.address as caddress, IFNULL(dishes1.price, 0) as price, dishes1.title, dishes1.lat as clat, dishes1.lng as clng, orders.* from orders left join users on users.id = orders.uid left join "+gtable("dishes1")+" on (dishes1.id=orders.dishid ) order by time desc";
+	_sql.uniqc["cart"] = ["datetime", "dishid", "lord", "uid"];
 
 
 
@@ -188,7 +187,7 @@ class kurry:
 			elif(qr["conf"] == "b"):
 				self.ec = -11;
 			elif(g(qr, "password") == data["password"]):
-				login(qr["id"], qr["type"]);
+				login(qr["id"], qr["type"], pkey1(qr, ["name"]));
 				return qr["id"];
 			else:
 				self.ec = -1;
@@ -202,12 +201,12 @@ class kurry:
 			if(cdata["conf"] == "b"):
 				self.ec = -11;
 			else:
-				login(cdata["id"], cdata["type"]);
+				login(cdata["id"], cdata["type"], pkey1(cdata, ["name"]));
 				return cdata["id"];
 		else:
 			idata = sifu(pkey(data, ["phone", "password", "email", "name"]), "type", typ, True);
 			iid = _sql.ival("users", idata);
-			login(iid, typ);
+			login(iid, typ, pkey1(data, ["name"]));
 			return iid;
 
 	def adddish(self, data):

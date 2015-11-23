@@ -36,12 +36,12 @@ if(_server ==  "csc" ):
 
 
 
-[query, darr, arr] = eval(read_file(".queryinput.txt"));
+[query, darr, arr] = s2j(read_file(".queryinput.txt"));
 if(sys.argv[1] == 'g'):
 	outp = _sql.g(query, darr, arr);
 else:
 	outp = _sql.q(query, darr, arr);
-write_file(".queryoutput.txt", str(outp));
+write_file(".queryoutput.txt", json.dumps(outp));
 _sql.close_db();
 
 

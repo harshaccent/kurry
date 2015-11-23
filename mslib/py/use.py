@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 
-cod = collections.OrderedDict;
-cod.__str__ = lambda x: json.dumps(x);
 
 
 _localtz = pytz.timezone("Asia/Calcutta") if ("pytz" in _includes) else None;
@@ -192,16 +190,20 @@ def google_addrtolanlat(addr):
 		return req["results"][0]["geometry"]["location"];
 
 def udicttostr(inp):
-	if(type(inp) == unicode ):
+	if(type(inp) == unicode):
 		return str(inp);
 	elif(type(inp) == cod):
-		return mapp(lambda x: udicttostr(x), cod, None, lambda x: str(x));
+		return mapp(lambda x: udicttostr(x), inp, None, lambda x: str(x));
 	elif(type(inp) == list):
 		return map(udicttostr, inp);
 	else:
 		return inp;
 
-
-
-
+def json_action(inp, f):
+	if(type(inp) == cod):
+		return f["cod"](inp);
+	elif(type(inp) == list):
+		return f["list"](inp);
+	else:
+		return f["default"](inp);
 

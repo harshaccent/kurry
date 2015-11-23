@@ -10,7 +10,9 @@ _agent = "poorvi";
 _toresize = {};
 _phpheader = "";
 try:
-	inpdata = udicttostr(json.loads(sys.argv[1]));
+	#inpdata = udicttostr(json.loads(sys.argv[1]));
+	sys.argv[1];
+	inpdata = s2j(read_file(".phpargs.txt"));
 	_session = inpdata["session"];
 	_get = inpdata["get"];
 	_post = inpdata["post"];
@@ -20,7 +22,6 @@ try:
 except:
 	print "Error in reading php vars";
 	(_session, _get, _post, _urlpath, _file, _addinfo) = ({}, {}, {}, '', {}, {});
-
 
 execfile(_mslib+"py/webd.py");
 

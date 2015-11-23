@@ -24,7 +24,7 @@ main2(js: chefjoinjs) {
 				}
 				div(class: "row"){
 					switch2(label: "Do you Cook NonVeg Food", name: "isnonveg");
-					switch2(label: "Do you have academatic degree in cooking ?", class: "col l6", name: "isdegree");
+					switch2(label: "Do you have academic degree in cooking ?", class: "col l6", name: "isdegree");
 				}
 				div(class: "row") {
 					textarea1(label: "Ten Dishes, you would like to have", class: "materialize-textarea", id: "dishes");

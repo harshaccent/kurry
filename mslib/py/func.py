@@ -17,6 +17,9 @@ execfile(_mslib+"py/sql.py");
 
 fold = fold_l;
 
+cod = collections.OrderedDict;
+cod.__str__ = lambda x: json.dumps(x);
+
 def runf(f, args):
 	numfargs = len(inspect.getargspec(f).args)
 	largs = list(args);
@@ -73,7 +76,8 @@ def sets(val, key = None, var = "sesdata"): #set given key of sesdata, if not gi
 	s( var, val) if key == None else seta( globals()[var], key, val )
 
 def s2j(inp, defaultval = None): #dl = []
-	return doifcan(json.loads, inp, defaultval);
+	return doifcan(lambda x: udicttostr(json.loads(x, object_pairs_hook=cod)), inp, defaultval);
+	#return doifcan(json.loads, inp, defaultval);
 
 def f(inp, var = "x"): #dl = [lelm], return function having inp as return value.
 	return eval("lambda " + var + ":"+inp);

@@ -188,7 +188,7 @@ define loginmodal() {
 						}
 					}
 					div(class: "row"){
-						input1(label: "Password or OTP", icon: "vpn_key", aclass: "col s12 l12 m12", id: "loginpass", type: "password");
+						input1(label: "Password or OTP", icon: "vpn_key", aclass: "col s12 l12 m12", id: "loginpass", type: "password", dc: "password1");
 					}
 					div(class: "row") {
 						div(class: "col") {
@@ -210,7 +210,7 @@ define loginmodal() {
 						}
 					}
 					div(class: "row"){
-						input1(label: "Choose Password", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signuppass", type:"password");
+						input1(label: "Choose Password", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signuppass", type:"password", dc: "password1");
 						input1(label: "OTP", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signupotp", type: "password", dc: "otp");
 					}
 					div(class: "row"){
@@ -335,6 +335,12 @@ define profile_chef_top2() {
 				}
 			}
 			textdiv(font:"16px", name: uinfo["aboutus"].gchars);
+			div() {
+				b() {
+					p("Address: ");
+				}
+				p(uinfo["address"]);
+			}
 		}
 
 	}

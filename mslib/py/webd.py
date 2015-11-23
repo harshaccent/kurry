@@ -46,9 +46,15 @@ def adminmail(fn, data={}):
 def init_mailmsgsystem():
 	elc("mkdir -p data; > data/msgf; > data/mailf; chmod 777 data -R ");
 
-def login(id, typ):
+def login(id, typ, ext={}):
 	global _session;
-	_session["login"] = {"id": id, "type": typ};
+	_session["login"] = mifu({"id": id, "type": typ}, ext);
+
+def logininfo():
+	return g(_session, "login");
+
+def loginname():
+	return doifcan(lambda: logininfo()["name"].title(), (), "Profile");
 
 def islogin():#Also return login type
 	return _session["login"]["type"] if (g(g(_session, "login"), "id") > 0) else None;

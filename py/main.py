@@ -1,18 +1,17 @@
 _sql = sqllib();
+
 execfile(ROOT+"py/kurry.py");
 _kurry = kurry();
 
+_config["realmsg"] = (_server == "aws");
+_config["realmail"] = False;
 _config["users"] = {"a": "Admin", "c": "Chef", "u": "User"};
 
 _config["adminpass"] = "Admin_Secure432";
 _config["adminmail"] = "mohitsaini1196@gmail.com";
-
-_config["realmsg"] = (_server == "aws");
-_config["realmail"] = False;
-
 _config["config"] = {
 	"chefagelist": ["Below 25 Years", "24-45 Years", "45-60 Years", "60 Years"],
-	"chefhowmanypeople": ["0-2", "3-7", "8-10"],
+	"chefhowmanypeople": ["5-10", "11-20", "21-30"],
 	"cheflanguages": ["Hindi", "English", "Marathi"],
 	"deliverydistance": 10, #Km
 };
@@ -28,7 +27,7 @@ mifu(_config, {
 	}
 });
 
-
+init_sql_config();
 
 _config["timef"] = "%I:%M %p";
 _config["datef"] = "%a, %b %d %Y";
@@ -46,7 +45,7 @@ class pagehandler:
 
 	def call(self):
 		runmethod = (rifn(self.methodmap[self.name](), {}) if self.methodmap.has_key(self.name) else {});
-		logininfo = { "islogin": islogin(), "loginid": loginid() };
+		logininfo = { "islogin": islogin(), "loginid": loginid(), "loginname": loginname() };
 		mifu(self.jsdata, logininfo);
 		return mifu(mifu(runmethod, {"jsdata": json.dumps(self.jsdata), "config": _config["config"]}), logininfo);
 
@@ -75,7 +74,7 @@ class pagehandler:
 	def menu(self):
 		saveloc();
 		daydatetime = intf(g(_get, "datetime", daystarttime()));
-		outp = mapp(lambda x:_sql.g(gtable("dispdish5", 0), {"datetime": daydatetime, "lord": x}), ["l", "d"], None, lambda x: ["lunch", "dinner"][x]);
+		outp = mapp(lambda x:_sql.g(gtable("dispdish5", 0), mifu({"datetime": daydatetime, "lord": x}, mapp(idf, getloc()[:2], None, lambda x:["lat", "lng"][x]))), ["l", "d"], None, lambda x: ["lunch", "dinner"][x]);
 		outp["day5times"] = _kurry.day5times();
 		return outp;
 
@@ -119,8 +118,7 @@ class pagehandler:
 		day5times = _kurry.day5times();
 		rdata["day5times"] = day5times;
 		darr = dict(mapp(idf, day5times["timel"], None, lambda x: "x"+str(x)))
-		rdata["dispdish"] = _sql.g(gtable("dispdish5", 0), {"datetime": "1446316200", "lord": "l"}, darr);
-		return mifu(sqlr2table( rdata["dispdish"]) , {"_session": _session});
+		return {"_session": _session};
 
 	def seeall(self):
 		return {"allt": mapp(lambda x: {"data": sqlr2table(_sql.sval(x)), "name": x}, ["users", "chef", "dispdish"])};

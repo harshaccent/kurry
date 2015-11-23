@@ -100,7 +100,7 @@ define header2_user(tabname:[], tablink:[]) {
 				ul(class: "right hide-on-med-and-down" ) {
 					disptabs(tabname: tabname, tablink: tablink);
 					li() {
-						a1(class: "dropdown-button", name: "&nbsp;"*5+"Profile"+"&nbsp;"*10, data:{activates:"dropdown1"});
+						a1(class: "dropdown-button", name: "&nbsp;"*5+loginname+"&nbsp;"*10, data:{activates:"dropdown1"});
 						//icon(name: "arrow_drop_down", aclass: "right");
 					}
 				}

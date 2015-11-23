@@ -76,10 +76,11 @@ $addinfo = array("ip" => $_SERVER['REMOTE_ADDR']);
 $pydata = array("get"=> $_GET, "post"=> $_POST, "session"=> $_SESSION, "url"=> curpathinfo(), "file" => $_FILES, "addinfo" => $addinfo);
 
 
+file_put_contents(".phpargs.txt", tojson($pydata));
+
 $cmd = "python ".$pyfile." '".tojson($pydata)."' 2>&1";
 
-
-$pyoutp = shell_exec($cmd);
+$pyoutp = shell_exec("python ".$pyfile." timepass 2>&1");
 
 $pyoutp1 = json_decode( $pyoutp, true );
 if($pyoutp1 == null)

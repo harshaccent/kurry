@@ -56,10 +56,10 @@ class sqllib:
 		#return fold(lambda q,tr: q.replace("{"+tr+"}", "%("+tr+")s" if isg(dkeys, tr) else g(keys, tr, '{'+tr+"}")), (x[1:-1] for x in re.compile("{[^}]+}").findall(query)), query);
 
 	def virtual_sql(self, query, darr={}, arr={}, typ=''):
-		write_file(".queryinput.txt", str([query, darr, arr]));
+		write_file(".queryinput.txt", json.dumps([query, darr, arr]));
 		write_file(".queryoutput.txt", "");
 		elc_virtual("python query.py "+typ);
-		return eval(read_file(".queryoutput.txt"))
+		return s2j(read_file(".queryoutput.txt"))
 
 	def i_isvirtual(self):
 		return ((_agent == "poorvi" and _server == "gcl") or ("MySQLdb" not in _includes));
@@ -68,7 +68,7 @@ class sqllib:
 		if(self.i_isvirtual()):
 			return self.virtual_sql(query, darr, arr, 'q');
 		self.init_db();
-		self.cur.execute(self.rquery(query, darr, arr), darr)
+		self.cur.execute(self.rquery(query, darr, arr), dict(darr))
 		self.db.commit();
 		return (self.cur.lastrowid)
 		# return (self.cur.lastrowid + self.cur.rowcount)
@@ -77,9 +77,9 @@ class sqllib:
 		if(self.i_isvirtual()): #Warning: It may go to infinite loop. Make sure vertual query handler don't enter in this 'if' block
 			return self.virtual_sql(query, darr, arr, 'g');
 		self.init_db();
-		self.cur.execute(self.rquery(query, darr, arr), darr);
+		self.cur.execute(self.rquery(query, darr, arr), dict(darr));
 		s_feilds = mappl(lambda x: x[0], list(_sql.cur.description));
-		return list(self.cur)
+		return mappl(lambda x: pkey1(x, s_feilds), list(self.cur));
 
 	def g1(self, query, darr={}, arr={}):
 		return self.i_1row(self.g(query, darr, arr), 1);

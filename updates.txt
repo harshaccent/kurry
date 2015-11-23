@@ -32,29 +32,33 @@ c.Policies, T&C, Large Orders, Contact Us Page.
 Ability to export the weekly menu in a pdf , with pictures. This is very important for us for the social 
 media.
 
-Take how we work from http://tandurusti.in/kurrybox/ or holachef.com
-Error checks in login screen are missing as well. The password is being shown and basic checks for 
-the password.
+######Take how we work from http://tandurusti.in/kurrybox/ or holachef.com
+######Error checks in login screen are missing as well. The password is being shown and 
+#######basic checks for the password.
 
-After login the name of the person should show in the Login Tab. 
-Also there should be a way to Close the operations down for a day if required.
+######After login the name of the person should show in the Login Tab.
+#####Also there should be a way to Close the operations down for a day if required.
+>>>>Set The plate limit to Zero.
 
 -----------------------------------------------------------------------------------------------------------
 
-There is an issue the way you have coded the item location and display search
-The filter for showing the dishes based on the distance from the chef should be on the landing page when 
-the location is gathered, not in the CART. 
-example : I was in Vasant Vihar today morning and its showing me all the chefs. I dont want a person to be 
-able to add item in the cart and then we are telling him that its too far. 
-Similarly you cannot say " You are Late " when the item is added to the cart. If the time has passed for 
-ordering the ordering screen should not show up any item. 
+#####There is an issue the way you have coded the item location and display search
+#####The filter for showing the dishes based on the distance from the chef should be on the landing page when 
+#####the location is gathered, not in the CART. 
+#####example : I was in Vasant Vihar today morning and its showing me all the chefs. I dont want a person to be 
+####able to add item in the cart and then we are telling him that its too far. 
+
+Similarly you cannot say " You are Late " when the item is added to the cart. If the time has passed for ordering the ordering screen should not show up any item.
+
 There are still messages, English issues all over the place. 
+
 Some issues
 1. How Select Languages will work
-2.Academic - Wrong Spelling
+>>>>It there some problem in styling ???
+####2.Academic - Wrong Spelling
 3. Do you want to Cook  ( Dinner, Lunch, Both)
-4. How many plates you can serve in a day ( Wrong dropdown values)
-1. There is no address in the chef details page, when we go in to the details of the chef. 
+#####4. How many plates you can serve in a day ( Wrong dropdown values)
+#####1. There is no address in the chef details page, when we go in to the details of the chef. 
 2. Reporting is not done of any sort.
 ####3. Login page doesnt give proper messages.
 ####Password is still visible. 

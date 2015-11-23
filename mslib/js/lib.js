@@ -2,6 +2,10 @@ function isNum(n){
 	return (isFinite(n) && n!="");
 }
 
+function isregexmatch(s, regex) {
+	return (s.match(regex)!=null);
+}
+
 var checkValidInput={
 	'idel':function (obj){
 		return true;
@@ -14,6 +18,9 @@ var checkValidInput={
 	},
 	'password':function (obj){
 		return (obj.value!="" && obj.value == $("#password").val()  );
+	},
+	password1: function(obj) {
+		return isregexmatch(obj.value, "^.+$");
 	},
 	'phone':function (obj){
 		var pn=obj.value;
@@ -50,6 +57,7 @@ var ve = {
 	password: "Didn't matched",
 	phone: "Should be 10 digit",
 	otp: "Should be 8 digit",
+	password1: "Should Be Strong"
 };
 
 
