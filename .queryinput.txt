@@ -1,1 +1,1 @@
-['select * from users where phone = {phone} limit 1', {'phone': 'mohit'}, {}]
+['select * from dispdish where true ', {}, {}]

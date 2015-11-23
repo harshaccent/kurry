@@ -74,10 +74,11 @@ class sqllib:
 		# return (self.cur.lastrowid + self.cur.rowcount)
 
 	def g(self, query, darr={}, arr={}):
-		if(self.i_isvirtual()):
+		if(self.i_isvirtual()): #Warning: It may go to infinite loop. Make sure vertual query handler don't enter in this 'if' block
 			return self.virtual_sql(query, darr, arr, 'g');
 		self.init_db();
 		self.cur.execute(self.rquery(query, darr, arr), darr);
+		s_feilds = mappl(lambda x: x[0], list(_sql.cur.description));
 		return list(self.cur)
 
 	def g1(self, query, darr={}, arr={}):

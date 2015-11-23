@@ -9,16 +9,17 @@ main2(js: chefjoinjs) {
 	div() {
 		div(class: "container") {
 			height(val: 20);
-			form(data:{onsubmit: "sreq", bobj: "", action: "chefjoinus", restext: "Submitted"}, attr:{id: "mohit"}) {
+			form(data:{onsubmit: "sreq", bobj: "", action: "chefjoinus", restext: "Submitted", errorh: "error_login"}, attr:{id: "mohit"}) {
+				errorbox();
 				div(class: "row"){
 					input1(label: "Name", id: "name");
-					input1(label: "Mobile number", id: "mobile");
-					input1(label: "Email Id", id: "email");
+					input1(label: "Mobile number", id: "mobile", dc: "phone");
+					input1(label: "Email Id", id: "email", dc: "email");
 					input1(label: "Address", id: "gaddress", attr:{onkeydown: "return notenterkey(event);"});
 					input1(label: "Extra Address [Building Number]", id: "address", aclass: "col l12 m12 s12");
 					select2(tlist: ["Male", "Female"], vlist: ["M", "F"], toptext: "Gender", name: "gender");
 					select2(tlist: config["chefagelist"], toptext: "Age", name: "age");
-					select2(tlist: config["chefagelist"], toptext: "For How many you can cook", name: "cookpeople");
+					select2(tlist: config["chefhowmanypeople"], toptext: "For How many you can cook", name: "cookpeople");
 					mselect2(id: "languages", tlist: config["cheflanguages"], label: "Select languages", selectall: "Select All");
 				}
 				div(class: "row"){

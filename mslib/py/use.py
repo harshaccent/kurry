@@ -2,12 +2,10 @@
 # -*- coding: utf-8 -*- 
 
 cod = collections.OrderedDict;
+cod.__str__ = lambda x: json.dumps(x);
 
 
-if("pytz" in _includes):
-	_localtz = pytz.timezone("Asia/Calcutta");
-else:
-	_localtz = None;
+_localtz = pytz.timezone("Asia/Calcutta") if ("pytz" in _includes) else None;
 
 def fold_l(f, l, a):
 	for i in l:
@@ -193,16 +191,17 @@ def google_addrtolanlat(addr):
 	if(req):
 		return req["results"][0]["geometry"]["location"];
 
-
 def udicttostr(inp):
 	if(type(inp) == unicode ):
 		return str(inp);
-	elif(type(inp) == dict):
-		outp = {};
-		for i in inp:
-			outp[str(i)] = udicttostr(inp[i]);
-		return outp;
+	elif(type(inp) == cod):
+		return mapp(lambda x: udicttostr(x), cod, None, lambda x: str(x));
 	elif(type(inp) == list):
 		return map(udicttostr, inp);
 	else:
 		return inp;
+
+
+
+
+

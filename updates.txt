@@ -1,6 +1,6 @@
 Updates:
 
-Basic error checks in the database and put message on Front end to show
+####Basic error checks in the database and put message on Front end to show
 
 1. If no one is serving a location searched :  " We are trying hard to serve you in this location, will let you 
 know once this location is launched:
@@ -56,8 +56,8 @@ Some issues
 4. How many plates you can serve in a day ( Wrong dropdown values)
 1. There is no address in the chef details page, when we go in to the details of the chef. 
 2. Reporting is not done of any sort.
-3. Login page doesnt give proper messages.
-###Password is still visible. 
+####3. Login page doesnt give proper messages.
+####Password is still visible. 
 In general Messages are not shown properly anywhere.
 
 

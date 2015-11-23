@@ -182,7 +182,7 @@ define loginmodal() {
 				form(data:{onsubmit:"sreq", bobj: "", action:"login", res: "ms.reload();", errorh: "error_login"}) {
 					errorbox();
 					div(class: "row") {
-						input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"loginphone");
+						input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"loginphone", dc: "phone");
 						div(class: "col l4 m6") {
 							l_otp_button();
 						}
@@ -204,14 +204,14 @@ define loginmodal() {
 				form(data:{onsubmit:"sreq", bobj: "", action:"signup", res: "ms.reload();", errorh: "error_login"}) {
 					errorbox();
 					div(class: "row") {
-						input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"signupphone");
+						input1(label: "Phone number", icon: "phone", aclass: "col s12 l7 m6", id:"signupphone", dc: "phone");
 						div(class: "col l4 m6") {
 							l_otp_button();
 						}
 					}
 					div(class: "row"){
 						input1(label: "Choose Password", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signuppass", type:"password");
-						input1(label: "OTP", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signupotp", type: "password");
+						input1(label: "OTP", icon: "vpn_key", aclass: "col s12 l6 m6", id: "signupotp", type: "password", dc: "otp");
 					}
 					div(class: "row"){
 						input1(label: "Name", icon: "account_circle", aclass: "col s12 l12 m12", id: "signupname");
@@ -278,8 +278,8 @@ define account_admin() {
 					for(jjj, jj, ["id", "name", "email", "phone", "typetext"]) {
 						j = i[jjj];
 						td() {
-							if((jj == 1) && (i[-1] == "Chef" )) {
-								profilea1(name:j, uid: i[0]);
+							if( (jjj=="name") && (i["type"] == "c") ) {
+								profilea1(name:j, uid: i["id"]);
 							} else {
 								p(j);
 							}

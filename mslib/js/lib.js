@@ -21,7 +21,7 @@ var checkValidInput={
 	},
 	'otp':function (obj){
 		var pn=obj.value;
-		return (isFinite(pn) && pn.length==7 && pn[0]!='+' && pn[0]!='-');
+		return (isFinite(pn) && pn.length==8 && pn[0]!='+' && pn[0]!='-');
 	},
 	'pnumber':function (obj){
 		return isNum(obj.value) ;
@@ -43,6 +43,14 @@ var checkValidInput={
 	}
 };
 
+var ve = {
+	idel: "",
+	simple: "Should not Empty",
+	email: "Not valid email format",
+	password: "Didn't matched",
+	phone: "Should be 10 digit",
+	otp: "Should be 8 digit",
+};
 
 
 function checkValid(obj,e){

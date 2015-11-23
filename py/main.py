@@ -12,6 +12,7 @@ _config["realmail"] = False;
 
 _config["config"] = {
 	"chefagelist": ["Below 25 Years", "24-45 Years", "45-60 Years", "60 Years"],
+	"chefhowmanypeople": ["0-2", "3-7", "8-10"],
 	"cheflanguages": ["Hindi", "English", "Marathi"],
 	"deliverydistance": 10, #Km
 };
@@ -40,7 +41,7 @@ class pagehandler:
 		if(False and _server == "gcl"):
 			elc("python client.py 10.208.20.186 ./compile");
 		self.jsdata = {"HOST": HOST, "BASE": BASE, "curpage": self.name, "_server": _server, "_ec": _ec };
-		self.methodmap = eval("{"+", ".join(mappl((lambda x: '"'+x+'": self.'+x), ["index", "test", "account", "profile", "menu", "cart", "orders"]))+"}");
+		self.methodmap = eval("{"+", ".join(mappl((lambda x: '"'+x+'": self.'+x), ["index", "test", "account", "profile", "menu", "cart", "orders", "seeall"]))+"}");
 #		self.methodmap = {"index": self.index, "test": self.test, "account": self.account, "profile": self.profile, "menu": self.menu, "cart": self.cart};
 
 	def call(self):
@@ -120,6 +121,9 @@ class pagehandler:
 		darr = dict(mapp(idf, day5times["timel"], None, lambda x: "x"+str(x)))
 		rdata["dispdish"] = _sql.g(gtable("dispdish5", 0), {"datetime": "1446316200", "lord": "l"}, darr);
 		return mifu(sqlr2table( rdata["dispdish"]) , {"_session": _session});
+
+	def seeall(self):
+		return {"allt": mapp(lambda x: {"data": sqlr2table(_sql.sval(x)), "name": x}, ["users", "chef", "dispdish"])};
 
 
 	def account(self):

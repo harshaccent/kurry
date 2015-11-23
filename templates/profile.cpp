@@ -1,4 +1,4 @@
-main1(js:["js/profile.js"], htmlstyle:{"overflow-y": "scroll"}) {
+main2(js:["js/profile.js"], htmlstyle:{"overflow-y": "scroll"}) {
 	div() {
 		header4();
 		if(uid > 0) {

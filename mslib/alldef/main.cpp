@@ -264,12 +264,16 @@ define starrating(val: 5) {
 	}
 }
 
-define input1(aclass: "col s6",  type: "text") {
+define input1(aclass: "col s6",  type: "text", dc: "simple") {
 	div(class: "input-field "+aclass) {
 		if(icon) {
 			icon(name: icon, aclass: "prefix");
 		}
 		data["name"] = label;
+		data["dc"] = dc;
+		if(dname != None) {
+			data["name"] = dname;
+		}
 		input(attr:{id: id, type:type, value: value}, class: iclass, data: data);
 		label(attr:{"for": id}) {
 			p(label);

@@ -904,33 +904,36 @@ funcs["req1"] = [{callback: id, callanyway: id, errorh: errora}, function() { //
 	}, params: params});
 }];
 
-funcs["sreq"] = [{waittext: " ... ", restext: null, bobj: null, form: null, params: null, fobj: null, res:null, callanyway: id, errorh: null}, function() {// obj, action
+funcs["sreq"] = [{waittext: " ... ", restext: null, bobj: null, form: null, params: null, fobj: null, res:null, callanyway: id, errorh: null, ferror: null}, function() {// obj, action
 	fobj = (fobj == null ? obj: eval(fobj));
 	bobj = (bobj == null ? obj: (bobj == "" ? ($(obj).find("button[type=submit]")[0]):eval(bobj)));
 	var errorhf = (errorh == null ? errora: function(x) {
 		runf(errorh, mifu(dattr(obj), {obj:obj, msg: x}));
 	});
-
-
 	params = ( params ==null ? {}: eval(params) );
-	params = mifu(params, sifu(forminps(fobj), "action", action ))
-	params = mifu(params, dsattr(obj));
-	var prvhtml = bobj.innerHTML;
-	if(waittext != "" ) {
-		bobj.innerHTML = waittext;
+	var forminps_data = forminps1(fobj);
+	if(ferror == null && forminps_data["error"].length > 0) {
+		errorhf(indexedlist(forminps_data.error).join("<br>"));
+	} else {
+		params = mifu(params, sifu(forminps_data["val"], "action", action));
+		params = mifu(params, dsattr(obj));
+		var prvhtml = bobj.innerHTML;
+		if(waittext != "" ) {
+			bobj.innerHTML = waittext;
+		}
+		var bobj_innerHTML = prvhtml;
+		runf("req1", { "params": params, callback: function(data) {
+			bobj_innerHTML = (restext == null ? prvhtml: restext);
+			if( res!=null ) {
+				eval(res);
+			}
+		}, callanyway: function	(x) {
+			if(restext != "") {
+				bobj.innerHTML = bobj_innerHTML;
+			}
+			callanyway(x);
+		}, errorh: errorhf});
 	}
-	var bobj_innerHTML = prvhtml;
-	runf("req1", { "params": params, callback: function(data) {
-		bobj_innerHTML = (restext == null ? prvhtml: restext);
-		if( res!=null ) {
-			eval(res);
-		}
-	}, callanyway: function	(x) {
-		if(restext != "") {
-			bobj.innerHTML = bobj_innerHTML;
-		}
-		callanyway(x);
-	}, errorh: errorhf});
 	return false;
 }];
 
@@ -1025,12 +1028,13 @@ function forminps1(obj) {
 				x['val'][feildname] = y.val;
 				if(haskey(y, "data-dc")) {
 					if(!checkValidInput[y["data-dc"]](y.obj)) {
-						// var errorname = haskey(y, "data-name") ? 
+						var errorname = g(y, "data-name", feildname);
+						x['error'].push(errorname+": "+g(ve, y["data-dc"], ""));
 					}
 				}
 			}
 			return x;
-		}, allinps, {'val':{}, 'error': {}});
+		}, allinps, {'val':{}, 'error': []});
 }
 
 
@@ -1107,6 +1111,13 @@ function rifu(x, y) {
 
 
 function g(l, i, defaultval) {
-//	return rifu(l[i], rifu(isdef(l.length)) ? rifu(l[i+l.length]:defaultval, defaultval);
+	return rifu(l[i], 
+			isdef(l.length) ? rifu(l[i+l.length], defaultval): defaultval);
+}
+
+function indexedlist(l) {
+	return map(function(x,y) {
+		return (l.length > 1 ? ((int(y)+1)+". "+x):x);
+	}, l);
 }
 
