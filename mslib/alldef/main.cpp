@@ -52,12 +52,15 @@ define header1(tabname:[], tablink:[]) {
 	}
 }
 
-define header2(tabname:[], tablink:[]) {
+define header2(tabname:[], tablink:[], tabname1:[], tablink1: []) {
 	div(class: "navbar-fixed ") {
 		nav(class:"white", attr:{role: "container"}) {
 			div(class: "nav-wrapper container") {
-				a(attr:{id: "logo-container", href: HOST}, class: "brand-logo") {
-					img(attr:{src: "photo/mylogo1.png"}, class: "circle responsive-img", style:{"vertical-align": "middle"});
+				ul(class: "left hide-on-med-and-down" ) {
+					a(attr:{id: "logo-container", href: HOST}, class: "brand-logo") {
+						img(attr:{src: "photo/logo3.png"}, class: "responsive-img", style:{"vertical-align": "middle"});
+					}
+					disptabs(tabname: tabname1, tablink: tablink1);
 				}
 				ul(class: "right hide-on-med-and-down" ) {
 					disptabs(tabname: tabname, tablink: tablink);
@@ -217,6 +220,10 @@ define bigf(font: "65px") {
 	span(style:{"font-size": font, "text-shadow": "3px 3px 3px #000, 2px 2px 2px blue"}, color: color) {
 		p(name);
 	}
+}
+
+define bigf1(font: "40px") {
+	bigf(color: color,font: font, name: name);
 }
 
 

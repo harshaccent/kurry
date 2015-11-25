@@ -126,7 +126,7 @@ html, body {
 }
 
 .pagecenter{
-	margin-top: 250px;
+	margin-top: 50px;
 }
 
 
@@ -233,6 +233,16 @@ div.error{
 
 .hiddenerror{
 	display: none;
+}
+
+
+
+
+.indexpage_footer {
+	position: fixed;
+	bottom: -20px;
+	min-height: 40px;
+	width: 100%;
 }
 
 

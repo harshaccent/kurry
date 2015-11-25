@@ -6,6 +6,20 @@ Replied: >>>>>
 
 
 
+-------------------------------------------So these are the remaining thing so far--------------------------------
+
+1. In general Messages are not shown properly anywhere.
+2. Reporting is not done of any sort.
+3. Do you want to Cook  ( Dinner, Lunch, Both)
+4. Similarly you cannot say " You are Late " when the item is added to the cart. If the time has passed for ordering the ordering screen should not show up any item.
+5. There are still messages, English issues all over the place. 
+6. Ability to export the weekly menu in a pdf , with pictures. This is very important for us for the social media.
+7. The page should scroll to the bottom and we would have the following  links.
+8. Also can you change the Font to little more funkier. 
+9. For "Be a HomeChef" Please see the form in Biteclub.in Site.
+
+
+
 
 
 
@@ -14,19 +28,19 @@ Replied: >>>>>
 
 ####Basic error checks in the database and put message on Front end to show
 
-1. If no one is serving a location searched :  " We are trying hard to serve you in this location, will let you 
+#1. If no one is serving a location searched :  " We are trying hard to serve you in this location, will let you 
 know once this location is launched:
 
-2. If location has a chef but no one is serving today:  We are closed for the day for this location, sorry for 
-the inconvenience.
+2. If location has a chef but no one is serving today:  We are closed for the day for this location, sorry for the inconvenience.
+3. If no one puts a menu : We are closed for the day, but you can pre-order lunch and dinner for the next 5 days
+>>>>>(2,3): It is not done explicitly. Only 1 error is shown always.
 
-3. If no one puts a menu : We are closed for the day, but you can pre-order lunch and dinner for the next 5 
-days
+Please have logo in between the white top header.  Have "Home, Blog, How it works" on left of the Menu  and "Be a HomeChef, Login "on the right of it.
+>>>Didn't understand it properly
 
-Please have logo in between the white top header.  Have "Home, Blog, How it works" on left of the Menu 
- and "Be a HomeChef, Login "on the right of it.
-For "Be a HomeChef" Please see the form in Biteclub.in Site.
-2. Put the below text , the photo we will provide by today.
+
+
+###########2. Put the below text , the photo we will provide by today.
                 Real Food Home Delivered
 
                      ------------------
@@ -35,14 +49,11 @@ For "Be a HomeChef" Please see the form in Biteclub.in Site.
 
                 No Commitment, No Fuss
 
-Also can you change the Font to little more funkier. 
 
-3. The page should scroll to the bottom and we would have the following  links.
-a.  Twitter , FB and Instagram page at the bottom.
-b.  Copyright information line.
-c.Policies, T&C, Large Orders, Contact Us Page.
-Ability to export the weekly menu in a pdf , with pictures. This is very important for us for the social 
-media.
+######a.  Twitter , FB and Instagram page at the bottom.
+######b.  Copyright information line.
+####c.Policies, T&C, Large Orders, Contact Us Page.
+
 
 ######Take how we work from http://tandurusti.in/kurrybox/ or holachef.com
 ######Error checks in login screen are missing as well. The password is being shown and 
@@ -60,21 +71,15 @@ media.
 #####example : I was in Vasant Vihar today morning and its showing me all the chefs. I dont want a person to be 
 ####able to add item in the cart and then we are telling him that its too far. 
 
-Similarly you cannot say " You are Late " when the item is added to the cart. If the time has passed for ordering the ordering screen should not show up any item.
-
-There are still messages, English issues all over the place. 
 
 Some issues
 1. How Select Languages will work
 >>>>It there some problem in styling ???
 ####2.Academic - Wrong Spelling
-3. Do you want to Cook  ( Dinner, Lunch, Both)
 #####4. How many plates you can serve in a day ( Wrong dropdown values)
 #####1. There is no address in the chef details page, when we go in to the details of the chef. 
-2. Reporting is not done of any sort.
 ####3. Login page doesnt give proper messages.
 ####Password is still visible. 
-In general Messages are not shown properly anywhere.
 
 
 

@@ -36,7 +36,7 @@ define bigsearch() {
 
 define header4() {
 	if(islogin == None) {
-		header2(tablink:[HOST, "", "", BASE+"chefjoin"], tabname:["Home", "Our Story", "Blog", "Be a Chef"]);
+		header2(tablink:["", "", BASE+"chefjoin"], tabname:["Our Story", "Blog", "Be a Chef"]);
 	} elif (islogin == "u") {
 		header2_user(tablink:[HOST, "", "", BASE+"cart"], tabname:["Home", "Our Story", "Blog", "Cart"]);
 	} elif (islogin == "a") {
@@ -718,3 +718,117 @@ define errorbox() {
 	}
 }
 
+
+define menu_nofood() {
+	div(class: "col l12 m12 s12") {
+		textdiv(name: "No chef is serving in this location. We are trying hard to serve you in this location, will let you know once this location is launched", font: "20px");
+	}
+}
+
+
+
+define kurry_footer() {
+	div(class: "page-footer white darken-4", style: {"margin-bottom": "0px", "padding-bottom": "0px"}) {
+		div(class: "container") {
+			div(class: "row", style: {"margin-bottom": "-25px"}) {
+				div(class: "col s4 m4 l2") {
+				}
+				div(class: "col s2 m2 l3") {
+					h5() {
+						p("Social Media");
+					}
+					ul(){
+						li() {
+							a1(name: "Facebook", href: BASE+"aboutus");
+						}
+						li() {
+							a1(name: "Twitter");
+						}
+						li() {
+							a1(name: "Instagram");
+						}
+					}
+				}
+				div(class: "col s2 m2 l3") {
+					h5() {
+						p("Help");
+					}
+					ul(){
+						li() {
+							a1(name: "About us", href: BASE+"aboutus");
+						}
+						li() {
+							a1(name: "Contact us");
+						}
+					}
+				}
+				div(class: "col s2 m2 l3") {
+					h5() {
+						p("Legal");
+					}
+					ul(){
+						li() {
+							a1(name: "T&C", href: BASE+"aboutus");
+						}
+						li() {
+							a1(name: "Policy");
+						}
+					}
+				}
+			}
+			div(class: "row"){
+				div(class: "col l12 align-left ") {
+					p("&copy; Copyright 2015 KurryBox");
+				}
+			}
+		}
+	}
+}
+
+
+// <footer class="page-footer teal darken-4" id="footer">
+// 	<div class="container">
+// 		<div class="row">
+// 			<div class="col-sm-4 col-xs-6">
+// 				<h5>getIITians</h5>
+// 				<p><em>Get an IITian Tutor.<br>Any Topic! Any Time!</em></p>
+// 			</div>
+// 			<div class="col-sm-2 col-xs-6">
+// 				<h5>Help</h5>
+// 				<ul>
+// 					<li><a href="http://getiitians.com/teaching/aboutus">About us</a></li>
+// 					<li><a href="http://getiitians.com/teaching/contactus">Contact us</a></li>
+// 				</ul>
+// 			</div>
+// 			<div class="col-sm-2 col-xs-6">
+// 				<h5>Legal</h5>
+// 				<ul>
+// 					<li><a href="http://getiitians.com/teaching/privacypolicy">Privacy Policy</a></li>
+// 					<li><a href="http://getiitians.com/teaching/termsofuse">Terms of Use</a></li>
+// 				</ul>
+// 			</div>
+// 			<div class="col-sm-3 col-xs-6">
+// 				<div id="images">
+// 					<a href="https://www.facebook.com/getiitians">
+// 						<img src="images/facebook-ribbon.png" alt="Facebook" width="30" height="60" class="tooltipped" data-toggle="tooltip" data-placement="top" title="Facebook">
+// 					</a>
+// 					<img src="images/twitter-ribbon.png" alt="Twitter" width="30" height="60">
+// 					<img src="images/googleplus-ribbon.png" alt="Google+" width="30" height="60">
+// 					<a href="mailto:mail@getiitians.com">
+// 						<img src="images/email-ribbon.png" alt="Email" width="30" height="60"  class="tooltipped" data-toggle="tooltip" data-placement="top" title="info@getiitians.com">
+// 					</a>
+// 				</div>
+// 				<ul>
+// 					<li><i class="material-icons tiny">phone_iphone</i> +91 931 339 4403</li>
+// 					<li><img src="images/feel-free-whatsapp.png" width="15" height="15"> +91 931 339 4403</li>
+// 					<li><a  href="mailto:info@getiitians.com"><i class="material-icons tiny">mail</i> info@getiitians.com</a></li>
+// 				</ul>
+// 			</div>
+// 		</div>
+// 		<div class="row">
+// 			<div class="col-xs-12 align-left footer-copyright">
+// 				&copy; Copyright 2015 getIITians
+// 			</div>
+// 		</div>
+// 	</div>
+// </footer>

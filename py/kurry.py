@@ -41,7 +41,7 @@ def init_sql_config():
 
 	_config["sql"]["dispdish4"] = "select * from "+gtable("dispdish0")+" where datetime={datetime} AND plimit > 0 AND lord ={lord} ";
 
-	_config["sql"]["dispdish5"] = "select dispdish4.plimit, dispdish4.numplatebooked, dispdish4.datetime, dispdish4.lord,"+sqlhelp("latlng")+" as distance, dishes1.* from "+gtable("dispdish4")+" left join "+gtable("dishes1")+" on dishes1.id = dispdish4.dishid where (plimit-numplatebooked > 0 AND true ) having distance <= "+str(_config["config"]["deliverydistance"])+"";
+	_config["sql"]["dispdish5"] = "select dispdish4.plimit, dispdish4.numplatebooked, dispdish4.datetime, dispdish4.lord,"+sqlhelp("latlng")+" as distance, dishes1.* from "+gtable("dispdish4")+" left join "+gtable("dishes1")+" on dishes1.id = dispdish4.dishid where (plimit-numplatebooked > 0 or true) having distance <= "+str(_config["config"]["deliverydistance"])+"";
 
 	_config["sql"]["cart1"] = "select dispdish0.plimit, dispdish0.numplatebooked, "+sqlhelp("latlng", {"lat1": "chef.lat", "lng1": "chef.lng"})+" as distance, dishes1.cid, dishes1.name, dishes1.title, dishes1.price, cart.* from cart left join "+gtable("dishes1")+" on dishes1.id = cart.dishid left join "+gtable("dispdish0")+" on (dispdish0.datetime = cart.datetime AND dispdish0.dishid = cart.dishid AND dispdish0.lord = cart.lord) left join chef on chef.chefid = dishes1.cid where uid={uid}";
 
