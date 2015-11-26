@@ -58,7 +58,7 @@ define header2(tabname:[], tablink:[], tabname1:[], tablink1: []) {
 			div(class: "nav-wrapper container") {
 				ul(class: "left hide-on-med-and-down" ) {
 					a(attr:{id: "logo-container", href: HOST}, class: "brand-logo") {
-						img(attr:{src: "photo/logo3.png"}, class: "responsive-img", style:{"vertical-align": "middle"});
+						img(attr:{src: "photo/logo4.png"}, class: "responsive-img", style:{"vertical-align": "middle"});
 					}
 					disptabs(tabname: tabname1, tablink: tablink1);
 				}
