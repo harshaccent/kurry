@@ -82,6 +82,8 @@ class pagehandler:
 		if(_get.has_key("logout")):
 			logout();
 			redirect(HOST);
+		else:
+			return {"aboutus_content": read_file("data/content/aboutus_content.txt"), "policy_content": read_file("data/content/policy_content.txt")};
 
 	def ajaxactions(self):
 		time.sleep(1);

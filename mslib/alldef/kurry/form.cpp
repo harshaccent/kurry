@@ -728,7 +728,7 @@ define menu_nofood() {
 
 
 define kurry_footer() {
-	div(class: "page-footer white darken-4", style: {"margin-bottom": "0px", "padding-bottom": "0px"}) {
+	div(class: "page-footer darken-4", style: {"margin-bottom": "0px", "padding-bottom": "0px"}) {
 		div(class: "container") {
 			div(class: "row", style: {"margin-bottom": "-25px"}) {
 				div(class: "col s4 m4 l2") {
@@ -755,10 +755,10 @@ define kurry_footer() {
 					}
 					ul(){
 						li() {
-							a1(name: "About us", href: BASE+"aboutus");
+							a1(name: "About us", attr:{ "onclick": '$("#aboutus").openModal();'});
 						}
 						li() {
-							a1(name: "Contact us");
+							a1(name: "Contact us", attr: {onclick: '$("#contactusform").openModal();'});
 						}
 					}
 				}
@@ -768,10 +768,10 @@ define kurry_footer() {
 					}
 					ul(){
 						li() {
-							a1(name: "T&C", href: BASE+"aboutus");
+							a1(name: "T&C", attr:{ "onclick": '$("#policy").openModal();'});
 						}
 						li() {
-							a1(name: "Policy");
+							a1(name: "Policy", attr:{ "onclick": '$("#policy").openModal();'});
 						}
 					}
 				}
@@ -786,49 +786,60 @@ define kurry_footer() {
 }
 
 
-// <footer class="page-footer teal darken-4" id="footer">
-// 	<div class="container">
-// 		<div class="row">
-// 			<div class="col-sm-4 col-xs-6">
-// 				<h5>getIITians</h5>
-// 				<p><em>Get an IITian Tutor.<br>Any Topic! Any Time!</em></p>
-// 			</div>
-// 			<div class="col-sm-2 col-xs-6">
-// 				<h5>Help</h5>
-// 				<ul>
-// 					<li><a href="http://getiitians.com/teaching/aboutus">About us</a></li>
-// 					<li><a href="http://getiitians.com/teaching/contactus">Contact us</a></li>
-// 				</ul>
-// 			</div>
-// 			<div class="col-sm-2 col-xs-6">
-// 				<h5>Legal</h5>
-// 				<ul>
-// 					<li><a href="http://getiitians.com/teaching/privacypolicy">Privacy Policy</a></li>
-// 					<li><a href="http://getiitians.com/teaching/termsofuse">Terms of Use</a></li>
-// 				</ul>
-// 			</div>
-// 			<div class="col-sm-3 col-xs-6">
-// 				<div id="images">
-// 					<a href="https://www.facebook.com/getiitians">
-// 						<img src="images/facebook-ribbon.png" alt="Facebook" width="30" height="60" class="tooltipped" data-toggle="tooltip" data-placement="top" title="Facebook">
-// 					</a>
-// 					<img src="images/twitter-ribbon.png" alt="Twitter" width="30" height="60">
-// 					<img src="images/googleplus-ribbon.png" alt="Google+" width="30" height="60">
-// 					<a href="mailto:mail@getiitians.com">
-// 						<img src="images/email-ribbon.png" alt="Email" width="30" height="60"  class="tooltipped" data-toggle="tooltip" data-placement="top" title="info@getiitians.com">
-// 					</a>
-// 				</div>
-// 				<ul>
-// 					<li><i class="material-icons tiny">phone_iphone</i> +91 931 339 4403</li>
-// 					<li><img src="images/feel-free-whatsapp.png" width="15" height="15"> +91 931 339 4403</li>
-// 					<li><a  href="mailto:info@getiitians.com"><i class="material-icons tiny">mail</i> info@getiitians.com</a></li>
-// 				</ul>
-// 			</div>
-// 		</div>
-// 		<div class="row">
-// 			<div class="col-xs-12 align-left footer-copyright">
-// 				&copy; Copyright 2015 getIITians
-// 			</div>
-// 		</div>
-// 	</div>
-// </footer>
+define kurry_contactus_form() {
+	div(class: "row") {
+		div(class: "col s12 l12 m12") {
+			h3(class: "grey-text text-darken-4") {
+				p("Contact US");
+			}
+		}
+		div(class: "col s12 l6 m6") {
+			h5(class: "grey-text text-darken-2") {
+				p("Address");
+				icon(name: "navigation", aclass: "tiny");
+			}
+			div(class: "grey-text") {
+				p("58/1 2nd Floor,<br> Kalu Sarai<br>  Near Hauz Khas Metro Station<br> New Delhi - 110016<br>India");
+			}
+		}
+		div(class: "col s12 l6 m6") {
+			h5(class: "grey-text text-darken-2") {
+				p("Mail");
+				icon(name: "mail", aclass: "tiny");
+			}
+			div(class: "grey-text") {
+				p("mohitsaini1196@gmail.com");
+			}
+			h5(class: "grey-text text-darken-2") {
+				p("Call");
+				icon(name: "call", aclass: "tiny");
+			}
+			div(class: "grey-text") {
+				p("+91 750 375 9053");
+			}
+		}
+	}
+}
+
+define kurry_aboutus() {
+	div(class: "card-content") {
+		h3(class: "card-title") {
+			p("About Us");
+		}
+		div() {
+			p(aboutus_content);
+		}
+	}
+}
+
+define kurry_policy() {
+	div(class: "card-content") {
+		h3(class: "card-title") {
+			p("Plicy");
+		}
+		div() {
+			p(policy_content);
+		}
+	}
+}
+
