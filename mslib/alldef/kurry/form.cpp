@@ -830,7 +830,7 @@ define kurry_aboutus() {
 define kurry_policy() {
 	div(class: "card-content") {
 		h3(class: "card-title") {
-			p("Plicy");
+			p("Policy");
 		}
 		div() {
 			p(policy_content);
