@@ -83,7 +83,7 @@ class pagehandler:
 			logout();
 			redirect(HOST);
 		else:
-			return {"aboutus_content": read_file("data/content/aboutus_content.txt"), "policy_content": read_file("data/content/policy_content.txt")};
+			return {"aboutus_content": read_file("data/content/aboutus_content.txt"), "policy_content": read_file("data/content/policy_content.txt"), "metadata": read_file("data/content/metadata_content.txt")};
 
 	def ajaxactions(self):
 		time.sleep(1);

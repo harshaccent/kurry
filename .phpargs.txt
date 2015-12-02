@@ -1,1 +1,1 @@
-{"get":{"":"mohit"},"post":{"":"mohit"},"session":{"":"mohit"},"url":"","file":{"":"mohit"},"addinfo":{"ip":"10.208.20.186"}}
+{"get":{"":"mohit"},"post":{"loginphone":"7503759053","loginpass":"mohit","action":"login","":"mohit"},"session":{"":"mohit"},"url":"ajaxactions","file":{"":"mohit"},"addinfo":{"ip":"10.208.20.186"}}

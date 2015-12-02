@@ -8,7 +8,7 @@ main2(js: chefjoinjs) {
 	header4();
 	div() {
 		div(class: "container") {
-			height(val: 20);
+			height(val: 100);
 			form(data:{onsubmit: "sreq", bobj: "", action: "chefjoinus", restext: "Submitted", errorh: "error_login"}, attr:{id: "mohit"}) {
 				errorbox();
 				div(class: "row"){

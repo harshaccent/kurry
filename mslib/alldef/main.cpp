@@ -9,6 +9,9 @@ define main(acss:["css/materialize.min.css", "css/lib.css", 'css/materialize.min
 			for(i, css) {
 				link(attr:{href:i, rel:"stylesheet", type:"text/css"});
 			}
+			if(metadata != None) {
+				p(metadata);
+			}
 		}
 		body(style:bodystyle){
 			innerHTML();
