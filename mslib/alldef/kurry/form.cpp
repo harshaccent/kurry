@@ -36,7 +36,7 @@ define bigsearch() {
 
 define header4() {
 	if(islogin == None) {
-		header2(tablink:[BASE+"chefjoin"], tabname:["Be a Chef"], tablink1: ["", ""], tabname1: ["Our Story", "Blog"]);
+		header2(tablink:[BASE+"chefjoin"], tabname:["Be a Chef"], tablink1: [""], tabname1: ["Blog"]);
 	} elif (islogin == "u") {
 		header2_user(tablink:[HOST, "", "", BASE+"cart"], tabname:["Home", "Our Story", "Blog", "Cart"]);
 	} elif (islogin == "a") {
@@ -739,7 +739,7 @@ define kurry_footer() {
 					}
 					ul(){
 						li() {
-							a1(name: "Facebook", href: BASE+"aboutus");
+							a1(name: "Facebook");
 						}
 						li() {
 							a1(name: "Twitter");
@@ -777,7 +777,7 @@ define kurry_footer() {
 				}
 			}
 			div(class: "row"){
-				div(class: "col l12 align-left ") {
+				div(class: "col l12 center ") {
 					p("&copy; Copyright 2015 KurryBox");
 				}
 			}

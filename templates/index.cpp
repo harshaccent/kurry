@@ -33,9 +33,14 @@ main2(js:["js/index.js", "https://maps.googleapis.com/maps/api/js?signed_in=true
 									}
 								}
 								br();
-								form(attr:{"action": BASE+"menu" }){
-									bigsearch(ph:"Enter Your Location", id:"locsearch", autofocus:"");
+								div() {
+									b(color: "black", style: {"font-size": "25px"}) {
+										p("Launching Soon!");
+									}
 								}
+								// form(attr:{"action": BASE+"menu" }){
+								// 	bigsearch(ph:"Enter Your Location", id:"locsearch", autofocus:"");
+								// }
 							}
 						}
 					}
