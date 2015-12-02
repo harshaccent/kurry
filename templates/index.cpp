@@ -32,12 +32,13 @@ main2(js:["js/index.js", "https://maps.googleapis.com/maps/api/js?signed_in=true
 										p("No Commitment, No Fuss");
 									}
 								}
-								br();
+								height(val: 20);
 								div() {
 									b(color: "black", style: {"font-size": "25px"}) {
 										p("Launching Soon!");
 									}
 								}
+								height(val: 20);
 								form(attr:{"action": BASE+"menu" }){
 									bigsearch(ph:"Enter Your Location", id:"locsearch", autofocus:"");
 								}
