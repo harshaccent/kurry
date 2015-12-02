@@ -731,9 +731,7 @@ define kurry_footer() {
 	div(class: "page-footer darken-4", style: {"margin-bottom": "0px", "padding-bottom": "0px"}) {
 		div(class: "container") {
 			div(class: "row", style: {"margin-bottom": "-25px"}) {
-				div(class: "col s4 m4 l2") {
-				}
-				div(class: "col s2 m2 l3") {
+				div(class: "col s2 m2 l3 offset-l2 offset-m2") {
 					h5() {
 						p("Social Media");
 					}
@@ -768,10 +766,7 @@ define kurry_footer() {
 					}
 					ul(){
 						li() {
-							a1(name: "T&C", attr:{ "onclick": '$("#policy").openModal();'});
-						}
-						li() {
-							a1(name: "Policy", attr:{ "onclick": '$("#policy").openModal();'});
+							a1(name: "Company Policies, Terms and Conditions", attr:{ "onclick": '$("#policy").openModal();'});
 						}
 					}
 				}
@@ -793,29 +788,29 @@ define kurry_contactus_form() {
 				p("Contact US");
 			}
 		}
-		div(class: "col s12 l6 m6") {
-			h5(class: "grey-text text-darken-2") {
-				p("Address");
-				icon(name: "navigation", aclass: "tiny");
-			}
-			div(class: "grey-text") {
-				p("58/1 2nd Floor,<br> Kalu Sarai<br>  Near Hauz Khas Metro Station<br> New Delhi - 110016<br>India");
-			}
-		}
+		// div(class: "col s12 l6 m6") {
+		// 	h5(class: "grey-text text-darken-2") {
+		// 		p("Address");
+		// 		icon(name: "navigation", aclass: "tiny");
+		// 	}
+		// 	div(class: "grey-text") {
+		// 		p("58/1 2nd Floor,<br> Kalu Sarai<br>  Near Hauz Khas Metro Station<br> New Delhi - 110016<br>India");
+		// 	}
+		// }
 		div(class: "col s12 l6 m6") {
 			h5(class: "grey-text text-darken-2") {
 				p("Mail");
 				icon(name: "mail", aclass: "tiny");
 			}
 			div(class: "grey-text") {
-				p("mohitsaini1196@gmail.com");
+				p("kurrybox.contactus@gmail.com");
 			}
 			h5(class: "grey-text text-darken-2") {
 				p("Call");
 				icon(name: "call", aclass: "tiny");
 			}
 			div(class: "grey-text") {
-				p("+91 750 375 9053");
+				p("+91 704 211 4473");
 			}
 		}
 	}

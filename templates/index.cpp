@@ -38,9 +38,9 @@ main2(js:["js/index.js", "https://maps.googleapis.com/maps/api/js?signed_in=true
 										p("Launching Soon!");
 									}
 								}
-								// form(attr:{"action": BASE+"menu" }){
-								// 	bigsearch(ph:"Enter Your Location", id:"locsearch", autofocus:"");
-								// }
+								form(attr:{"action": BASE+"menu" }){
+									bigsearch(ph:"Enter Your Location", id:"locsearch", autofocus:"");
+								}
 							}
 						}
 					}
