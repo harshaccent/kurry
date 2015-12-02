@@ -102,14 +102,12 @@ class pagehandler:
 
 			print _sql.q("create table if not exists chef (chefid int, lat real, lng real, gender varchar(1), age int, languages varchar(30),cookpeople int, isnonveg varchar(1), isdegree varchar(1), aboutus varchar(100))");
 
-		if(False):
+		if(True):
 			print _kurry.signup({"phone": "7503759053", "password": "p"}, "a");
-		if(False):
+		if(True):
 			print _sql.q("create table if not exists dishes (id int NOT NULL AUTO_INCREMENT, cid int, price int, title varchar(100), descp varchar(1000), pic varchar(200), PRIMARY KEY ( id) )");
-		if(False):
+		if(True):
 			print _sql.q("create table if not exists dispdish (cid int, datetime int, dishid int, lord varchar(1), plimit int, UNIQUE (cid, datetime, dishid, lord))");
-		if(False):
-			print _sql.q("alter table if not exists users ADD profilepic_small varchar(200)");
 		if(True):
 			print _sql.q("create table if not exists cart (id int not null AUTO_INCREMENT, datetime int, dishid int, lord varchar(1), uid int, PRIMARY key (id))");
 			print _sql.q("create table if not exists orders (id int not null AUTO_INCREMENT, datetime int, dishid int, lord varchar(1), uid int, cid int, status varchar(1), dslots int, numplate int, lat real, lng real, time int, address varchar(300), PRIMARY key (id))");
