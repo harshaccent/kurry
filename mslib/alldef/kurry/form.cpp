@@ -36,7 +36,7 @@ define bigsearch() {
 
 define header4() {
 	if(islogin == None) {
-		header2(tablink:["", "", BASE+"chefjoin"], tabname:["Our Story", "Blog", "Be a Chef"]);
+		header2(tablink:[BASE+"chefjoin"], tabname:["Be a Chef"], tablink1: ["", ""], tabname1: ["Our Story", "Blog"]);
 	} elif (islogin == "u") {
 		header2_user(tablink:[HOST, "", "", BASE+"cart"], tabname:["Home", "Our Story", "Blog", "Cart"]);
 	} elif (islogin == "a") {

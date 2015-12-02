@@ -56,10 +56,10 @@ define header2(tabname:[], tablink:[], tabname1:[], tablink1: []) {
 	div(class: "navbar-fixed ") {
 		nav(class:"white", attr:{role: "container"}) {
 			div(class: "nav-wrapper container") {
+				a(attr:{id: "logo-container", href: HOST}, class: "brand-logo center") {
+					img(attr:{src: "photo/logo4.png"}, class: "responsive-img", style:{"vertical-align": "middle"});
+				}
 				ul(class: "left hide-on-med-and-down" ) {
-					a(attr:{id: "logo-container", href: HOST}, class: "brand-logo") {
-						img(attr:{src: "photo/logo4.png"}, class: "responsive-img", style:{"vertical-align": "middle"});
-					}
 					disptabs(tabname: tabname1, tablink: tablink1);
 				}
 				ul(class: "right hide-on-med-and-down" ) {
@@ -228,7 +228,7 @@ define bigf1(font: "40px") {
 
 
 define height() {
-	div(style:{height: val+"px"});
+	div(style:{height: val+"px"}, id: id);
 }
 
 define resimg(aclass:"") {

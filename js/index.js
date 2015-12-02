@@ -46,3 +46,13 @@ $(document).ready(function(){
 
 
 //$("#loginmodal").openModal();
+
+function design_need() {
+//	$("#header_space").height($($(".navbar-fixed").children()[0]).height());
+}
+
+
+
+
+design_need();
+
