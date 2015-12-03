@@ -15,6 +15,7 @@ elif(_server == "aws"):
 	db_data = {'host': 'localhost', 'user': 'root', 'pass': 'mohit', 'db': 'kurry'};
 elif(_server == "aws_kurry"):
 	HOST = 'http://52.8.204.132/';
+	HOST = 'http://kurrybox.in/';	
 	ROOT = '/var/www/html/';
 	db_data = {'host': 'localhost', 'user': 'root', 'pass': 'mohit', 'db': 'kurry'};
 
