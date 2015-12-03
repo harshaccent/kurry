@@ -13,6 +13,10 @@ elif(_server == "aws"):
 	HOST = 'http://54.149.49.212/kurry/';
 	ROOT = '/var/www/html/kurry/';
 	db_data = {'host': 'localhost', 'user': 'root', 'pass': 'mohit', 'db': 'kurry'};
+elif(_server == "aws_kurry"):
+	HOST = 'http://52.8.204.132/';
+	ROOT = '/var/www/html/';
+	db_data = {'host': 'localhost', 'user': 'root', 'pass': 'mohit', 'db': 'kurry'};
 
 CDN = HOST+'photo/'
 BASE = HOST+'index.php/'
