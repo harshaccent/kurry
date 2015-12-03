@@ -1,3 +1,1 @@
-Home cooked food. Delivered at your doorstep.
-KurryBox is a whole new way to eat. Our talented chefs create dishes that get delivered right to your door. It brings to you a unique home dining experience from kitchens of some incredibly talented chefs
-Our dishes range from regional tastes to world cuisines and are prepared using fresh ingredients with utmost love and care by chefs who have a passion for food.
+Kurrybox is a platform to connect home chefs to customers. It gives chefs the opportunity to reach customers looking for home cooked meal near their present location. Customers can go on Kurrybox and search for chefs offering home cooked meal near their present location.  Our home chefs create dishes that get delivered right to your door. It brings to you a unique home dining experience from kitchens of some incredibly talented chefs.
