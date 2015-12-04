@@ -7,7 +7,7 @@ main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 					ul(class: "" ) {
 						li() {
 							a(class: "dropdown-button", attr:{"data-activates": "dropdown2", "aria-expanded": "false", "aria-haspopup": "true"}) {
-								p("&nbsp;"*20+"Today, 28th Oct"+"&nbsp;"*0);
+								p("&nbsp;"*20+ day5times["textl"][0] +"&nbsp;"*0);
 								icon(name: "arrow_drop_down", aclass:"right");
 							}
 						}
@@ -31,7 +31,6 @@ main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 				}
 			}
 			ul(attr:{id: "dropdown2"}, class: "dropdown-content") {
-				nextdays = ["Today, 26 Oct", "27 Oct", "28 Oct"];
 				for(i, ii, day5times["timel"] ) {
 					li() {
 						a(attr:{href: BASE+"menu?datetime="+i}) {

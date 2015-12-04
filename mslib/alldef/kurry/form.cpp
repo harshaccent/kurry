@@ -803,7 +803,7 @@ define kurry_contactus_form() {
 				icon(name: "mail", aclass: "tiny");
 			}
 			div(class: "grey-text") {
-				p("kurrybox.contactus@gmail.com");
+				p("ContactUs@kurrybox.in");
 			}
 			h5(class: "grey-text text-darken-2") {
 				p("Call");
