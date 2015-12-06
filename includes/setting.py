@@ -18,6 +18,11 @@ elif(_server == "aws_kurry"):
 	HOST = 'http://kurrybox.in/';	
 	ROOT = '/var/www/html/';
 	db_data = {'host': 'localhost', 'user': 'root', 'pass': 'mohit', 'db': 'kurry'};
+elif(_server == "solnki"):
+	HOST = 'http://localhost/kurry/';
+	ROOT = '/var/www/html/kurry/';
+	db_data = {'host': '10.208.20.8', 'user': 'mohit', 'pass': 'mohitsaini', 'db': 'mohit'};
+
 
 CDN = HOST+'photo/'
 BASE = HOST+'index.php/'

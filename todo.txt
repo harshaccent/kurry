@@ -1,3 +1,42 @@
+Able to work on website in new format.
+1. Unable to Edit Address of a Chef as Admin
+3. Dishe Delivered and Reviewed is hard coded. 
+4. Should be " Plates Delivered"
+5. Unable to Add more Admin accounts
+1. "Odered At" Wrong spelling  " Date of Order"
+2. What is status c 
+3. I cannot click on Login properly. 
+
+
+
+---------- Reporting Data---------------------------------------------------------------------------
+
+For the 1st Sales Report these are the primary fields, already given in the document, just confirming
+Order Date , Order #, Lunch/Dinner , # of Items, Chef Name , Customer Name , Customer Mobile #, Customer Email, Chef Cut amount : That is the chef price of the item, RoadRunnr cost: Shipping Cost , 
+
+Reporting (Online with export to excel, pdf)
+1. Item Sold report per day, week, month, year, per chef, per location ( Use filters)
+This report would have columns like  Order Number ,item name, chef name , date, lunch/dinner, payment method, number #, Total Amount,  Chef Cut Amount, Customer Name, Mobile Number, Roadrunnr cost.
+This should also give us Totals (per day of all the amount columns listed above)
+
+2. Refund report
+Order #, Refund Amount, Refund Reason, Order Date, Part/Full Refund, Order amount, Customer Name, Mobile#, Refund Processed (Y/N), Date of refund
+
+3. Need to have ability to export all transactions details, so we can run custom analysis on Excel.
+
+--------------------------End: Repoting Data------------------------
+
+
+1. For the chef login please make sure that the chef is able to see after order is placed, for which delivery slot the food is booked so that he /she can prepare accordingly. 
+2. Is it possible after a successful order is placed chef can get these details on an sms and dont have to check on computer. 
+Order # , Item , Delivery Slot
+2. Blocking a user should work properly.
+
+@@@@@@@@@@order all by paying from Net-banking or paytm
+
+
+
+------------------------------------------------------------------------------------------------------------
 
 
 ############There will be three type of users on portal: Chef, Admin, Customer.
@@ -38,7 +77,6 @@ Customer user:
 @@@@ View more Details
 
 ######## He can set his address(s), Can see order list, Can see cart { list of all chosen dishes} , select the delivery time slot, 
-@@@@@@@@@@order all by paying from Net-banking or paytm
 
 Profile: 
 ###### (Admin and customer him self) : Can seen by admin, Having all information about his orders, Addresses, Name.
@@ -58,7 +96,3 @@ Additional Features:
 
 @@@@ Return Money
 @@@@ Token System.
-
-
-@@@@ Some minor problems in everything { Designing / Development } .
-
