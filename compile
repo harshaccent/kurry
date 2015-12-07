@@ -32,7 +32,10 @@ function adds() {
 	subl $1
 }
 
+function copycommon() {
+	zip -r mohit.zip ../cp/index.php ../cp/includes/app.php ../cp/mainpy.py ../cp/todisp.py 
+	unzip -o mohit.zip
+}
 
 #$1 $2
-
 c

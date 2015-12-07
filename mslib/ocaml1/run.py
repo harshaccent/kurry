@@ -1,213 +1,130 @@
-import os,copy,sys,inspect,collections
 
 class mtmlparser:
-	def elc(self, c):
-		f = os.popen(c);
-		data = filter(lambda x: (x!="\n" and x!="\r") , f.read())
-		f.close();
-		return data;
-
-	def parsebyocaml(self, f):
-		cmd = self.parser+" "+f+" 2> /dev/null"
-		a = self.elc(cmd if _server != "gcl" else "python client.py 10.208.20.186 '"+ cmd +"'" );
-		return eval("["+a+"]");
-
-	def parsedefn(self):
-		path = _mslib+"alldef/";
-		alldefn = path+".alldefn";
-		modftime = lambda x: self.elc("stat -c %x "+x).split(".")[0];
-		if(not( modftime(path) == modftime(alldefn) ) or True):
-			write_file(alldefn, "".join(read_file(i)+"\n\n" for i in allfile_rec(path) if i not in [alldefn] ));
-		self.datadef = self.parsebyocaml(alldefn);
-
-	def __init__(self):
+	def config(self):
 		self.parser = _mslib+"ocaml/calc";
 		self.tabseprate = "  ";
 		self.newlj = lambda x: "\n".join(list(str(i) for i in x if i!=""))
 		self.compiled = "templates/.compiled/";
 		self.compileddefn = self.compiled+"defines";
+		self.defname = lambda x: "newtag_"+x;
 
-	def readcompiled(self, name):
-		self.data = eval(read_file(self.compileddefn))+eval(read_file(self.compiled+name));
+	def runtimevar(self):
+		self.returnvardef = "outpvar";
+		self.returnvar = self.returnvardef;
+		self.ginp = "ginp";
+		self.linp = "inp";
+		self.scopefun = False;
 
-	def readinp(self, fname):
-		self.parsedefn();
-		self.data = self.datadef + self.parsebyocaml(fname);
+		self.directvar = [];
 
-	def readonefile(self, fname):
-		self.data = self.parsebyocaml(fname);
+	def __init__(self):
+		self.config();
+		self.runtimevar();
 
-	def expend(self, t, gamma, funcs, depth = 0):
+	def varname(self, x):
+		if(x in self.directvar):
+			return x;
+		else:
+			return (self.linp if self.scopefun else self.ginp)+"["+quoted_s(x)+"]";
+
+
+	def expend(self, t):
 		expend = self.expend;
-		def fold(f, l, a):
-			for i in l:
-				a = f(a, i) if len(inspect.getargspec(f).args) == 2 else f(a, l[i], i);
-			return a;
-
-		def joinarr(a, b):
-			for i in b:
-				a[i] = b[i];
-			return a;
-
-		def mergeifunset(a, b, isforce = False, checknone = False): #Warning: a is overwritten
-			for i in b:
-				if ((not a.has_key(i)) or isforce) and (not(checknone and b[i] == None)) :
-					a[i] = b[i];
-			return a;
-
-		def geta(key, arr): #for dict array only.
-			if(arr.has_key(key)):
-				return arr[key];
-			else:
-				return None;
-
-		def overwrite(a, b): #overwrite array a , forced by b
-			for i in b:
-				if(a.has_key(i) and type(a[i]) == dict and type(b[i]) == dict ):
-					overwrite(a[i], b[i]);
-				else:
-					a[i] = b[i];
-			return a;
-
-		cod = lambda: collections.OrderedDict();
-		def ouradd(x,y):
-			try:
-				return x+y;
-			except:
-				return str(x)+str(y);
 		if(t[0] == "None"):
-			return None;
+			return t[0];
 		elif(t[0] == "Assign"):
 			if(t[1][0] == "V"):
-				gamma[ t[1][1] ] = expend( t[2], gamma, funcs );
+				if(not(self.scopefun)):
+					self.directvar.append(t[1][1]);
+				return ([ expend(t[1]) + " = " + expend(t[2])+";"]);
 			elif(t[1][0] == "Get"):
-				expend(t[1][1], gamma, funcs)[ expend(t[1][2], gamma, funcs) ] = expend( t[2], gamma, funcs );
-			return ("", gamma, funcs);
-		elif(t[0] == "V" ):
-			return geta(t[1], gamma);
-		elif(t[0] in ["N", "S"] ):
-			return t[1];
-		elif(t[0] == "Not" ):
-			return int(not(expend(t[1], gamma, funcs)));
-		elif(t[0] == "Attr" ):
-			a = expend(t[1], gamma, funcs);
-			if(t[2] == 'len'):
-				return len(a);
-			elif(t[2] == 'keys'):
-				return a.keys();
-			elif(t[2] == 'gchars'):
-				return convchars(a);
-			else:
-				return a;
+				return ([expend(t[1])+" = " + expend(t[2])+";"])
+			return ([""]);
+		elif(t[0] == "V"):
+			return self.varname(t[1]);
+		elif(t[0] in ["S"]):
+			return quoted_s(t[1]);
+		elif(t[0] ==  "N"):
+			return str(t[1]);
+		elif(t[0] == "Not"):
+			return "not("+expend(t[1])+")"
+		elif(t[0] == "Attr"):
+			return expend(t[1])+"."+t[2]+"()";
 		elif(t[0] == "Ife"):
-			if(expend(t[1], gamma, funcs)):
-				return expend(t[2], gamma, funcs);
+			return "("+ expend(t[2]) +" if (" +expend(t[1]) + ") else "+ expend(t[3])+")";
+		elif(t[0] in  ["Get", "Add"]):
+			a1,a2 = expend(t[1]), expend(t[2])
+			if(t[0] == "Get"):
+				return a1+"["+a2+"]";
+			elif(t[0] == "Add"):
+				return "myadd("+a1+", "+a2+")";
+		elif(t[0] in ["Mul", "Sub", "Div", "Mod", "Or", "And", "Isequal", "Le", "Ge", "Ls", "Gt", "Notequal"]):
+			a1,a2 = expend(t[1]), expend(t[2])
+			expr = "("+a1+" "+{"Add": "+", "Mul": "*", "Sub": "-", "Div": "/", "Mod": "%", "Or": "or", "And": "and", "Isequal": "==", "Le": "<=", "Ge": ">=", "Ls": "<", "Gt": ">", "Notequal": "!="}[t[0]]+" "+a2+")";
+			if(t[0] in ["Or", "And", "Isequal", "Le", "Ge", "Ls", "Gt", "Notequal"]):
+				return "int("+expr+")";
 			else:
-				return expend(t[3], gamma, funcs);
-		elif(t[0] in ["Add", "Mul", "Sub", "Div", "Mod", "Or", "And", "Get", "Isequal", "Le", "Ge", "Ls", "Gt", "Notequal"] ):
-			a1,a2 = expend(t[1], gamma, funcs), expend(t[2], gamma, funcs)
-			if(t[0] == "Add"):
-				return ouradd(a1, a2);
-			elif(t[0] == "Mul"):
-				return a1*a2;
-			elif(t[0] == "Sub"):
-				return a1-a2;
-			elif(t[0] == "Div"):
-				return a1/a2;
-			elif(t[0] == "Mod"):
-				return a1%a2;
-			elif(t[0] == "And"):
-				return int(a1 and a2);
-			elif(t[0] == "Or"):
-				return int(a1 or a2);
-			elif(t[0] == "Get"):
-				return a1[a2];
-			elif(t[0] == "Isequal"):
-				return int(a1 == a2);
-			elif(t[0]=="Le"):
-				return int(a1<=a2);
-			elif(t[0]=="Ge"):
-				return int(a1>=a2);
-			elif(t[0]=="Ls"):
-				return int(a1<a2);
-			elif(t[0]=="Gt"):
-				return int(a1>a2);
-			elif(t[0]=="Notequal"):
-				return int(a1!=a2);
-			else:
-				return "";
+				return expr;
 		elif(t[0] == "Dictle"):
-				return {(t[1][1] if t[1][0] == "V" else expend(t[1], gamma, funcs)): expend(t[2], gamma, funcs) };
+				return (quoted_s(t[1][1]) if t[1][0] == "V" else expend(t[1]) ) +": "+ expend(t[2]);
 		elif(t[0] == "Dictl"):
-			return fold(lambda x,y: joinarr(x, expend(y, gamma, funcs) ), t[1:], {});
+			return "{"+(", ".join(map(lambda x: expend(x), t[1:][::-1])))+"}"
 		elif(t[0] == "Listl"):
-			return map(lambda x: expend(x, gamma, funcs), t[1:]);
+			return "["+(", ".join(map(lambda x: expend(x), t[1:])))+"]"
 		elif(t[0] == "Listi"):
 			outp = [];
 			for i in t[1:]:
-				(outp1, gamma1, funcs1) = expend(i, gamma, funcs, depth);
-				outp.append(outp1);
-				gamma = gamma1;
-				funcs = funcs1;
-			return (outp, gamma, funcs);
+				(outp1) = expend(i);
+				outp+=outp1;
+			return (outp);
 		elif(t[0] == "Ifel"):
-			for i in t[1:]:
-				if(expend(i[1], gamma, funcs)):
-					return (self.newlj(expend(i[2], gamma, funcs)[0]), gamma, funcs);
-			return ("", gamma, funcs);
-		elif(t[0] == "Forl"):
-			lt = expend(t[3], gamma, funcs);
-			lta = ( range(lt) if type(lt) == int else lt)
 			outp = [];
-			for i in xrange(len(lta)):
-				gamma1 = copy.deepcopy(gamma);
-				gamma1[t[1][1]] = lta[i];
-				if(t[2][1] != ""):
-					gamma1[ t[2][1] ] = i;
-				(outp1, gamma2, funcs2) = expend(t[4], gamma1, funcs, depth);
-				outp.append(self.newlj(outp1));
-			return (self.newlj(outp), gamma, funcs);
-		elif(t[0] == "Defn" ):
-			funcs[ t[1][1] ] = t;
-			return ("", gamma, funcs);
-		elif(t[0] == "Tag" ):
-			tagname = t[1][1];
-			pretext = self.tabseprate*depth;
-			if(tagname == "p"):
-				return (pretext+str(expend(t[2], gamma, funcs)), gamma, funcs);
-			elif(tagname == "innerHTML" and  gamma.has_key("innerHTML")):
-				return (self.newlj( gamma["innerHTML"] ), gamma, funcs);
+			for j in range(len(t[1:])):
+				i = t[1:][j];
+				outp.append(("elif" if j!=0 else "if")+" ("+expend(i[1])+"): " );
+				ifcontent = expend(i[2])
+				if(len(ifcontent) == 0):
+					ifcontent.append("pass");
+				outp.append( ifcontent );
+			return (outp);
+		elif(t[0] == "Forl"):
+			lt = expend(t[3]);
+			index_var = t[2][1];
+			value_var = t[1][1];
+			lta = "forlist("+lt+")";
+
+			outp = ["for "+(index_var if index_var != "" else value_var)+" in " + ("range(len("+lta+"))" if (index_var != "") else lta) + " :"];
+			self.directvar+=[value_var, index_var];
+			outp.append([""+value_var+" = "+lt+"["+index_var+"];" if (index_var != "") else "" ]+ rift(expend(t[4]), ["pass"], lambda x: len(x) == 0)) ;
+			remove(remove(self.directvar, value_var), index_var);
+			return (outp);
+		elif(t[0] == "Defn"):
+			fname = t[1][1];
+			self.scopefun = True;
+			innerHTML = expend(t[3]);
+			self.scopefun = False;
+			return (["def "+self.defname(fname)+"("+self.linp+", "+self.ginp+", innerHTML): "]+[[self.linp+" = overwriteattrs(extentattrs("+expend(t[2])+"), extentattrs("+self.linp+"));"]+["mifu("+self.linp+", "+self.ginp+");"]+[self.returnvar+" = htmltree();"], innerHTML, ["return "+self.returnvar+";"]]+[self.tabseprate]);
+		elif(t[0] == "Tag"):
+			tname = t[1][1];
+			if(tname == "print"):
+				return ([ self.returnvar+ ".addtext("+expend(t[2])+");"]);
+			elif(tname == "innerHTML"):
+				return [self.returnvar+".addchilds(innerHTML);"]
 			else:
-				onewaytags = ["input", "link", "img", "base"];
-				inattr = expend(t[2], gamma, funcs);
-				mergeifunset(inattr, {"attr": {}, "style": {}, "data": {}, "datas":{}});
-				mergeifunset(inattr["attr"], {"class": geta("class", inattr), "id": geta("id", inattr) }, True, True);
-				mergeifunset(inattr["style"], {"color": geta("color", inattr)}, True, True);
-				inattr["attr"]["style"] = inattr["style"];
-
-				mifu(inattr["attr"], l2dict(("data-"+i, inattr["data"][i]) for i in inattr["data"]));
-				mifu(inattr["attr"], l2dict(("data-send"+i, inattr["datas"][i]) for i in inattr["datas"]));
-
-				innerHTML = expend(t[3], gamma, funcs, depth+1)[0];
-				if(funcs.has_key(tagname)):
-					t1 = funcs[tagname];
-					gamma1 = copy.deepcopy(gamma);
-					mifu(gamma1, overwrite( expend(t1[2], gamma, funcs), inattr), True);
-					gamma1["innerHTML"] = innerHTML;
-					return (self.newlj(expend(t1[3], gamma1, funcs, depth)[0]), gamma, funcs);
+				inattr = expend(t[2]);
+				if(tname not in self.alltags):
+					oldrvar = self.returnvar;
+					self.returnvar = self.returnvar+".cur.fcalldata["+quoted_s(tname)+"]"
+					innerHTML = expend(t[3]);
+					self.returnvar = oldrvar;
+					return [self.returnvar+".cur.addfcdata("+quoted_s(tname)+");"]+innerHTML+[self.returnvar+".addchilds("+self.defname(tname)+"("+inattr+", "+self.ginp+", "+self.returnvar+".cur.fcalldata["+quoted_s(tname)+"].root.content).root.content);"];
 				else:
-					styles = inattr["attr"]["style"];
-					attrs = inattr["attr"];
-					linstyle = ";".join("{0}:{1}".format(x, styles[x]) for x in styles if styles[x]!=None);
-					linattr = "".join( list(" {0}='{1}' ".format(x, attrs[x]) for x in  attrs if (x!="style" and attrs[x]!=None )) + ([" style='"+linstyle+"' "] if linstyle!='' else []) )
-					fp1 = [pretext+"<"+tagname+linattr+">"];
-					fp2 = ([pretext+"</"+tagname+">"] if (tagname not in onewaytags) else [] );
-					return (self.newlj(fp1+innerHTML+fp2 ), gamma, funcs);
+					innerHTML = expend(t[3]);
+					return [self.returnvar+".open(htmlnode("+quoted_s(tname)+", extentattrs("+inattr+")));"]+innerHTML+([self.returnvar+".close();"] if (tname not in _onewaytags) else [])
 		else:
 			return "";
-	def disp(self, gamma = {}):
-		if(gamma == None):
-			gamma = {};
-		return self.newlj(self.expend( tuple(['Listi']+self.data), gamma, {})[0]);
-
+	def disp(self, data):
+		self.alltags = _config["alltags"];
+		outp = self.expend(tuple(['Listi'] + data))
+		return self.newlj(["#This code is auto generated code, don't Edit it "]+printoutp(outp, self.tabseprate, -1));
 

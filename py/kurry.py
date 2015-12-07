@@ -167,8 +167,8 @@ class kurry:
 	def savedaymenu(self, data):
 		limitdata = data["platelimits"];
 		if(limitdata):
-			_sql.dval("dispdish", pkey(data, ["cid", "datetime"]));
-			return mappl(lambda x: _sql.ival("dispdish", x), mappl(lambda x: mifu(dict(mapp(idf, x, None, lambda x: ["dishid", "lord", "plimit"][x] )), pkey(data, ["cid", "datetime"])), limitdata, lambda x: len(x)==3 ));
+			_sql.dval("dispdish", pkey1(data, ["cid", "datetime"]));
+			return mappl(lambda x: _sql.ival("dispdish", x), mappl(lambda x: mifu(dict(mapp(idf, x, None, lambda x: ["dishid", "lord", "plimit"][x] )), pkey1(data, ["cid", "datetime"])), limitdata, lambda x: len(x)==3 ));
 		else:
 			self.ec = -6;
 
@@ -181,7 +181,7 @@ class kurry:
 		if(data["password"] ==  g(_session, "otp")):
 			return self.signup(data);
 		else:
-			qr = _sql.sval("users", "*", pkey(data, ["phone"]), 1); #Query Result
+			qr = _sql.sval("users", "*", pkey1(data, ["phone"]), 1); #Query Result
 			if(qr == None):
 				self.ec = -12;
 			elif(qr["conf"] == "b"):
@@ -204,7 +204,7 @@ class kurry:
 				login(cdata["id"], cdata["type"], pkey1(cdata, ["name"]));
 				return cdata["id"];
 		else:
-			idata = sifu(pkey(data, ["phone", "password", "email", "name"]), "type", typ, True);
+			idata = sifu(pkey1(data, ["phone", "password", "email", "name"]), "type", typ, True);
 			iid = _sql.ival("users", idata);
 			login(iid, typ, pkey1(data, ["name"]));
 			return iid;

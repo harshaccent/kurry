@@ -1,43 +1,50 @@
+_agent = "poorvi";
 execfile("includes/setting.py");
 
-_printout = ""
+import time, sys, MySQLdb, random
 
-execfile(_mslib+"py/func.py");
-execfile(_mslib+"ocaml/run.py");
+from msl import *
+from msl.help import *
+from msl.sql import *
+from msl.mtime import *;
 
-_agent = "poorvi";
 
-_toresize = {};
-_phpheader = "";
 try:
-	#inpdata = udicttostr(json.loads(sys.argv[1]));
-	sys.argv[1];
-	inpdata = s2j(read_file(".phpargs.txt"));
+	inpdata = udicttostr(json.loads(sys.argv[1]));
 	_session = inpdata["session"];
 	_get = inpdata["get"];
 	_post = inpdata["post"];
 	_urlpath = inpdata["url"]
 	_files = inpdata["file"];
 	_addinfo = inpdata["addinfo"];
-except:
-	print "Error in reading php vars";
+except Exception as e:
+	print "Error in reading php vars"+str(e);
 	(_session, _get, _post, _urlpath, _file, _addinfo) = ({}, {}, {}, '', {}, {});
-
 execfile(_mslib+"py/webd.py");
 
+_urlpath = geturlpath(_urlpath);
+
+#mprint("%f"%time.time());
 
 exec(read_file(ROOT+"py/main.py"));
 
+filename = ("index" if _urlpath[1] == "" else _urlpath[1]);
 
-filename = ("index" if _urlpath == "" else _urlpath);
+# mprint(_urlpath);
 
-if( filename == "ajaxactions" ):
+if(filename == "ajaxactions"):
 	mprint(json.dumps(pagehandler(filename).ajaxactions()));
 else:
 	pageh = pagehandler(filename).call();
-	maincontent = mtmlparser();
-	maincontent.readcompiled(filename+".cpp");
-	mprint(maincontent.disp( mifu(pageh, {"HOST": HOST, "CDN": CDN, "BASE":BASE}, True) ));
+	if(not(g(_addinfo, "redirect") == True)):
+		mprint(execview(filename+".cpp", mifa(pageh, {"HOST": HOST, "CDN": CDN, "BASE":BASE})));
+
+#	maincontent = mtmlparser();
+#	maincontent.readcompiled(filename+".cpp");
+#	write_file("cache_mainpage.html", maincontent.disp(mifu(pageh, {"HOST": HOST, "CDN": CDN, "BASE":BASE}, True) ));
+#	mprint(read_file("cache_mainpage.html"));
+
+#mprint("<br>%f<br>"%time.time());
 
 _sql.close_db();
 

@@ -1,4 +1,4 @@
-_sql = sqllib();
+_sql = sqllib((_agent == "poorvi" and _server == "gcl") or (doifcan1(lambda: r1(MySQLdb, 0), 1)), db_data);
 
 execfile(ROOT+"py/kurry.py");
 _kurry = kurry();
@@ -82,8 +82,7 @@ class pagehandler:
 		if(_get.has_key("logout")):
 			logout();
 			redirect(HOST);
-		else:
-			return {"aboutus_content": read_file("data/content/aboutus_content.txt"), "policy_content": read_file("data/content/policy_content.txt"), "metadata": read_file("data/content/metadata_content.txt")};
+		return {"aboutus_content": read_file("data/content/aboutus_content.txt"), "policy_content": read_file("data/content/policy_content.txt"), "metadata": read_file("data/content/metadata_content.txt")};
 
 	def ajaxactions(self):
 		time.sleep(1);

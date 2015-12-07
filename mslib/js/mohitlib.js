@@ -526,9 +526,13 @@ var inpmultiple={
 
 
 function selectAll(obj) { //good one.
-	var cur;
-	for(cur=$(obj); cur.find("input[type=checkbox]").length<=1; cur=cur.parent() );
-	var cblist = cur.find("input[type=checkbox]");
+	var getchecboxs = function (cur) {
+		return merge1(tolist(cur.find("input[type=checkbox]")), tolist(cur.find("input[type=radio]")));
+	}
+	var cur = lookontop(obj, function(x){
+		return (getchecboxs(x).length > 1);
+	});
+	var cblist = getchecboxs($(cur));
 	for(var i=1; i< cblist.length; i++ ) {
 		cblist[i].checked = obj.checked;
 	}
@@ -798,6 +802,12 @@ function map(f, l, filt, keyf) {
 	return d2list(mapp(f, l, filt, keyf));
 }
 
+function filter(f, l) {
+	return map(id, l, f, id);
+}
+
+
+
 function mapo(f, objs, filt) {//for the list of like jquery selector where we just have x.length & x[i] for 0<=i<length
 	var modf = function(f){ return (f==null ? null:function(x){ return f(objs[x], x); }); };
 	return map(modf(f), range(objs.length), modf(filt));
@@ -948,7 +958,7 @@ function dsattr(obj) {
 	return mapp(id, dattr(obj), function(y, x){ return x.substr(0,4)=="send"; }, function(x){ return x.substr(4); });
 }
 
-function belogns(l, a) {
+function belongs(l, a) {
 	return (l.indexOf(a) != -1);
 }
 
@@ -957,7 +967,7 @@ function append(l, a) {
 }
 
 function appenduniq(l, a) {
-	if(!belogns(l, a))
+	if(!belongs(l, a))
 		l.push(a);
 	return l;
 }
@@ -967,7 +977,7 @@ function addluniq(l1, l2) {
 }
 
 function listaminusb(l1, l2) {
-	return fold(function(x,y){ return belogns(l2, y)?x:appenduniq(x, y); }, l1, []);
+	return fold(function(x,y){ return belongs(l2, y)?x:appenduniq(x, y); }, l1, []);
 }
 
 function nth(l, e) {
@@ -1121,3 +1131,40 @@ function indexedlist(l) {
 	}, l);
 }
 
+
+
+
+
+
+
+
+
+function push1(l1, x) {
+	return r1(l1.push(x), l1);
+}
+
+function inlist(l, e) {
+	return (l.indexOf(e)!=-1);
+}
+
+function push2(l, x) {
+	return inlist(l,x) ? l: push1(l, x);
+}
+
+function merge_f(l1, l2, push_style) {
+	return fold(function(x,y) { return push_style(x,y); }, l2, l1);
+}
+
+function merge1(l1, l2) {
+	return merge_f(l1, l2, push1);
+}
+
+function merge2(l1, l2) {
+	return merge_f(l1, l2, push2);
+}
+
+function tolist(l) {
+	return map(function(x){
+		return l[x];
+	}, range(l.length));
+}

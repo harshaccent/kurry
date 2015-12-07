@@ -5,6 +5,8 @@
 
 _localtz = pytz.timezone("Asia/Calcutta") if ("pytz" in _includes) else None;
 
+
+
 def fold_l(f, l, a):
 	for i in l:
 		a = f(a, i) if len(inspect.getargspec(f).args) == 2 else f(a, l[i], i);
@@ -42,11 +44,11 @@ def seto(a, b, o='|'):#Set operation, Warning: list order not preserved, a & b s
 	return eval('list(set(a) '+o+' set(b) )');
 
 def setol(a, b, o): #set operation on list, Ordered is preserved. a, b may not be set.
-	if( o == '|' ):
+	if( o == '|' ): #Union
 		return fold(lambda x, y: r1(appenduniq(x, y), x), b, unique(a));
-	elif( o == '&' ):
+	elif( o == '&' ): #Intersection
 		return fold(lambda x,y: r1(appenduniq(x, y) if y in a else None, x), b, []);
-	elif( o == '-' ):
+	elif( o == '-' ): # a\b
 		return fold(lambda x,y: r1(x.append(y) if y not in b else None, x) , a, []);
 	else:
 		return [];
@@ -191,9 +193,9 @@ def google_addrtolanlat(addr):
 
 def udicttostr(inp):
 	if(type(inp) == unicode):
-		return str(inp);
+		return mystr(inp);
 	elif(type(inp) == cod):
-		return mapp(lambda x: udicttostr(x), inp, None, lambda x: str(x));
+		return mapp(lambda x: udicttostr(x), inp, None, lambda x: mystr(x));
 	elif(type(inp) == list):
 		return map(udicttostr, inp);
 	else:

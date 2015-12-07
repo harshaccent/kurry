@@ -13,29 +13,29 @@ main2(js:["js/index.js", "https://maps.googleapis.com/maps/api/js?signed_in=true
 							div(class: "card-panel grey lighten-5 z-depth-1") {
 								div() {
 									b(color: "black", style: {"font-size": "25px"}) {
-										p("Real Food");
+										print("Real Food");
 									}
 								}
 								div() {
 									b(color: "black", style: {"font-size": "25px"}) {
-										p("Home Delivered");
+										print("Home Delivered");
 									}
 								}
 								div(style: {"width": "20%", "border-bottom": "solid black 5px", "min-height": "2px", "margin-top": "10px", "margin-bottom": "10px"});
 								div() {
 									b(color: "black", style: {"font-size": "16px"}) {
-										p("Fresh Ingredients, Daily Menus");
+										print("Fresh Ingredients, Daily Menus");
 									}
 								}
 								div() {
 									b(color: "black", style: {"font-size": "16px"}) {
-										p("No Commitment, No Fuss");
+										print("No Commitment, No Fuss");
 									}
 								}
 								height(val: 20);
 								div() {
 									b(color: "black", style: {"font-size": "25px"}) {
-										p("Launching Soon!");
+										print("Launching Soon!");
 									}
 								}
 								height(val: 20);

@@ -114,3 +114,42 @@ $(document).keyup(function(e) {
 	}
 });
 
+
+function latlandist(lat1, lng1, lat2, lng2) {
+	var degtorad = function(x){
+		return x*(Math.PI/180);
+	}
+	var R = 6371000; // metres
+	var ph1 = degtorad(lat1);
+	var ph2 = degtorad(lat2);
+	var dph = degtorad(lat2 - lat1);
+	var dlem = degtorad(lng2 - lng1);
+	var sin = Math.sin;
+	var a = sin(dph/2) * sin(dph/2) + sin(ph1)*sin(ph2)*sin(dlem/2)*sin(dlem/2);
+	var c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	return R*c;
+}
+
+
+function cluster_points(plist, f) { //f (p0, p1) -> is p0 friend of p1
+	var clusters = [];
+	var limit = 100;
+	while(plist.length > 0) {
+		limit--;
+		cluster = filter(function(x) {
+			return f(x,plist[0]);
+		}, plist);
+		plist = listaminusb(plist, cluster);
+		clusters.push(cluster);
+	}
+	return clusters;
+
+}
+
+function geolocgroup(plist, zoom, screen_distance) {
+	var scale = 1183315100;//scale on google map when zoom = 0
+	return cluster_points(plist, function(x,y) {
+		var distance = latlandist(x[0], x[1], y[0], y[1]);//meter
+		return (distance*Math.pow(2, zoom) <= screen_distance*scale);
+	});
+}

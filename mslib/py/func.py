@@ -1,4 +1,4 @@
-for i in ['json', 'datetime', 'pytz', 'time', 're', 'copy', 'inspect', 'itertools', 'MySQLdb', 'sys', 'os', 'collections', 'random', 'urllib']:
+for i in ['json', 'datetime', 'pytz', 'time', 're', 'copy', 'inspect', 'itertools', 'MySQLdb', 'sys', 'os', 'collections', 'random', 'urllib', 'math']:
 	try:
 		exec("import "+i);
 		_includes.append(i);
@@ -14,6 +14,7 @@ except:
 execfile(_mslib+"py/config.py");
 execfile(_mslib+"py/use.py");
 execfile(_mslib+"py/sql.py");
+execfile(_mslib+"py/algos.py");
 
 fold = fold_l;
 
@@ -38,9 +39,6 @@ def mapp(f, l, filt=None, keyf=None): #preserve the order for simple list.( Chil
 def mappl(f, l, filt=None, keyf=None):
 	return mapp(f, l, filt, keyf).values();
 
-def mprint(*x):
-	global _printout;
-	_printout += (", ".join(str(i) for i in x));
 
 def gkeys(a):
 	return range(len(a)) if type(a) == list else a.keys();
@@ -176,6 +174,9 @@ def intf(x):
 
 def ife(a,b,c=None):
 	return (b if a else c);
+
+def mystr(s):
+	return unicode(s).encode('ascii', 'ignore')
 
 
 

@@ -1,3 +1,9 @@
+execfile(_mslib+"py/config.py");
+
+def mprint(*x):
+	global _printout;
+	_printout += (", ".join(str(i) for i in x));
+
 
 def msgdummy(phone, msg):
 	msgfile = "data/msgf";
@@ -73,7 +79,8 @@ def loginid():
 		return _session["login"]["id"];
 
 def redirect(url):
-	global _phpheader;
+	global _phpheader, _addinfo;
+	_addinfo["redirect"] = True;
 	_phpheader += "Location: " + url;
 
 def getnewfilename(ext='mohit', extra=''):
@@ -122,4 +129,114 @@ def mcurl(url):
 
 def isuserexist(u, umatch = 'phone'):
 	return _sql.sval("users", "*", {umatch: u} , 1);
+
+
+def latlngdist(lat1, lng1, lat2, lng2) :
+	degtorad = lambda x: x*(math.pi/180);
+	R = 6371000; # metres
+	ph1 = degtorad(lat1);
+	ph2 = degtorad(lat2);
+	dph = degtorad(lat2 - lat1);
+	dlem = degtorad(lng2 - lng1);
+	sin = math.sin;
+	a = sin(dph/2) * sin(dph/2) + sin(ph1)*sin(ph2)*sin(dlem/2)*sin(dlem/2);
+	c = 2*math.atan2(a**0.5, (1-a)**0.5);
+	return R*c;
+
+def forlist(a):
+	return range(a) if(type(a) == int) else a;
+
+def extentattrs(a):
+	mifu(a, {"style": {}, "attr": {}, "data": {}, "datas": {}});
+	fillfroma = lambda arr, impkey: mifa(arr, pkey1(a, impkey));
+	fillfroma(a["style"], ["color", "font-size"]);
+	fillfroma(a["attr"], ["style", "class", "id", "name", "href"]);
+	mifa(a["data"], mapp(idf, a["datas"], None, lambda x: "send"+x));
+	mifa(a["attr"], mapp(idf, a["data"], None, lambda x:"data-"+x));
+	return a;
+
+def overwriteattrs(a, b): #b is overwritting a
+	for i in b:
+		if(a.has_key(i) and (type(a[i]) == type(b[i]) == dict)):
+			overwriteattrs(a[i], b[i]);
+		else:
+			a[i] = b[i];
+	return a;
+
+def execview(fn, ginp={}):
+	sifu(ginp, "page", fn);
+	return elc("python todisp.py "+quoted_s(json.dumps(ginp)));
+
+class htmlnode():
+	def __init__(self, tag=None, attrs={}, ptext=None):
+		self.tag = tag;
+		self.attrs = attrs;
+		self.parent = None;
+		self.content = [];
+		self.ptext = ptext;
+
+		self.fcalldata = {};# List of (method_name-> htmltree)
+
+	def addchild(self, n):
+		self.content.append(n);
+		n.parent = self;
+
+	def addfcdata(self, fname):
+		self.fcalldata[fname] = htmltree();
+
+
+	def tostr(self):
+		def tagattrs(a):
+			a = a["attr"];
+			a["style"] = rift("".join(mappl(lambda y,x: x+":"+y+";", a["style"], lambda x: x!=None)), None, lambda x: x=='');
+			return " ".join(mappl(lambda y,x: x+"='"+str(y)+"'", a, lambda x: x!=None));
+		opentag = lambda : ("<"+self.tag+" "+ tagattrs(self.attrs) + " >") if self.tag != None else "";
+		closetag = lambda : ("</"+self.tag+">") if self.tag != None and (self.tag not in _onewaytags) else "";
+		if(self.ptext != None):
+			return [self.ptext];
+		elif (len(self.content) == 0):
+			return [opentag()+closetag()]
+		elif ( len(self.content) ==1 and self.content[0].ptext != None):
+			return [opentag()+self.content[0].ptext+closetag()];
+		else:
+			return [opentag()]+mappl(lambda x: x.tostr(), self.content)+[closetag()];
+
+
+class htmltree():
+	def __init__(self):
+		self.root = htmlnode();
+		self.cur = self.root;
+
+	def open(self, hnode):
+		self.cur.addchild(hnode);
+		if(hnode.tag != None and not(hnode.tag in _onewaytags)):
+			self.cur = hnode;
+
+	def close(self):
+		self.cur = self.cur.parent;
+
+	def addchilds(self, content):
+		mappl(lambda x: self.cur.addchild(x), content);
+
+	def addtext(self, ptext):
+		self.open(htmlnode(ptext = str(ptext)));
+
+def create_username(name, alreadyexists=[], maxlen = 25):
+	keys = searchkeysplit(name);
+	outp = "";
+	for i in keys:
+		if(len(outp)+len(i) > maxlen):
+			break;
+		else:
+			outp+=(i+"-");
+	outp = outp[:-1];
+	outp_a = outp;
+	count = 1;
+	while(outp_a in alreadyexists):
+		outp_a = outp+"-"+str(count);
+		count+=1;
+	return outp_a;
+
+def geturlpath(inpurl):
+	return doifcan1(lambda: mappl(lambda x:cleanpath(str(x)), (HOST.split("//")[0]+"//"+inpurl).split(HOST)[1].split("index.php")), (None, None));
 
