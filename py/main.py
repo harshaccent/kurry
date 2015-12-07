@@ -1,4 +1,4 @@
-_sql = sqllib((_agent == "poorvi" and _server == "gcl") or (doifcan1(lambda: r1(MySQLdb, 0), 1)), db_data);
+_sql = sqllib((_agent == "poorvi" and (_server == "gcl" or _server == "csc")), db_data);# or (doifcan1(lambda: r1(MySQLdb, 0), 1)), db_data);
 
 execfile(ROOT+"py/kurry.py");
 _kurry = kurry();

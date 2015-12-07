@@ -1,7 +1,8 @@
 from msl import *
 from msl.mtime import *;
+from msl.help import *;
 
-import re
+import re, socket
 
 try:
 	import MySQLdb;
@@ -9,10 +10,12 @@ except:
 	pass
 
 class sqllib:
-	#i_* : internal local methods.
+	# Notes:
+	# 	i_* : internal local methods.
 	db = None;
 	cur = None;
 	uniqc = {};
+	s = None; #MyQueryServer's socket
 	def __init__(self, isvirtual, db_data):
 		self.isreal = not(isvirtual);
 		self.db_data = db_data;
@@ -34,27 +37,24 @@ class sqllib:
 				return x;
 		return list(interp(x.strip()) for x in inpl.split(","));
 
-	# def tabtype1(self, inpl):
-	# 	def interp(x):
-	# 		if(x[0] == "_"):
-	# 			return x[1:];
-	# 		else:
-	# 			#intinx = int("0"+re.sub("[^0-9]", "", x));
-	# 			#[{'i': 'int', 'v': 'varchar({0})'.format(intinx), 'r': 'real'}, {'u': 'unique','n': 'not null', 'a': "AUTO_INCREMENT"}]
-		# 	if(doifcan(lambda x: r1(int(x), True), "0"+x[2:], False)):
-		# 		outp="";
-		# 		if(g(x, 0) == 'i'):
-		# 			outp += "int";
-		# 		elif(g(x, 0) == 'r'):
-		# 			outp += "real";
-		# 		elif(g(x, 0) == 'v'):
-		# 			outp += 'varchar({0})'.format());
-		# 		if(g(x, 1) == 'u'):
-		# 			outp+=" unique";
-		# 		return outp;
-		# 	else:
-		# 		return x;
-		# return list(interp(x.strip()) for x in inpl.split(","));
+	def init_qs(self):
+		db_data = self.db_data;
+		if(self.s == None):
+			self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+			self.s.connect((db_data["qs_host"], db_data["qs_port"]));
+
+	def close_qs(self):
+		if(self.s != None):
+			my_send(self.s, json.dumps({"isclose": True}));
+			self.s.close();
+
+	def query(self, cmd, inp=None):
+		self.init_qs();
+		my_send(self.s, json.dumps({"action": cmd, "inp": inp}));
+		return s2j(my_recv(self.s));
+
+	def sql_query(self, query, darr={}, arr={}, typ=''):
+		return self.query("sql", [query]);
 
 	def init_db(self):
 		db_data = self.db_data;
@@ -63,27 +63,15 @@ class sqllib:
 			self.cur = self.db.cursor(MySQLdb.cursors.DictCursor);
 
 	def close_db(self):
+		self.close_qs();
 		map(lambda x:x.close() if x!=None else None, [self.cur, self.db]);
 
 	def rquery(self, query, dkeys={}, keys={}):
 		return query.format(**mifu(keys, mapp(lambda x,y: "%("+y+")s", dkeys), True));
-		#return fold(lambda q,tr: q.replace("{"+tr+"}", "%("+tr+")s" if isg(dkeys, tr) else g(keys, tr, '{'+tr+"}")), (x[1:-1] for x in re.compile("{[^}]+}").findall(query)), query);
-
-	def virtual_sql(self, query, darr={}, arr={}, typ=''):
-		def elc_virtual(cmd):
-			return elc("python client.py 10.208.20.186 '"+ cmd +"'");
-		write_file(".queryinput.txt", json.dumps([query, darr, arr]));
-		write_file(".queryoutput.txt", "");
-		elc_virtual("python query.py "+typ);
-		return s2j(read_file(".queryoutput.txt"))
-
-	def i_isvirtual(self):
-		return not(self.isreal);
-		#return ((_agent == "poorvi" and _server == "gcl") or ("MySQLdb" not in _includes));
 
 	def q(self, query, darr={}, arr={}):
-		if(self.i_isvirtual()):
-			return self.virtual_sql(query, darr, arr, 'q');
+		if(not self.isreal):
+			return self.query("sql", [query, darr, arr, 'q']);
 		self.init_db();
 		self.cur.execute(self.rquery(query, darr, arr), dict(darr))
 		self.db.commit();
@@ -91,8 +79,8 @@ class sqllib:
 		# return (self.cur.lastrowid + self.cur.rowcount)
 
 	def g(self, query, darr={}, arr={}):
-		if(self.i_isvirtual()): #Warning: It may go to infinite loop. Make sure vertual query handler don't enter in this 'if' block
-			return self.virtual_sql(query, darr, arr, 'g');
+		if(not self.isreal): #Warning: It may go to infinite loop. Make sure vertual query handler don't enter in this 'if' block
+			return self.query("sql", [query, darr, arr, 'g']);
 		self.init_db();
 		self.cur.execute(self.rquery(query, darr, arr), dict(darr));
 		s_feilds = mappl(lambda x: x[0], list(self.cur.description));
@@ -138,3 +126,36 @@ class sqllib:
 	def autoscroll(self, query, darr={}, key = None, sort='', isloadold = True, minl = None, maxl = None, arr={}):
 		return;
 		(minl, maxl) = tuple(mmap(lambda x, y: rifu(x, [minl, maxl][y])  ,list(pkeys(arr, ["minl", "maxl"]))))
+
+
+
+##################This is DustBin below this###############################
+
+
+	# def rquery(self, query, dkeys={}, keys={}):
+	# 	return query.format(**mifu(keys, mapp(lambda x,y: "%("+y+")s", dkeys), True));
+	# 	#return fold(lambda q,tr: q.replace("{"+tr+"}", "%("+tr+")s" if isg(dkeys, tr) else g(keys, tr, '{'+tr+"}")), (x[1:-1] for x in re.compile("{[^}]+}").findall(query)), query);
+
+
+	# def tabtype1(self, inpl):
+	# 	def interp(x):
+	# 		if(x[0] == "_"):
+	# 			return x[1:];
+	# 		else:
+	# 			#intinx = int("0"+re.sub("[^0-9]", "", x));
+	# 			#[{'i': 'int', 'v': 'varchar({0})'.format(intinx), 'r': 'real'}, {'u': 'unique','n': 'not null', 'a': "AUTO_INCREMENT"}]
+		# 	if(doifcan(lambda x: r1(int(x), True), "0"+x[2:], False)):
+		# 		outp="";
+		# 		if(g(x, 0) == 'i'):
+		# 			outp += "int";
+		# 		elif(g(x, 0) == 'r'):
+		# 			outp += "real";
+		# 		elif(g(x, 0) == 'v'):
+		# 			outp += 'varchar({0})'.format());
+		# 		if(g(x, 1) == 'u'):
+		# 			outp+=" unique";
+		# 		return outp;
+		# 	else:
+		# 		return x;
+		# return list(interp(x.strip()) for x in inpl.split(","));
+
