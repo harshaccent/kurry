@@ -82,10 +82,10 @@ $addinfo = array("ip" => $_SERVER['REMOTE_ADDR']);
 $pydata = array("get"=> $_GET, "post"=> $_POST, "session"=> $_SESSION, "url"=> curpathinfo(), "file" => $_FILES, "addinfo" => $addinfo);
 
 
-$cmd = "cd ".$root.";"."python ".$pyfile." \"".str_replace('"', '\"', tojson($pydata))."\" 2>&1";
-$t3 = microtime(true);
+$cmd = 'export PATH=$PATH:/home/btech/cs1120233/private_html/kurry;'."cd ".$root.";"."python ".$pyfile." \"".str_replace('"', '\"', tojson($pydata))."\" 2>&1";
+
 $pyoutp = shell_exec($cmd);
-$t4 = microtime(true);
+
 $pyoutp1 = json_decode( $pyoutp, true );
 if($pyoutp1 == null)
 	echo str_replace("\n", "<br>", $pyoutp);

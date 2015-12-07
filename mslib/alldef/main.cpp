@@ -123,11 +123,11 @@ define height() {
 	div(style:{height: val+"px"});
 }
 
-define resimg(aclass:"") {
+define resimg(aclass:"", opacity: None) {
 	img(class: "responsive-img "+aclass, attr:{src: src}, style:{"opacity": opacity});
 }
 
-define circleimg() {
+define circleimg(opacity: None) {
 	resimg(aclass:"circle", src:src, opacity:opacity);
 }
 

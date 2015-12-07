@@ -143,8 +143,14 @@ def latlngdist(lat1, lng1, lat2, lng2) :
 	c = 2*math.atan2(a**0.5, (1-a)**0.5);
 	return R*c;
 
-def forlist(a):
-	return range(a) if(type(a) == int) else a;
+def forlist(a, typ):
+	if(type(a) == int):
+		return range(a);
+	else:
+		if(typ and type(a) == list):
+			return range(len(a))
+		else:
+			return a;
 
 def extentattrs(a):
 	mifu(a, {"style": {}, "attr": {}, "data": {}, "datas": {}});
@@ -188,7 +194,10 @@ class htmlnode():
 	def tostr(self):
 		def tagattrs(a):
 			a = a["attr"];
-			a["style"] = rift("".join(mappl(lambda y,x: x+":"+y+";", a["style"], lambda x: x!=None)), None, lambda x: x=='');
+			try:
+				a["style"] = rift("".join(mappl(lambda y,x: x+":"+y+";", a["style"], lambda x: x!=None)), None, lambda x: x=='');
+			except:
+				print "Error",a;
 			return " ".join(mappl(lambda y,x: x+"='"+str(y)+"'", a, lambda x: x!=None));
 		opentag = lambda : ("<"+self.tag+" "+ tagattrs(self.attrs) + " >") if self.tag != None else "";
 		closetag = lambda : ("</"+self.tag+">") if self.tag != None and (self.tag not in _onewaytags) else "";
@@ -239,4 +248,8 @@ def create_username(name, alreadyexists=[], maxlen = 25):
 
 def geturlpath(inpurl):
 	return doifcan1(lambda: mappl(lambda x:cleanpath(str(x)), (HOST.split("//")[0]+"//"+inpurl).split(HOST)[1].split("index.php")), (None, None));
+
+
+def convchars(inp):
+	return replaceall(inp, {"&": "&amp;", '"': "&quot;", "'": "&#039;", "<": "&lt;", ">": "&gt;"});
 

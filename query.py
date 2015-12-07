@@ -1,12 +1,19 @@
 _agent = "gcl";
+
 execfile("includes/setting.py");
 
 if(_server == "csc"):
 	ROOT = "/home/btech/cs1120233/private_html/kurry/";
 	_mslib = "/home/btech/cs1120233/private_html/kurry/mslib/";
 
-execfile(_mslib+"py/func.py");
-execfile(_mslib+"ocaml/run.py");
+
+import time, sys, MySQLdb, random
+
+from msl import *
+from msl.help import *
+from msl.sql import *
+from msl.mtime import *;
+
 
 
 
@@ -31,7 +38,6 @@ execfile(ROOT+"py/main.py");
 
 if(_server ==  "csc" ):
 	elc("scp cs1120233@ssh1.iitd.ac.in:~/private_html/.queryinput.txt .");
-
 
 
 

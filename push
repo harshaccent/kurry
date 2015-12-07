@@ -6,7 +6,8 @@ fi;
 
 
 
-cp /usr/lib/python2.7/msl/* .msl/
+#cp /usr/lib/python2.7/msl/* .msl/
+cp msl/* .msl/
 git add '*'
 git commit -m "$cname"
 git push

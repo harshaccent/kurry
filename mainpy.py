@@ -8,7 +8,6 @@ from msl.help import *
 from msl.sql import *
 from msl.mtime import *;
 
-
 try:
 	inpdata = udicttostr(json.loads(sys.argv[1]));
 	_session = inpdata["session"];

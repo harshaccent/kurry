@@ -112,11 +112,11 @@ class pagehandler:
 			print _sql.q("create table if not exists orders (id int not null AUTO_INCREMENT, datetime int, dishid int, lord varchar(1), uid int, cid int, status varchar(1), dslots int, numplate int, lat real, lng real, time int, address varchar(300), PRIMARY key (id))");
 
 	def test(self):
-		darr = dict(mapp(lambda x:daystarttime()+x*24*3600,range(5), None, lambda x: "x"+str(x)))
-		rdata = {};
-		day5times = _kurry.day5times();
-		rdata["day5times"] = day5times;
-		darr = dict(mapp(idf, day5times["timel"], None, lambda x: "x"+str(x)))
+		# darr = dict(mapp(lambda x:daystarttime()+x*24*3600,range(5), None, lambda x: "x"+str(x)))
+		# rdata = {};
+		# day5times = _kurry.day5times();
+		# rdata["day5times"] = day5times;
+		# darr = dict(mapp(idf, day5times["timel"], None, lambda x: "x"+str(x)))
 		return {"_session": _session};
 
 	def seeall(self):
