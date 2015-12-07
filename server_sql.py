@@ -1,18 +1,27 @@
 import os,sys,time,socket,json,threading,random;
 
+
+
+
+execfile("includes/setting.py");
+
 from msl import *
 from msl.help import *
+from msl.sql import *
 from msl.mtime import *;
 
 listen_port=1136;
-
 cleaner_timeout = 100;
+_agent = "gcl";
+
 
 execfile("py/server_action.py");
+execfile(_mslib+"py/webd.py");
+execfile(ROOT+"py/main.py");
+
+
 
 _server_actions = server_action();
-
-
 
 def closewithmsg(conn,msg,ec=-30):
 	conn.send( json.dumps({"msg":msg,"ec":ec}) );
@@ -67,5 +76,4 @@ def serv():
 
 print "I am ",getmyip()," On port ",listen_port;
 serv();
-
 
