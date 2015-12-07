@@ -51,10 +51,7 @@ class sqllib:
 	def query(self, cmd, inp=None):
 		self.init_qs();
 		my_send(self.s, json.dumps({"action": cmd, "inp": inp}));
-		return s2j(my_recv(self.s));
-
-	def sql_query(self, query, darr={}, arr={}, typ=''):
-		return self.query("sql", [query]);
+		return s2j(my_recv(self.s))["data"];
 
 	def init_db(self):
 		db_data = self.db_data;

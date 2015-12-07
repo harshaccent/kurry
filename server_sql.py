@@ -1,8 +1,5 @@
 import os,sys,time,socket,json,threading,random;
 
-
-
-
 execfile("includes/setting.py");
 
 from msl import *
@@ -76,7 +73,10 @@ def serv():
 		conn, client_address = sock.accept();
 		print "Found Client";
 		lock.acquire();
-		talk(conn,client_address);
+		try:
+			talk(conn,client_address);
+		except Exception as e:
+			print "Error in replying the client:",e;
 		lock.release();
 	sock.close();
 

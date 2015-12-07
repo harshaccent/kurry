@@ -22,8 +22,7 @@ execfile(ROOT+"py/main.py");
 
 
 
-print _sql.sval("users", limit=1);
-
+print _sql.sval("users", limit=2);
 
 
 # maincontent = mtmlparser();
