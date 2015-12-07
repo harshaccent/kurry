@@ -20,8 +20,13 @@ execfile(ROOT+"py/main.py");
 
 #print curl("http://api.textlocal.in/send/", {"username": "mohitsaini1196@gmail.com", "hash": "Mohitsaini1", "numbers": "7503759053", "sender": 'TXTLCL', "message": "Hey, This is just a message"});
 
+uid = 11;
+uinfo = _sql.sval("users", "id,profilepic");
 
-print _sql.sval("users");
+
+for i in uinfo:
+	print i.values()
+
 
 
 # maincontent = mtmlparser();

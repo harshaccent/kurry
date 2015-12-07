@@ -16,6 +16,7 @@ class sqllib:
 	cur = None;
 	uniqc = {};
 	s = None; #MyQueryServer's socket
+	need_to_call_cur = True;
 	def __init__(self, isvirtual, db_data):
 		self.isreal = not(isvirtual);
 		self.db_data = db_data;
@@ -74,6 +75,8 @@ class sqllib:
 		if(not self.isreal):
 			return self.query("sql", [query, darr, arr, 'q']);
 		self.init_db();
+		if(self.need_to_call_cur):
+			self.cur = self.db.cursor(MySQLdb.cursors.DictCursor);
 		self.cur.execute(self.rquery(query, darr, arr), dict(darr))
 		self.db.commit();
 		return (self.cur.lastrowid)
@@ -83,6 +86,8 @@ class sqllib:
 		if(not self.isreal): #Warning: It may go to infinite loop. Make sure vertual query handler don't enter in this 'if' block
 			return self.query("sql", [query, darr, arr, 'g']);
 		self.init_db();
+		if(self.need_to_call_cur):
+			self.cur = self.db.cursor(MySQLdb.cursors.DictCursor);
 		self.cur.execute(self.rquery(query, darr, arr), dict(darr));
 		s_feilds = mappl(lambda x: x[0], list(self.cur.description));
 		return mappl(lambda x: pkey1(x, s_feilds), list(self.cur));
