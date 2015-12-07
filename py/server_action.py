@@ -9,6 +9,6 @@ class server_action:
 		return tnow();
 
 	def sql(self, cmd):
-		return "This is query output";
 		return _sql.sval("users", limit=1);
+		return "This is query output";
 
