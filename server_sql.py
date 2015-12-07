@@ -42,7 +42,7 @@ def serv():
 	else:
 		os.system("fuser -k "+str(listen_port)+"/tcp");
 		sock.bind(('',listen_port))
-		write_file("listenport",str(listen_port));
+		#write_file("listenport",str(listen_port));
 
 	sock.listen(1);
 	print "I am ",getmyip()," On port ",listen_port;
