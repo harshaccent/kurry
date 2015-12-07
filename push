@@ -1,2 +1,13 @@
+if [ -n "$1" ]; then
+	cname=$1;
+else
+	cname="Another Change";
+fi;
+
+
+
 cp /usr/lib/python2.7/msl/* .msl/
-git add '*'; git commit -m $1; git push
+git add '*'
+git commit -m "$cname"
+git push
+
