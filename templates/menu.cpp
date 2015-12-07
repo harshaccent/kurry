@@ -7,13 +7,13 @@ main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 					ul(class: "" ) {
 						li() {
 							a(class: "dropdown-button", attr:{"data-activates": "dropdown2", "aria-expanded": "false", "aria-haspopup": "true"}) {
-								p("&nbsp;"*20+ day5times["textl"][0] +"&nbsp;"*0);
+								print("&nbsp;"*20+ day5times["textl"][0] +"&nbsp;"*0);
 								icon(name: "arrow_drop_down", aclass:"right");
 							}
 						}
 						li() {
 							a(class: "dropdown-button", attr:{"data-activates": "dropdown3"}) {
-								p("&nbsp;"*18+"All"+"&nbsp;"*0);
+								print("&nbsp;"*18+"All"+"&nbsp;"*0);
 								icon(name: "arrow_drop_down", aclass:"right");
 							}
 						}
@@ -25,7 +25,7 @@ main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 				for(i, ii, foodtype) {
 					li() {
 						a(attr:{href: ""}) {
-							p(i);
+							print(i);
 						}
 					}
 				}
@@ -34,7 +34,7 @@ main2(js:["js/menu.js"], htmlstyle:{"overflow-y": "scroll"}) {
 				for(i, ii, day5times["timel"] ) {
 					li() {
 						a(attr:{href: BASE+"menu?datetime="+i}) {
-							p( day5times["textl"][ii] );
+							print( day5times["textl"][ii] );
 						}
 					}
 				}

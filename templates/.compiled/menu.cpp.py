@@ -9,16 +9,14 @@ outpvar.cur.fcalldata["main2"].open(htmlnode("div", extentattrs({"class": "nav-w
 outpvar.cur.fcalldata["main2"].open(htmlnode("ul", extentattrs({"class": ""})));
 outpvar.cur.fcalldata["main2"].open(htmlnode("li", extentattrs({})));
 outpvar.cur.fcalldata["main2"].open(htmlnode("a", extentattrs({"class": "dropdown-button", "attr": {"data-activates": "dropdown2", "aria-expanded": "false", "aria-haspopup": "true"}})));
-outpvar.cur.fcalldata["main2"].open(htmlnode("p", extentattrs(myadd(myadd(("&nbsp;" * 20), ginp["day5times"]["textl"][0]), ("&nbsp;" * 0)))));
-outpvar.cur.fcalldata["main2"].close();
+outpvar.cur.fcalldata["main2"].addtext(myadd(myadd(("&nbsp;" * 20), ginp["day5times"]["textl"][0]), ("&nbsp;" * 0)));
 outpvar.cur.fcalldata["main2"].cur.addfcdata("icon");
 outpvar.cur.fcalldata["main2"].addchilds(newtag_icon({"name": "arrow_drop_down", "aclass": "right"}, ginp, outpvar.cur.fcalldata["main2"].cur.fcalldata["icon"].root.content).root.content);
 outpvar.cur.fcalldata["main2"].close();
 outpvar.cur.fcalldata["main2"].close();
 outpvar.cur.fcalldata["main2"].open(htmlnode("li", extentattrs({})));
 outpvar.cur.fcalldata["main2"].open(htmlnode("a", extentattrs({"class": "dropdown-button", "attr": {"data-activates": "dropdown3"}})));
-outpvar.cur.fcalldata["main2"].open(htmlnode("p", extentattrs(myadd(myadd(("&nbsp;" * 18), "All"), ("&nbsp;" * 0)))));
-outpvar.cur.fcalldata["main2"].close();
+outpvar.cur.fcalldata["main2"].addtext(myadd(myadd(("&nbsp;" * 18), "All"), ("&nbsp;" * 0)));
 outpvar.cur.fcalldata["main2"].cur.addfcdata("icon");
 outpvar.cur.fcalldata["main2"].addchilds(newtag_icon({"name": "arrow_drop_down", "aclass": "right"}, ginp, outpvar.cur.fcalldata["main2"].cur.fcalldata["icon"].root.content).root.content);
 outpvar.cur.fcalldata["main2"].close();
@@ -32,8 +30,7 @@ for ii in range(len(forlist(foodtype))) :
   i = foodtype[ii];
   outpvar.cur.fcalldata["main2"].open(htmlnode("li", extentattrs({})));
   outpvar.cur.fcalldata["main2"].open(htmlnode("a", extentattrs({"attr": {"href": ""}})));
-  outpvar.cur.fcalldata["main2"].open(htmlnode("p", extentattrs(i)));
-  outpvar.cur.fcalldata["main2"].close();
+  outpvar.cur.fcalldata["main2"].addtext(i);
   outpvar.cur.fcalldata["main2"].close();
   outpvar.cur.fcalldata["main2"].close();
 outpvar.cur.fcalldata["main2"].close();
@@ -42,8 +39,7 @@ for ii in range(len(forlist(ginp["day5times"]["timel"]))) :
   i = ginp["day5times"]["timel"][ii];
   outpvar.cur.fcalldata["main2"].open(htmlnode("li", extentattrs({})));
   outpvar.cur.fcalldata["main2"].open(htmlnode("a", extentattrs({"attr": {"href": myadd(myadd(ginp["BASE"], "menu?datetime="), i)}})));
-  outpvar.cur.fcalldata["main2"].open(htmlnode("p", extentattrs(ginp["day5times"]["textl"][ii])));
-  outpvar.cur.fcalldata["main2"].close();
+  outpvar.cur.fcalldata["main2"].addtext(ginp["day5times"]["textl"][ii]);
   outpvar.cur.fcalldata["main2"].close();
   outpvar.cur.fcalldata["main2"].close();
 outpvar.cur.fcalldata["main2"].close();
@@ -61,7 +57,7 @@ outpvar.cur.fcalldata["main2"].open(htmlnode("div", extentattrs({"class": "row"}
 outpvar.cur.fcalldata["main2"].open(htmlnode("div", extentattrs({"class": "col l10 offset-l1 s10 m10 offset-s1 offset-m1"})));
 outpvar.cur.fcalldata["main2"].open(htmlnode("div", extentattrs({"attr": {"id": "lunch"}})));
 outpvar.cur.fcalldata["main2"].open(htmlnode("div", extentattrs({"class": "row", "attr": {"align": "center"}})));
-if (int((ginp["lunch"].len() == 0))): 
+if (int((len(ginp["lunch"]) == 0))): 
   outpvar.cur.fcalldata["main2"].cur.addfcdata("menu_nofood");
   outpvar.cur.fcalldata["main2"].addchilds(newtag_menu_nofood({}, ginp, outpvar.cur.fcalldata["main2"].cur.fcalldata["menu_nofood"].root.content).root.content);
 for i in forlist(ginp["lunch"]) :
@@ -71,7 +67,7 @@ outpvar.cur.fcalldata["main2"].close();
 outpvar.cur.fcalldata["main2"].close();
 outpvar.cur.fcalldata["main2"].open(htmlnode("div", extentattrs({"attr": {"id": "dinner"}})));
 outpvar.cur.fcalldata["main2"].open(htmlnode("div", extentattrs({"class": "row", "attr": {"align": "center"}})));
-if (int((ginp["dinner"].len() == 0))): 
+if (int((len(ginp["dinner"]) == 0))): 
   outpvar.cur.fcalldata["main2"].cur.addfcdata("menu_nofood");
   outpvar.cur.fcalldata["main2"].addchilds(newtag_menu_nofood({}, ginp, outpvar.cur.fcalldata["main2"].cur.fcalldata["menu_nofood"].root.content).root.content);
 for i in forlist(ginp["dinner"]) :

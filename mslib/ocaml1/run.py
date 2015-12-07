@@ -49,7 +49,11 @@ class mtmlparser:
 		elif(t[0] == "Not"):
 			return "not("+expend(t[1])+")"
 		elif(t[0] == "Attr"):
-			return expend(t[1])+"."+t[2]+"()";
+			eexpr = expend(t[1]);
+			if(t[2] == "len"):
+				return "len("+eexpr+")";
+			else:
+				return eexpr+"."+t[2]+"()";
 		elif(t[0] == "Ife"):
 			return "("+ expend(t[2]) +" if (" +expend(t[1]) + ") else "+ expend(t[3])+")";
 		elif(t[0] in  ["Get", "Add"]):

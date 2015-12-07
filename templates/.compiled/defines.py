@@ -1161,7 +1161,7 @@ def newtag_profile_chef(inp, ginp, innerHTML):
         outpvar.close();
       outpvar.close();
       outpvar.open(htmlnode("div", extentattrs({})));
-      if (int((inp["dispdata"].len() != 0))): 
+      if (int((len(inp["dispdata"]) != 0))): 
         outpvar.cur.addfcdata("button1");
         outpvar.addchilds(newtag_button1({"name": "Save", "data": {"action": "savedaymenu", "onclick": "sreq", "params": myadd(myadd("ms.getnumlimit(", ii), ")")}, "datas": {"datetime": inp["day5times"]["timel"][ii], "cid": inp["uid"]}}, ginp, outpvar.cur.fcalldata["button1"].root.content).root.content);
       outpvar.close();
