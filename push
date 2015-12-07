@@ -1,18 +1,1 @@
-if [ -n "$1" ]; then
-	cname=$1;
-else
-	cname="Another Change";
-fi;
-
-
-
-#cp /usr/lib/python2.7/msl/* .msl/
-#cp msl/* .msl/
-
-cp ~/.local/lib/python2.7/site-packages/msl/* .msl/
-
-
-git add '*'
-git commit -m "$cname"
-git push
-
+python script.py push $1
