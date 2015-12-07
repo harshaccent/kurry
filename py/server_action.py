@@ -8,7 +8,7 @@ class server_action:
 	def tnow(self, cmd):
 		return tnow();
 
-	def query(self, cmd):
+	def sql(self, cmd):
 		return _sql.sval("users", limit=1);
 		return "This is query output";
 
