@@ -51,7 +51,11 @@ class sqllib:
 	def query(self, cmd, inp=None):
 		self.init_qs();
 		my_send(self.s, json.dumps({"action": cmd, "inp": inp}));
-		return s2j(my_recv(self.s))["data"];
+		whatigot = my_recv(self.s)
+		try:
+			return s2j(whatigot)["data"];
+		except:
+			print "Error:", whatigot;
 
 	def init_db(self):
 		db_data = self.db_data;

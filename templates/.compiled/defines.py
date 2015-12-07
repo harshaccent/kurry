@@ -2043,8 +2043,6 @@ def newtag_profile_chef_top2(inp, ginp, innerHTML):
   outpvar.close();
   outpvar.open(htmlnode("div", extentattrs(cod([("class", "col l6")]))));
   outpvar.cur.addfcdata("textdiv");
-  outpvar.addchilds(newtag_textdiv(cod([("text", 56), ("fontw", 600)]), ginp, outpvar.cur.fcalldata["textdiv"].root.content).root.content);
-  outpvar.cur.addfcdata("textdiv");
   outpvar.addchilds(newtag_textdiv(cod([("text", "People reviewed")]), ginp, outpvar.cur.fcalldata["textdiv"].root.content).root.content);
   outpvar.close();
   outpvar.close();

@@ -463,7 +463,7 @@ define profile_chef_top2() {
 						textdiv(text: "Plates Delivered");
 					}
 					div(class: "col l6") {
-						textdiv(text: 56, fontw:600);
+//						textdiv(text: 56, fontw:600);
 						textdiv(text: "People reviewed");
 					}
 				}
