@@ -609,8 +609,8 @@ define profile_chef() {
 }
 
 
-define select1(tlist:[], class: "browser-default", aclass: "") {//class, tlist, vlist, toptext, selected
-	select(class: class+" "+aclass, name: name, attr:attr) {
+define select1(tlist:[], class: "browser-default", aclass: "", selected: None, name: None, vlist: None) {//class, tlist, vlist, toptext, selected
+	select(class: class+" "+aclass, attr:attr) {
 		if(toptext != None) {
 			option(attr:{value: ""}) {
 				print(toptext);
@@ -633,13 +633,13 @@ define select1(tlist:[], class: "browser-default", aclass: "") {//class, tlist, 
 	}
 }
 
-define select2(tlist:[], dclass: "col l3 s12 m6", class: "browser-default") {
+define select2(tlist:[], dclass: "col l3 s12 m6", class: "browser-default", selected: None, toptext: None, vlist: None) {
 	div(class: dclass) {
 		select1(class: class, tlist: tlist, vlist: vlist, toptext: toptext, selected: selected);
 	}
 }
 
-define mselect(tlist:[]) {
+define mselect(tlist:[], vlist: None, selected: None) {
 	for(i, ii, tlist) {
 		attrs = {};
 		if (vlist != None) {
@@ -655,7 +655,7 @@ define mselect(tlist:[]) {
 }
 
 
-define mselect1(tlist:[]) {
+define mselect1(tlist:[], vlist: None) {
 	div(id: id, class: "dropdown-content p5", tlist:[]) {
 		mselect(vlist:vlist, tlist: tlist, id: id);
 	}

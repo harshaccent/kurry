@@ -1186,10 +1186,10 @@ def newtag_profile_chef(inp, ginp, innerHTML):
   return outpvar;
   
 def newtag_select1(inp, ginp, innerHTML): 
-  inp = overwriteattrs(extentattrs({"tlist": [], "class": "browser-default", "aclass": ""}), extentattrs(inp));
+  inp = overwriteattrs(extentattrs({"tlist": [], "class": "browser-default", "aclass": "", "selected": None, "name": None, "vlist": None}), extentattrs(inp));
   mifu(inp, ginp);
   outpvar = htmltree();
-  outpvar.open(htmlnode("select", extentattrs({"class": myadd(myadd(inp["class"], " "), inp["aclass"]), "name": inp["name"], "attr": inp["attr"]})));
+  outpvar.open(htmlnode("select", extentattrs({"class": myadd(myadd(inp["class"], " "), inp["aclass"]), "attr": inp["attr"]})));
   if (int((inp["toptext"] != None))): 
     outpvar.open(htmlnode("option", extentattrs({"attr": {"value": ""}})));
     outpvar.addtext(inp["toptext"]);
@@ -1210,7 +1210,7 @@ def newtag_select1(inp, ginp, innerHTML):
   return outpvar;
   
 def newtag_select2(inp, ginp, innerHTML): 
-  inp = overwriteattrs(extentattrs({"tlist": [], "dclass": "col l3 s12 m6", "class": "browser-default"}), extentattrs(inp));
+  inp = overwriteattrs(extentattrs({"tlist": [], "dclass": "col l3 s12 m6", "class": "browser-default", "selected": None, "toptext": None, "vlist": None}), extentattrs(inp));
   mifu(inp, ginp);
   outpvar = htmltree();
   outpvar.open(htmlnode("div", extentattrs({"class": inp["dclass"]})));
@@ -1220,7 +1220,7 @@ def newtag_select2(inp, ginp, innerHTML):
   return outpvar;
   
 def newtag_mselect(inp, ginp, innerHTML): 
-  inp = overwriteattrs(extentattrs({"tlist": []}), extentattrs(inp));
+  inp = overwriteattrs(extentattrs({"tlist": [], "vlist": None, "selected": None}), extentattrs(inp));
   mifu(inp, ginp);
   outpvar = htmltree();
   for ii in range(len(forlist(inp["tlist"]))) :
@@ -1237,7 +1237,7 @@ def newtag_mselect(inp, ginp, innerHTML):
   return outpvar;
   
 def newtag_mselect1(inp, ginp, innerHTML): 
-  inp = overwriteattrs(extentattrs({"tlist": []}), extentattrs(inp));
+  inp = overwriteattrs(extentattrs({"tlist": [], "vlist": None}), extentattrs(inp));
   mifu(inp, ginp);
   outpvar = htmltree();
   outpvar.open(htmlnode("div", extentattrs({"id": inp["id"], "class": "dropdown-content p5", "tlist": []})));
