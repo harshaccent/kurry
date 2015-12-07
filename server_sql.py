@@ -31,15 +31,21 @@ def serv():
 	global listen_port
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	lock=threading.Lock();
-	while(True):
-		try:
-			sock.bind(('',listen_port))
-			write_file("listenport",str(listen_port));
-			break;
-		except:
-			listen_port+=1;
+	if(False):
+		while(True):
+			try:
+				sock.bind(('',listen_port))
+				write_file("listenport",str(listen_port));
+				break;
+			except:
+				listen_port+=1;
+	else:
+		os.system("fuser -k "+str(listen_port)+"/tcp");
+		sock.bind(('',listen_port))
+		write_file("listenport",str(listen_port));
 
 	sock.listen(1);
+	print "I am ",getmyip()," On port ",listen_port;
 
 
 	def talk(conn,client_address):#talk to each request
@@ -74,6 +80,5 @@ def serv():
 		lock.release();
 	sock.close();
 
-print "I am ",getmyip()," On port ",listen_port;
 serv();
 
