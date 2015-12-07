@@ -9,6 +9,21 @@ Able to work on website in new format.
 
 
 
+1. In general Messages are not shown properly anywhere.
+2. Reporting is not done of any sort.
+3. Do you want to Cook  ( Dinner, Lunch, Both)
+4. Similarly you cannot say " You are Late " when the item is added to the cart. If the time has passed for ordering the ordering screen should not show up any item.
+5. There are still messages, English issues all over the place. 
+6. Ability to export the weekly menu in a pdf , with pictures. This is very important for us for the social media.
+7. The page should scroll to the bottom and we would have the following  links.
+8. Also can you change the Font to little more funkier. 
+9. For "Be a HomeChef" Please see the form in Biteclub.in Site.
+10. Create Page & Content for Privacy Page.
+
+
+
+
+
 ---------- Reporting Data---------------------------------------------------------------------------
 
 For the 1st Sales Report these are the primary fields, already given in the document, just confirming
