@@ -16,7 +16,7 @@ function tojson($a) {
 
 @session_start();
 
-function resizeimg($filename,$tosave, $max_width, $max_height){
+function resizeimg($filename,$tosave, $max_width, $max_height) {
 	$imginfo=getimagesize($filename);
 	list($orig_width, $orig_height) = $imginfo;
 	$type = $imginfo[2];

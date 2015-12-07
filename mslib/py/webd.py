@@ -194,10 +194,7 @@ class htmlnode():
 	def tostr(self):
 		def tagattrs(a):
 			a = a["attr"];
-			try:
-				a["style"] = rift("".join(mappl(lambda y,x: x+":"+y+";", a["style"], lambda x: x!=None)), None, lambda x: x=='');
-			except:
-				print "Error",a;
+			a["style"] = rift("".join(mappl(lambda y,x: x+":"+str(y)+";", a["style"], lambda x: x!=None)), None, lambda x: x=='');
 			return " ".join(mappl(lambda y,x: x+"='"+str(y)+"'", a, lambda x: x!=None));
 		opentag = lambda : ("<"+self.tag+" "+ tagattrs(self.attrs) + " >") if self.tag != None else "";
 		closetag = lambda : ("</"+self.tag+">") if self.tag != None and (self.tag not in _onewaytags) else "";
