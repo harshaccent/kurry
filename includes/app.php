@@ -82,7 +82,7 @@ $addinfo = array("ip" => $_SERVER['REMOTE_ADDR']);
 $pydata = array("get"=> $_GET, "post"=> $_POST, "session"=> $_SESSION, "url"=> curpathinfo(), "file" => $_FILES, "addinfo" => $addinfo);
 
 
-$cmd = 'export PATH=$PATH:/home/btech/cs1120233/private_html/kurry;'."cd ".$root.";"."python ".$pyfile." \"".str_replace('"', '\"', tojson($pydata))."\" 2>&1";
+$cmd = 'export PATH=$PATH:/home/btech/cs1120233/private_html/kurry/mslib;'."cd ".$root.";"."python ".$pyfile." \"".str_replace('"', '\"', tojson($pydata))."\" 2>&1";
 
 $pyoutp = shell_exec($cmd);
 
