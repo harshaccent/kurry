@@ -40,7 +40,7 @@ function showPosition(position) {
 }
 
 $(document).ready(function(){
-	if(jsdata["_server"] != "gcl" && jsdata["_server"] != "solnki")
+	if(jsdata["_server"] != "gcl" && jsdata["_server"] != "solnki" && jsdata["_server"] != "csc")
 		getLocation();
 });
 

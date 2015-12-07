@@ -1,3 +1,4 @@
 git pull
-sudo cp .msl/* /usr/lib/python2.7/msl/
+#sudo cp .msl/* /usr/lib/python2.7/msl/
+cp .msl/* ~/.local/lib/python2.7/site-packages/msl/
 

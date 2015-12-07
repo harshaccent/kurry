@@ -1,7 +1,10 @@
 _agent = "poorvi";
 execfile("includes/setting.py");
 
-import time, sys, MySQLdb, random
+import time, sys, random
+
+#import MySQLdb
+
 
 from msl import *
 from msl.help import *
