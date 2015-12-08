@@ -469,29 +469,28 @@ define profile_chef_top2() {
 				}
 			}
 		}
-		// div(class: "col l8 offset-l1") {
-		// 	textdiv(font:"25px", text:"About "+uinfo["name"], fontw:600);
-		// 	if(canedit) {
-		// 		a1(text: "Edit", attr:{"onclick": "ms.showtextarea(this);"});
-		// 		div(class: 'edittext', style: {display: "none"}) {
-		// 			form(data: {onsubmit:"sreq", bobj: "", action:"saveaboutinfo", res: "ms.reload();"}) {
-		// 				input(attr: {type: "hidden", name: "chefid", value: uid});
-		// 				textarea(attr:{name: "aboutus"}, class: "materialize-textarea") {
-		// 					print(uinfo["aboutus"].gchars);
-		// 				}
-		// 				button1(name: "Save", attr:{type: "submit"});
-		// 			}
-		// 		}
-		// 	}
-		// 	textdiv(font:"16px", text: uinfo["aboutus"].gchars);
-		// 	div() {
-		// 		b() {
-		// 			print("Address: ");
-		// 		}
-		// 		print(uinfo["address"]);
-		// 	}
-		// }
-
+		div(class: "col l8 offset-l1") {
+			textdiv(font:"25px", text:"About "+uinfo["name"], fontw:600);
+			if(canedit) {
+				a1(text: "Edit", attr:{"onclick": "ms.showtextarea(this);"});
+				div(class: 'edittext', style: {display: "none"}) {
+					form(data: {onsubmit:"sreq", bobj: "", action:"saveaboutinfo", res: "ms.reload();"}) {
+						input(attr: {type: "hidden", name: "chefid", value: uid});
+						textarea(attr:{name: "aboutus"}, class: "materialize-textarea") {
+							print(uinfo["aboutus"].gchars);
+						}
+						button1(name: "Save", attr:{type: "submit"});
+					}
+				}
+			}
+			textdiv(font:"16px", text: uinfo["aboutus"].gchars);
+			div() {
+				b() {
+					print("Address: ");
+				}
+				print(uinfo["address"]);
+			}
+		}
 	}
 }
 
@@ -507,115 +506,115 @@ define profile_chef() {
 					div(class: "row") {
 					}
 				}
-				// if(canedit) {
-				// 	div(class: "container-fluid") {
-				// 		div(class: "row") {
-				// 			div() {
-				// 				ul(class: "tabs") {
-				// 					disptabs(liclass: "tab col s2", tabname: ["All Dishes"]+ day5times["textl"], tablink: ["#alldishes"]+ day5times["tabkeys1"]);
-				// 				}
-				// 			}
-				// 			div(class: "") {
-				// 				div(attr:{id: "alldishes"}) {
-				// 					height(val:20);
-				// 					if(viewtype == "a") {
-				// 						button1(name: "Add a New Dish", data: {onclick: "slideform"});
-				// 						form(style: {display: "none"}, attr:{enctype: "multipart/form-data", method: "post"}) {
-				// 							div(class: "row") {
-				// 								input(attr:{type:"hidden", name: "cid", value: uid });
-				// 								input2(label: "Title of Dish", aclass: "col s12 l6 m6", id:"dishtitle");
-				// 								input2(label: "Price of Dish", aclass: "col s12 l6 m6", id:"dishprice");
-				// 								// input2(label: "Amount Limit", aclass: "col s12 l3 m6", id:"dishlimit");
-				// 							}
-				// 							div(class: "row"){
-				// 								textarea(class: "materialize-textarea", attr:{name: "descp", placeholder: "Dish Description"});
-				// 							}
-				// 							div(class: "row") {
-				// 								div(class: "file-field input-field") {
-				// 									div(class: "btn") {
-				// 										span() {
-				// 											print("Upload Image");
-				// 										}
-				// 										input(attr:{type:"file", name: "dishpic"});
-				// 									}
-				// 									div(class: "file-path-wrapper") {
-				// 										input(class: "file-path-validate", attr:{type: "text"});
-				// 									}
-				// 								}
-				// 							}
-				// 							div(class: "row") {
-				// 								div(class: "col") {
-				// 									button(class: "btn waves-effect waves-light", attr:{type: "submit", name:"adddish"}) {
-				// 										print("Add");
-				// 									}
-				// 								}
-				// 							}					
-				// 						}
-				// 					}
+				if(canedit) {
+					div(class: "container-fluid") {
+						div(class: "row") {
+							div() {
+								ul(class: "tabs") {
+									disptabs(liclass: "tab col s2", tabname: ["All Dishes"]+ day5times["textl"], tablink: ["#alldishes"]+ day5times["tabkeys1"]);
+								}
+							}
+							div(class: "") {
+								div(attr:{id: "alldishes"}) {
+									height(val:20);
+									if(viewtype == "a") {
+										button1(name: "Add a New Dish", data: {onclick: "slideform"});
+										form(style: {display: "none"}, attr:{enctype: "multipart/form-data", method: "post"}) {
+											div(class: "row") {
+												input(attr:{type:"hidden", name: "cid", value: uid });
+												input2(label: "Title of Dish", aclass: "col s12 l6 m6", id:"dishtitle");
+												input2(label: "Price of Dish", aclass: "col s12 l6 m6", id:"dishprice");
+												// input2(label: "Amount Limit", aclass: "col s12 l3 m6", id:"dishlimit");
+											}
+											div(class: "row"){
+												textarea(class: "materialize-textarea", attr:{name: "descp", placeholder: "Dish Description"});
+											}
+											div(class: "row") {
+												div(class: "file-field input-field") {
+													div(class: "btn") {
+														span() {
+															print("Upload Image");
+														}
+														input(attr:{type:"file", name: "dishpic"});
+													}
+													div(class: "file-path-wrapper") {
+														input(class: "file-path-validate", attr:{type: "text"});
+													}
+												}
+											}
+											div(class: "row") {
+												div(class: "col") {
+													button(class: "btn waves-effect waves-light", attr:{type: "submit", name:"adddish"}) {
+														print("Add");
+													}
+												}
+											}					
+										}
+									}
 
-				// 					div(class: "row", attr:{align: "center"}) {
-				// 						for(i, dispdata) {
-				// 							dispfood(dishinfo: i) ;
-				// 						}
-				// 					}
-				// 				}
-				// 				for(i, ii, day5times["tabkeys"]) {
-				// 					div(attr:{id: i}) {
-				// 						div(class: "row") {
-				// 							table(class: "bordered") {
-				// 								thead() {
-				// 									for(j, ["Title", "Price", "Booked For Lunch", "Booked for Dinner"]) {
-				// 										th() {
-				// 											print(j);
-				// 										}
-				// 									}
-				// 								}
-				// 								for(j, jj, dispdata) {
-				// 									tr() {
-				// 										th() {
-				// 											print((j["title"]+"").gchars);
-				// 										}
-				// 										th() {
-				// 											print(j["price"]);
-				// 										}
-				// 										th() {
-				// 											input1(label: "Plate Limit ("+j["ollimit"+ii]+" Booked)", id: "lunch_"+jj+"_"+ii, data:{dishid: j["id"], day:ii}, iclass: "numplatelimit", value: j["llimit"+ii]);
-				// 										}
-				// 										th() {
-				// 											input1(label: "Plate Limit ("+j["odlimit"+ii]+" Booked)", id: "dinner_"+jj+"_"+ii, data:{dishid: j["id"], day: ii}, iclass: "numplatelimit", value: j["dlimit"+ii]);
-				// 										}
-				// 									}
-				// 								}
-				// 							}
-				// 							div() {
-				// 								if(dispdata.len != 0) {
-				// 									button1(name: "Save", data:{action: "savedaymenu", "onclick": "sreq", params: "ms.getnumlimit("+ii+")"}, datas:{datetime: day5times["timel"][ii], cid: uid});
-				// 								}
-				// 							}
-				// 						}
-				// 					}
-				// 				}
-				// 			}
-				// 		}
-				// 	}
-				// }
-				// div(attr: {align: "center"}, style:{margin:"20px"}) {
-				// 	textdiv(text: "Dishes Serving today", font: "25px");
-				// }
-				// div(class: "row", attr:{align: "center"}) {
-				// 	for(i, dispdata) {
-				// 		if( (i["llimit0"] > 0) || (i["dlimit0"] > 0) ) {
-				// 			dispfood(dishinfo: i) ;
-				// 		}
-				// 	}
-				// }
+									div(class: "row", attr:{align: "center"}) {
+										for(i, dispdata) {
+											dispfood(dishinfo: i) ;
+										}
+									}
+								}
+								for(i, ii, day5times["tabkeys"]) {
+									div(attr:{id: i}) {
+										div(class: "row") {
+											table(class: "bordered") {
+												thead() {
+													for(j, ["Title", "Price", "Booked For Lunch", "Booked for Dinner"]) {
+														th() {
+															print(j);
+														}
+													}
+												}
+												for(j, jj, dispdata) {
+													tr() {
+														th() {
+															print((j["title"]+"").gchars);
+														}
+														th() {
+															print(j["price"]);
+														}
+														th() {
+															input1(label: "Plate Limit ("+j["ollimit"+ii]+" Booked)", id: "lunch_"+jj+"_"+ii, data:{dishid: j["id"], day:ii}, iclass: "numplatelimit", value: j["llimit"+ii]);
+														}
+														th() {
+															input1(label: "Plate Limit ("+j["odlimit"+ii]+" Booked)", id: "dinner_"+jj+"_"+ii, data:{dishid: j["id"], day: ii}, iclass: "numplatelimit", value: j["dlimit"+ii]);
+														}
+													}
+												}
+											}
+											div() {
+												if(dispdata.len != 0) {
+													button1(name: "Save", data:{action: "savedaymenu", "onclick": "sreq", params: "ms.getnumlimit("+ii+")"}, datas:{datetime: day5times["timel"][ii], cid: uid});
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				div(attr: {align: "center"}, style:{margin:"20px"}) {
+					textdiv(text: "Dishes Serving today", font: "25px");
+				}
+				div(class: "row", attr:{align: "center"}) {
+					for(i, dispdata) {
+						if( (i["llimit0"] > 0) || (i["dlimit0"] > 0) ) {
+							dispfood(dishinfo: i) ;
+						}
+					}
+				}
 			}
 		}
 	}
 }
 
 
-define select1(tlist:[], class: "browser-default", aclass: "", selected: None, name: None, vlist: None) {//class, tlist, vlist, toptext, selected
+define select1(tlist:[], class: "browser-default", aclass: "", selected: None, name: None, vlist: None, toptext: None) {//class, tlist, vlist, toptext, selected
 	select(class: class+" "+aclass, attr:attr) {
 		if(toptext != None) {
 			option(attr:{value: ""}) {
@@ -705,7 +704,7 @@ define switch2(class: "col l3 s12 m6") {
 define orderl_admin(){
 	table(class: "bordered") {
 		thead() {
-			for(i, ["Odered At", "Delivery Date", "Chef", "User", "Dish", "Price", "Chef Address", "User Address", "Status"]) {
+			for(i, ["Date of Order", "Delivery Date", "Chef", "User", "Dish", "Price", "Chef Address", "User Address", "Status"]) {
 				th() {
 					print(i);
 				}
@@ -742,7 +741,7 @@ define orderl_admin(){
 						print("("+i["lat"]+", "+i["lng"]+")<br>"+i["uaddress"]);
 					}
 					td() {
-						print(i["status"]);
+						print(i["status_text"]);
 					}
 				}
 			}
@@ -754,7 +753,7 @@ define orderl_admin(){
 define orderl_user(){
 	table(class: "bordered") {
 		thead() {
-			for(i, ["Odered At", "Delivery Date", "Chef", "Dish", "Price", "User Address", "Status"]) {
+			for(i, ["Date of Order", "Delivery Date", "Chef", "Dish", "Price", "User Address", "Status"]) {
 				th() {
 					print(i);
 				}
@@ -785,7 +784,7 @@ define orderl_user(){
 						print("("+i["lat"]+", "+i["lng"]+")<br>"+i["uaddress"]);
 					}
 					td() {
-						print(i["status"]);
+						print(i["status_text"]);
 					}
 				}
 			}
@@ -795,15 +794,17 @@ define orderl_user(){
 
 
 define orderl_chef(){
-	table(class: "bordered") {
-		thead() {
-			for(i, ["Odered At", "Delivery Date", "User", "Dish", "Price", "User Address", "Status"]) {
-				th() {
-					print(i);
+	table(attr:{"border": "1"}) {
+		// thead() {
+		// }
+		tbody() {
+			tr() {
+				for(i, ["Date of Order", "Delivery Date", "User", "Dish", "Price", "User Address", "Status"]) {
+					td() {
+						print(i);
+					}
 				}
 			}
-		}
-		tbody() {
 			for(i, ii, orderl) {
 				tr(class: "cartitems", datas:{ datetime: i["datetime"], cid: i["cid"], lord: i["lord"], dishid: i["dishid"]}) {
 					td() {
@@ -834,7 +835,7 @@ define orderl_chef(){
 						print("("+i["lat"]+", "+i["lng"]+")<br>"+i["uaddress"]);
 					}
 					td() {
-						print(i["status"]);
+						print(i["status_text"]);
 					}
 				}
 			}
@@ -943,7 +944,7 @@ define kurry_contactus_form() {
 				icon(name: "mail", aclass: "tiny");
 			}
 			div(class: "grey-text") {
-				print("kurrybox.contactus@gmail.com");
+				print("ContactUs@kurrybox.in");
 			}
 			h5(class: "grey-text text-darken-2") {
 				print("Call");

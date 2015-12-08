@@ -259,5 +259,6 @@ def getorderl(utype, uid=0):
 def order_convrow(row, rind):
 	row["datetimetext"] = t2f( r2(_config["datef"]+"<br>"+_config["timef"], _config["timedatef"]), row['datetime'] + _config["dslots"][row["lord"]][row["dslots"]-1])+" ("+{"l": "Lunch", "d": "Dinner"}[row["lord"]]+")";
 	row["timetext"] = t2f(_config["timedatef"], row["time"]);
+	row["status_text"] = _config["status"][row["status"]]
 	return row;
 

@@ -1,19 +1,14 @@
 Able to work on website in new format.
 1. Unable to Edit Address of a Chef as Admin
-3. Dishe Delivered and Reviewed is hard coded. 
-4. Should be " Plates Delivered"
 5. Unable to Add more Admin accounts
-1. "Odered At" Wrong spelling  " Date of Order"
-2. What is status c 
-3. I cannot click on Login properly. 
 
 
 
-1. In general Messages are not shown properly anywhere.
-2. Reporting is not done of any sort.
-3. Do you want to Cook  ( Dinner, Lunch, Both)
+
+
 4. Similarly you cannot say " You are Late " when the item is added to the cart. If the time has passed for ordering the ordering screen should not show up any item.
-5. There are still messages, English issues all over the place. 
+
+
 6. Ability to export the weekly menu in a pdf , with pictures. This is very important for us for the social media.
 7. The page should scroll to the bottom and we would have the following  links.
 8. Also can you change the Font to little more funkier. 
@@ -45,12 +40,28 @@ Order #, Refund Amount, Refund Reason, Order Date, Part/Full Refund, Order amoun
 1. For the chef login please make sure that the chef is able to see after order is placed, for which delivery slot the food is booked so that he /she can prepare accordingly. 
 2. Is it possible after a successful order is placed chef can get these details on an sms and dont have to check on computer. 
 Order # , Item , Delivery Slot
-2. Blocking a user should work properly.
+########2. Blocking a user should work properly.
 
-@@@@@@@@@@order all by paying from Net-banking or paytm
+@@@@@@@@@@ Order all by paying from Net-banking or paytm
 
 
 
+-------------------------------------- Replies-------------------------------------- 
+5. There are still messages, English issues all over the place. 
+>>> Send me list of all of them.. or search on git repo.
+1. In general Messages are not shown properly anywhere.
+>>> Send me list of all place, where it is required.
+3. Do you want to Cook  ( Dinner, Lunch, Both)
+>>> I personally feel, It is of no use. Just like options( Gender, Languages) are useless. Chef will frustrated. Obviously i have no problem in adding it if it is required
+3. Dishe Delivered and Reviewed is hard coded.
+>>>It's is not. Which page ??
+
+
+
+######1. "Odered At" Wrong spelling  " Date of Order"
+######2. What is status c 
+######3. I cannot click on Login properly. 
+######4. Should be " Plates Delivered"
 
 
 

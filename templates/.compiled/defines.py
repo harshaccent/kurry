@@ -238,7 +238,7 @@ def newtag_input1(inp, ginp, innerHTML):
   return outpvar;
   
 def newtag_input2(inp, ginp, innerHTML): 
-  inp = overwriteattrs(extentattrs(cod([("aclass", "col s6"), ("type", "text")])), extentattrs(inp));
+  inp = overwriteattrs(extentattrs(cod([("aclass", "col s6"), ("type", "text"), ("iclass", None), ("label", None)])), extentattrs(inp));
   mifu(inp, ginp);
   outpvar = htmltree();
   outpvar.open(htmlnode("div", extentattrs(cod([("class", myadd("input-field ", inp["aclass"]))]))));
@@ -2052,6 +2052,31 @@ def newtag_profile_chef_top2(inp, ginp, innerHTML):
   outpvar.close();
   outpvar.close();
   outpvar.close();
+  outpvar.open(htmlnode("div", extentattrs(cod([("class", "col l8 offset-l1")]))));
+  outpvar.cur.addfcdata("textdiv");
+  outpvar.addchilds(newtag_textdiv(cod([("font", "25px"), ("text", myadd("About ", inp["uinfo"]["name"])), ("fontw", 600)]), ginp, outpvar.cur.fcalldata["textdiv"].root.content).root.content);
+  if (inp["canedit"]): 
+    outpvar.cur.addfcdata("a1");
+    outpvar.addchilds(newtag_a1(cod([("text", "Edit"), ("attr", cod([("onclick", "ms.showtextarea(this);")]))]), ginp, outpvar.cur.fcalldata["a1"].root.content).root.content);
+    outpvar.open(htmlnode("div", extentattrs(cod([("class", "edittext"), ("style", cod([("display", "none")]))]))));
+    outpvar.open(htmlnode("form", extentattrs(cod([("data", cod([("onsubmit", "sreq"), ("bobj", ""), ("action", "saveaboutinfo"), ("res", "ms.reload();")]))]))));
+    outpvar.open(htmlnode("input", extentattrs(cod([("attr", cod([("type", "hidden"), ("name", "chefid"), ("value", inp["uid"])]))]))));
+    outpvar.open(htmlnode("textarea", extentattrs(cod([("attr", cod([("name", "aboutus")])), ("class", "materialize-textarea")]))));
+    outpvar.addtext(convchars(inp["uinfo"]["aboutus"]));
+    outpvar.close();
+    outpvar.cur.addfcdata("button1");
+    outpvar.addchilds(newtag_button1(cod([("name", "Save"), ("attr", cod([("type", "submit")]))]), ginp, outpvar.cur.fcalldata["button1"].root.content).root.content);
+    outpvar.close();
+    outpvar.close();
+  outpvar.cur.addfcdata("textdiv");
+  outpvar.addchilds(newtag_textdiv(cod([("font", "16px"), ("text", convchars(inp["uinfo"]["aboutus"]))]), ginp, outpvar.cur.fcalldata["textdiv"].root.content).root.content);
+  outpvar.open(htmlnode("div", extentattrs(cod([]))));
+  outpvar.open(htmlnode("b", extentattrs(cod([]))));
+  outpvar.addtext("Address: ");
+  outpvar.close();
+  outpvar.addtext(inp["uinfo"]["address"]);
+  outpvar.close();
+  outpvar.close();
   outpvar.close();
   return outpvar;
   
@@ -2070,13 +2095,118 @@ def newtag_profile_chef(inp, ginp, innerHTML):
   outpvar.open(htmlnode("div", extentattrs(cod([("class", "row")]))));
   outpvar.close();
   outpvar.close();
+  if (inp["canedit"]): 
+    outpvar.open(htmlnode("div", extentattrs(cod([("class", "container-fluid")]))));
+    outpvar.open(htmlnode("div", extentattrs(cod([("class", "row")]))));
+    outpvar.open(htmlnode("div", extentattrs(cod([]))));
+    outpvar.open(htmlnode("ul", extentattrs(cod([("class", "tabs")]))));
+    outpvar.cur.addfcdata("disptabs");
+    outpvar.addchilds(newtag_disptabs(cod([("liclass", "tab col s2"), ("tabname", myadd(["All Dishes"], inp["day5times"]["textl"])), ("tablink", myadd(["#alldishes"], inp["day5times"]["tabkeys1"]))]), ginp, outpvar.cur.fcalldata["disptabs"].root.content).root.content);
+    outpvar.close();
+    outpvar.close();
+    outpvar.open(htmlnode("div", extentattrs(cod([("class", "")]))));
+    outpvar.open(htmlnode("div", extentattrs(cod([("attr", cod([("id", "alldishes")]))]))));
+    outpvar.cur.addfcdata("height");
+    outpvar.addchilds(newtag_height(cod([("val", 20)]), ginp, outpvar.cur.fcalldata["height"].root.content).root.content);
+    if (int((inp["viewtype"] == "a"))): 
+      outpvar.cur.addfcdata("button1");
+      outpvar.addchilds(newtag_button1(cod([("name", "Add a New Dish"), ("data", cod([("onclick", "slideform")]))]), ginp, outpvar.cur.fcalldata["button1"].root.content).root.content);
+      outpvar.open(htmlnode("form", extentattrs(cod([("style", cod([("display", "none")])), ("attr", cod([("enctype", "multipart/form-data"), ("method", "post")]))]))));
+      outpvar.open(htmlnode("div", extentattrs(cod([("class", "row")]))));
+      outpvar.open(htmlnode("input", extentattrs(cod([("attr", cod([("type", "hidden"), ("name", "cid"), ("value", inp["uid"])]))]))));
+      outpvar.cur.addfcdata("input2");
+      outpvar.addchilds(newtag_input2(cod([("label", "Title of Dish"), ("aclass", "col s12 l6 m6"), ("id", "dishtitle")]), ginp, outpvar.cur.fcalldata["input2"].root.content).root.content);
+      outpvar.cur.addfcdata("input2");
+      outpvar.addchilds(newtag_input2(cod([("label", "Price of Dish"), ("aclass", "col s12 l6 m6"), ("id", "dishprice")]), ginp, outpvar.cur.fcalldata["input2"].root.content).root.content);
+      outpvar.close();
+      outpvar.open(htmlnode("div", extentattrs(cod([("class", "row")]))));
+      outpvar.open(htmlnode("textarea", extentattrs(cod([("class", "materialize-textarea"), ("attr", cod([("name", "descp"), ("placeholder", "Dish Description")]))]))));
+      outpvar.close();
+      outpvar.close();
+      outpvar.open(htmlnode("div", extentattrs(cod([("class", "row")]))));
+      outpvar.open(htmlnode("div", extentattrs(cod([("class", "file-field input-field")]))));
+      outpvar.open(htmlnode("div", extentattrs(cod([("class", "btn")]))));
+      outpvar.open(htmlnode("span", extentattrs(cod([]))));
+      outpvar.addtext("Upload Image");
+      outpvar.close();
+      outpvar.open(htmlnode("input", extentattrs(cod([("attr", cod([("type", "file"), ("name", "dishpic")]))]))));
+      outpvar.close();
+      outpvar.open(htmlnode("div", extentattrs(cod([("class", "file-path-wrapper")]))));
+      outpvar.open(htmlnode("input", extentattrs(cod([("class", "file-path-validate"), ("attr", cod([("type", "text")]))]))));
+      outpvar.close();
+      outpvar.close();
+      outpvar.close();
+      outpvar.open(htmlnode("div", extentattrs(cod([("class", "row")]))));
+      outpvar.open(htmlnode("div", extentattrs(cod([("class", "col")]))));
+      outpvar.open(htmlnode("button", extentattrs(cod([("class", "btn waves-effect waves-light"), ("attr", cod([("type", "submit"), ("name", "adddish")]))]))));
+      outpvar.addtext("Add");
+      outpvar.close();
+      outpvar.close();
+      outpvar.close();
+      outpvar.close();
+    outpvar.open(htmlnode("div", extentattrs(cod([("class", "row"), ("attr", cod([("align", "center")]))]))));
+    for i in forlist(inp["dispdata"], False ) :
+      outpvar.cur.addfcdata("dispfood");
+      outpvar.addchilds(newtag_dispfood(cod([("dishinfo", i)]), ginp, outpvar.cur.fcalldata["dispfood"].root.content).root.content);
+    outpvar.close();
+    outpvar.close();
+    for ii in forlist(inp["day5times"]["tabkeys"], True ) :
+      i = inp["day5times"]["tabkeys"][ii];
+      outpvar.open(htmlnode("div", extentattrs(cod([("attr", cod([("id", i)]))]))));
+      outpvar.open(htmlnode("div", extentattrs(cod([("class", "row")]))));
+      outpvar.open(htmlnode("table", extentattrs(cod([("class", "bordered")]))));
+      outpvar.open(htmlnode("thead", extentattrs(cod([]))));
+      for j in forlist(["Title", "Price", "Booked For Lunch", "Booked for Dinner"], False ) :
+        outpvar.open(htmlnode("th", extentattrs(cod([]))));
+        outpvar.addtext(j);
+        outpvar.close();
+      outpvar.close();
+      for jj in forlist(inp["dispdata"], True ) :
+        j = inp["dispdata"][jj];
+        outpvar.open(htmlnode("tr", extentattrs(cod([]))));
+        outpvar.open(htmlnode("th", extentattrs(cod([]))));
+        outpvar.addtext(convchars(myadd(j["title"], "")));
+        outpvar.close();
+        outpvar.open(htmlnode("th", extentattrs(cod([]))));
+        outpvar.addtext(j["price"]);
+        outpvar.close();
+        outpvar.open(htmlnode("th", extentattrs(cod([]))));
+        outpvar.cur.addfcdata("input1");
+        outpvar.addchilds(newtag_input1(cod([("label", myadd(myadd("Plate Limit (", j[myadd("ollimit", ii)]), " Booked)")), ("id", myadd(myadd(myadd("lunch_", jj), "_"), ii)), ("data", cod([("dishid", j["id"]), ("day", ii)])), ("iclass", "numplatelimit"), ("value", j[myadd("llimit", ii)])]), ginp, outpvar.cur.fcalldata["input1"].root.content).root.content);
+        outpvar.close();
+        outpvar.open(htmlnode("th", extentattrs(cod([]))));
+        outpvar.cur.addfcdata("input1");
+        outpvar.addchilds(newtag_input1(cod([("label", myadd(myadd("Plate Limit (", j[myadd("odlimit", ii)]), " Booked)")), ("id", myadd(myadd(myadd("dinner_", jj), "_"), ii)), ("data", cod([("dishid", j["id"]), ("day", ii)])), ("iclass", "numplatelimit"), ("value", j[myadd("dlimit", ii)])]), ginp, outpvar.cur.fcalldata["input1"].root.content).root.content);
+        outpvar.close();
+        outpvar.close();
+      outpvar.close();
+      outpvar.open(htmlnode("div", extentattrs(cod([]))));
+      if (int((len(inp["dispdata"]) != 0))): 
+        outpvar.cur.addfcdata("button1");
+        outpvar.addchilds(newtag_button1(cod([("name", "Save"), ("data", cod([("action", "savedaymenu"), ("onclick", "sreq"), ("params", myadd(myadd("ms.getnumlimit(", ii), ")"))])), ("datas", cod([("datetime", inp["day5times"]["timel"][ii]), ("cid", inp["uid"])]))]), ginp, outpvar.cur.fcalldata["button1"].root.content).root.content);
+      outpvar.close();
+      outpvar.close();
+      outpvar.close();
+    outpvar.close();
+    outpvar.close();
+    outpvar.close();
+  outpvar.open(htmlnode("div", extentattrs(cod([("attr", cod([("align", "center")])), ("style", cod([("margin", "20px")]))]))));
+  outpvar.cur.addfcdata("textdiv");
+  outpvar.addchilds(newtag_textdiv(cod([("text", "Dishes Serving today"), ("font", "25px")]), ginp, outpvar.cur.fcalldata["textdiv"].root.content).root.content);
+  outpvar.close();
+  outpvar.open(htmlnode("div", extentattrs(cod([("class", "row"), ("attr", cod([("align", "center")]))]))));
+  for i in forlist(inp["dispdata"], False ) :
+    if (int((int((i["llimit0"] > 0)) or int((i["dlimit0"] > 0))))): 
+      outpvar.cur.addfcdata("dispfood");
+      outpvar.addchilds(newtag_dispfood(cod([("dishinfo", i)]), ginp, outpvar.cur.fcalldata["dispfood"].root.content).root.content);
+  outpvar.close();
   outpvar.close();
   outpvar.close();
   outpvar.close();
   return outpvar;
   
 def newtag_select1(inp, ginp, innerHTML): 
-  inp = overwriteattrs(extentattrs(cod([("tlist", []), ("class", "browser-default"), ("aclass", ""), ("selected", None), ("name", None), ("vlist", None)])), extentattrs(inp));
+  inp = overwriteattrs(extentattrs(cod([("tlist", []), ("class", "browser-default"), ("aclass", ""), ("selected", None), ("name", None), ("vlist", None), ("toptext", None)])), extentattrs(inp));
   mifu(inp, ginp);
   outpvar = htmltree();
   outpvar.open(htmlnode("select", extentattrs(cod([("class", myadd(myadd(inp["class"], " "), inp["aclass"])), ("attr", inp["attr"])]))));
@@ -2185,7 +2315,7 @@ def newtag_orderl_admin(inp, ginp, innerHTML):
   outpvar = htmltree();
   outpvar.open(htmlnode("table", extentattrs(cod([("class", "bordered")]))));
   outpvar.open(htmlnode("thead", extentattrs(cod([]))));
-  for i in forlist(["Odered At", "Delivery Date", "Chef", "User", "Dish", "Price", "Chef Address", "User Address", "Status"], False ) :
+  for i in forlist(["Date of Order", "Delivery Date", "Chef", "User", "Dish", "Price", "Chef Address", "User Address", "Status"], False ) :
     outpvar.open(htmlnode("th", extentattrs(cod([]))));
     outpvar.addtext(i);
     outpvar.close();
@@ -2225,7 +2355,7 @@ def newtag_orderl_admin(inp, ginp, innerHTML):
     outpvar.addtext(myadd(myadd(myadd(myadd(myadd("(", i["lat"]), ", "), i["lng"]), ")<br>"), i["uaddress"]));
     outpvar.close();
     outpvar.open(htmlnode("td", extentattrs(cod([]))));
-    outpvar.addtext(i["status"]);
+    outpvar.addtext(i["status_text"]);
     outpvar.close();
     outpvar.close();
   outpvar.close();
@@ -2238,7 +2368,7 @@ def newtag_orderl_user(inp, ginp, innerHTML):
   outpvar = htmltree();
   outpvar.open(htmlnode("table", extentattrs(cod([("class", "bordered")]))));
   outpvar.open(htmlnode("thead", extentattrs(cod([]))));
-  for i in forlist(["Odered At", "Delivery Date", "Chef", "Dish", "Price", "User Address", "Status"], False ) :
+  for i in forlist(["Date of Order", "Delivery Date", "Chef", "Dish", "Price", "User Address", "Status"], False ) :
     outpvar.open(htmlnode("th", extentattrs(cod([]))));
     outpvar.addtext(i);
     outpvar.close();
@@ -2271,7 +2401,7 @@ def newtag_orderl_user(inp, ginp, innerHTML):
     outpvar.addtext(myadd(myadd(myadd(myadd(myadd("(", i["lat"]), ", "), i["lng"]), ")<br>"), i["uaddress"]));
     outpvar.close();
     outpvar.open(htmlnode("td", extentattrs(cod([]))));
-    outpvar.addtext(i["status"]);
+    outpvar.addtext(i["status_text"]);
     outpvar.close();
     outpvar.close();
   outpvar.close();
@@ -2282,14 +2412,14 @@ def newtag_orderl_chef(inp, ginp, innerHTML):
   inp = overwriteattrs(extentattrs(cod([])), extentattrs(inp));
   mifu(inp, ginp);
   outpvar = htmltree();
-  outpvar.open(htmlnode("table", extentattrs(cod([("class", "bordered")]))));
-  outpvar.open(htmlnode("thead", extentattrs(cod([]))));
-  for i in forlist(["Odered At", "Delivery Date", "User", "Dish", "Price", "User Address", "Status"], False ) :
-    outpvar.open(htmlnode("th", extentattrs(cod([]))));
+  outpvar.open(htmlnode("table", extentattrs(cod([("attr", cod([("border", "1")]))]))));
+  outpvar.open(htmlnode("tbody", extentattrs(cod([]))));
+  outpvar.open(htmlnode("tr", extentattrs(cod([]))));
+  for i in forlist(["Date of Order", "Delivery Date", "User", "Dish", "Price", "User Address", "Status"], False ) :
+    outpvar.open(htmlnode("td", extentattrs(cod([]))));
     outpvar.addtext(i);
     outpvar.close();
   outpvar.close();
-  outpvar.open(htmlnode("tbody", extentattrs(cod([]))));
   for ii in forlist(inp["orderl"], True ) :
     i = inp["orderl"][ii];
     outpvar.open(htmlnode("tr", extentattrs(cod([("class", "cartitems"), ("datas", cod([("datetime", i["datetime"]), ("cid", i["cid"]), ("lord", i["lord"]), ("dishid", i["dishid"])]))]))));
@@ -2324,7 +2454,7 @@ def newtag_orderl_chef(inp, ginp, innerHTML):
     outpvar.addtext(myadd(myadd(myadd(myadd(myadd("(", i["lat"]), ", "), i["lng"]), ")<br>"), i["uaddress"]));
     outpvar.close();
     outpvar.open(htmlnode("td", extentattrs(cod([]))));
-    outpvar.addtext(i["status"]);
+    outpvar.addtext(i["status_text"]);
     outpvar.close();
     outpvar.close();
   outpvar.close();
@@ -2448,7 +2578,7 @@ def newtag_kurry_contactus_form(inp, ginp, innerHTML):
   outpvar.addchilds(newtag_icon(cod([("name", "mail"), ("aclass", "tiny")]), ginp, outpvar.cur.fcalldata["icon"].root.content).root.content);
   outpvar.close();
   outpvar.open(htmlnode("div", extentattrs(cod([("class", "grey-text")]))));
-  outpvar.addtext("kurrybox.contactus@gmail.com");
+  outpvar.addtext("ContactUs@kurrybox.in");
   outpvar.close();
   outpvar.open(htmlnode("h5", extentattrs(cod([("class", "grey-text text-darken-2")]))));
   outpvar.addtext("Call");

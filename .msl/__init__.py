@@ -108,8 +108,8 @@ def isallone(l):
 def isanyone(l):
 	return sum(l) >= 1;
 
-def intf(x):
-	return doifcan(lambda :int(x), (), 0);
+def intf(x, defaultval = 0):
+	return doifcan1(lambda :int(x), defaultval);
 
 def ife(a,b,c=None):
 	return (b if a else c);

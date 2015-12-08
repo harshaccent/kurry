@@ -1,4 +1,4 @@
-_sql = sqllib((_agent == "poorvi" and (_server == "gcl" or _server == "csc")), db_data);# or (doifcan1(lambda: r1(MySQLdb, 0), 1)), db_data);
+_sql = sqllib(( g(globals(), "_agent") == "poorvi" and (_server == "gcl" or _server == "csc")), db_data);# or (doifcan1(lambda: r1(MySQLdb, 0), 1)), db_data);
 
 execfile(ROOT+"py/kurry.py");
 _kurry = kurry();
@@ -26,6 +26,13 @@ mifu(_config, {
 		"d": 3600*(12+7)
 	}
 });
+
+_config["status"] = {
+	"c": "Order Comfirmed",
+	"i": "Shipping initiated",
+	"d": "Delivered",
+	"f": "Failed"
+};
 
 init_sql_config();
 
@@ -119,7 +126,7 @@ class pagehandler:
 		return {"_session": _session};
 
 	def seeall(self):
-		return {"allt": mapp(lambda x: {"data": sqlr2table(_sql.sval(x)), "name": x}, ["users", "chef", "dispdish"])};
+		return {"allt": mappl(lambda x: {"data": sqlr2table(_sql.sval(x)), "name": x}, ["users", "chef", "dispdish"])};
 
 
 	def account(self):
@@ -163,7 +170,7 @@ class pagehandler:
 				rdata["day5times"] = day5times;
 				#rdata["dishdata1"] = _sql.g(gtable("dishes2", False), {"cid": uid});
 				darr = dict(mapp(idf, day5times["timel"], None, lambda x: "x"+str(x)))
-				rdata["dispdata"] = _sql.g("select * from "+gtable("dispdish3")+" where cid={cid}", {"cid": uid}, darr);
+				rdata["dispdata"] = mappl(lambda x: mifu(x, {"datetime": None, "lord": None}), _sql.g("select * from "+gtable("dispdish3")+" where cid={cid}", {"cid": uid}, darr));
 			elif(uinfo["type"] == "u"):
 				pass
 			return mifu(rdata, {"uid": uid, "uinfo": uinfo, "viewtype": viewtype, "canedit": canedit});

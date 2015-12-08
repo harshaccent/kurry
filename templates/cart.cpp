@@ -3,14 +3,14 @@ main2(js:["js/cart.js"], htmlstyle:{"overflow-y": "scroll"}) {
 		header4();
 		div(class: "container") {
 			div(class: "row") {
-				textdiv(name: "My Cart", class: "bigtext");
+				textdiv(text: "My Cart", class: "bigtext");
 			}
 			div(class: "row") {
 				table(class: "bordered") {
 					thead() {
 						for(i, ["delivery Date", "Chef", "", "Dish", "Price", "No. of plates", "Delivery Slot", "Status"]) {
 							th() {
-								p(i);
+								print(i);
 							}
 						}
 					}
@@ -18,21 +18,21 @@ main2(js:["js/cart.js"], htmlstyle:{"overflow-y": "scroll"}) {
 						for(i, ii, cartl) {
 							tr(class: "cartitems", datas:{ datetime: i["datetime"], cid: i["cid"], lord: i["lord"], dishid: i["dishid"]}) {
 								td() {
-									p(i["datetimetext"]);
+									print(i["datetimetext"]);
 								}
 								td() {
-									profilea1(name: i["name"], uid: i["cid"]);
+									profilea1(text: i["name"], uid: i["cid"]);
 								}
 								td() {
-									p({"l": "Lunch", "d": "Dinner"}[i["lord"]]);
+									print({"l": "Lunch", "d": "Dinner"}[i["lord"]]);
 								}
 								td() {
-									p(i["title"]);
+									print(i["title"]);
 								}
 								td() {
 									icon1(img: "photo/inr2.png");
 									span(class: "itemprice") {
-										p(i["price"]);
+										print(i["price"]);
 									}
 								}
 								td() {
@@ -43,7 +43,7 @@ main2(js:["js/cart.js"], htmlstyle:{"overflow-y": "scroll"}) {
 								}
 								td() {
 									div(style: {color: "red"}, data:{iserror: (i["error"] != "")}) {
-										p(i["error"]);
+										print(i["error"]);
 									}
 								}
 								td() {
@@ -57,24 +57,24 @@ main2(js:["js/cart.js"], htmlstyle:{"overflow-y": "scroll"}) {
 			div(class: "row") {
 				div(class: "col l12") {
 					span(style: {"font-size": "25px"}) {
-						p("Total Price: ");
+						print("Total Price: ");
 						span(id: "totalprice") {
-							p(100);
+							print(100);
 						}
 						icon1(img: "photo/inr1.png");
 					}
 				}
 				div(class: "col l12") {
 					span(style: {"font-size": "18px"}) {
-						p("Address: ");
+						print("Address: ");
 						span() {
-							p(address[2]);
+							print(address[2]);
 						}
 					}
-					a1(name: "change", href:"", style: {"font-size": "11px"});
+					a1(text: "change", href:"", style: {"font-size": "11px"});
 				}
 				form(data: {action: "order", onsubmit: "order", bobj: "", restext: "Ordered"}) {
-					input1(label: "Extra Address", id: "eaddress");
+					input3(label: "Extra Address", name: "eaddress");
 					div(class: "col l12") {
 						button1(name: "Order", attr:{type: "submit"});
 					}
@@ -82,8 +82,8 @@ main2(js:["js/cart.js"], htmlstyle:{"overflow-y": "scroll"}) {
 			}
 		}
 		div(class: "dnone") {
-			textdiv(id: "lat", name: address[0]);
-			textdiv(id: "lng", name: address[1]);
+			textdiv(id: "lat", text: address[0]);
+			textdiv(id: "lng", text: address[1]);
 		}
 	}
 }

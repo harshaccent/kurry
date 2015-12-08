@@ -180,7 +180,7 @@ define input1(aclass: "col s6",  type: "text", dc: "simple", icon: None, dname: 
 
 
 
-define input2(aclass: "col s6",  type: "text") {
+define input2(aclass: "col s6",  type: "text", iclass: None, label: None) {
 	div(class: "input-field "+aclass) {
 		input(attr:{id: id, type:type, name:id}, class: iclass);
 		label(attr:{"for": id}) {
