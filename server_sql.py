@@ -8,7 +8,7 @@ from msl.sql import *
 from msl.mtime import *;
 
 listen_port=1136;
-cleaner_timeout = 100;
+cleaner_timeout = 60*15;
 _agent = "gcl";
 
 

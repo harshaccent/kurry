@@ -5,7 +5,7 @@ if(_server == 'gcl'):
 	ROOT = '/home/btech/cs1120233/private_html/kurry/';
 	db_data = {'host': 'poorvi.cse.iitd.ac.in', 'user': 'mohit', 'pass': 'mohitsaini', 'db': 'mohit'};
 	_msladd = 'msl/'
-	db_data["qs_host"] = "10.208.20.9";
+	db_data["qs_host"] = "10.208.20.186";
 elif(_server == 'csc'):
 	HOST = 'http://privateweb.iitd.ac.in/~cs1120233/kurry/';
 #	ROOT = '/home/btech/cs1120233/private_html/kurry/';

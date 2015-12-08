@@ -7,16 +7,7 @@ Able to work on website in new format.
 
 
 4. Similarly you cannot say " You are Late " when the item is added to the cart. If the time has passed for ordering the ordering screen should not show up any item.
-
-
 6. Ability to export the weekly menu in a pdf , with pictures. This is very important for us for the social media.
-7. The page should scroll to the bottom and we would have the following  links.
-8. Also can you change the Font to little more funkier. 
-9. For "Be a HomeChef" Please see the form in Biteclub.in Site.
-10. Create Page & Content for Privacy Page.
-
-
-
 
 
 ---------- Reporting Data---------------------------------------------------------------------------
