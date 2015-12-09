@@ -7,7 +7,7 @@ _ec = {
 	-6: "Invalid Input",
 	-7: "Incorrect password",
 	-8: "Phone number already used",
-	-9: "You are not right person to perform this action",
+	-9: "Sorry!! You don't have privileges to perform this action",
 	-10: "It is already added",
 	-11: "You are Blocked!",
 	-12: "Invalid phone number"
